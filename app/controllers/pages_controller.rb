@@ -5,7 +5,9 @@ class PagesController < ApplicationController
     @top_posts_by_tag = @trending_tags.index_with do |tag|
       tag.posts.includes(:user).order(likes_count: :desc).first
     end
-    @latest_articles = Article.published.limit(3) rescue []
+    @news_top = Article.published.limit(1) rescue []
+    @news_secondary = Article.published.offset(1).limit(4) rescue []
+    @news_latest = Article.published.offset(5).limit(10) rescue []
   end
   def solutions; end
   def data_coverage; end

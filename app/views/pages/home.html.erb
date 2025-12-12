@@ -1,90 +1,78 @@
-<% content_for :title, '#community — Discover top posts' %>
-
-<section class="hero">
-  <div class="container hero-inner">
-    <h1>Top from the community</h1>
-    <p class="lead">Hand‑picked hot posts across categories and what’s new.</p>
-    <div class="cta-group">
-      <%= link_to 'View Hots', posts_path(sort: 'hot'), class: 'btn' %>
-      <%= link_to 'Latest', posts_path, class: 'btn btn-outline' %>
-    </div>
-  </div>
-</section>
+<% content_for :title, '#community — Top stories' %>
 
 <section class="section">
   <div class="container">
-    <h2>Hots</h2>
-    <div class="cards-grid">
-      <% @hot_posts.each do |post| %>
-        <article class="card">
-          <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
-          <p class="subtle">by <%= post.user&.name || 'Someone' %> • <%= time_ago_in_words(post.created_at) %> ago • ❤️ <%= post.likes_count %></p>
-          <%= link_to 'Open post', post_path(post), class: 'link' %>
-        </article>
-      <% end %>
+    <div class="news-grid">
+      <div>
+        <h2 style="margin-top:0">Top stories</h2>
+        <div class="news-top">
+          <% if @news_top.present? %>
+            <% lead = @news_top.first %>
+            <article class="headline-card" style="grid-column: 1 / -1">
+              <h2>
+                <% if lead.respond_to?(:url) && lead.url.present? %>
+                  <%= link_to lead.title, lead.url, class: 'link', target: '_blank', rel: 'noopener' %>
+                <% else %>
+                  <%= lead.title %>
+                <% end %>
+              </h2>
+              <p class="story-meta"><%= lead.published_at&.strftime('%b %d, %Y') %><% if lead.respond_to?(:source) && lead.source.present? %> • <%= lead.source %><% end %></p>
+              <p><%= truncate(lead.body.to_s, length: 180) %></p>
+            </article>
+          <% end %>
+          <% @news_secondary.each do |a| %>
+            <article class="headline-card">
+              <h3>
+                <% if a.respond_to?(:url) && a.url.present? %>
+                  <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
+                <% else %>
+                  <%= a.title %>
+                <% end %>
+              </h3>
+              <p class="story-meta"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></p>
+              <p><%= truncate(a.body.to_s, length: 120) %></p>
+            </article>
+          <% end %>
+        </div>
+
+        <h2 style="margin-top:20px">Hots</h2>
+        <div class="cards-grid">
+          <% @hot_posts.each do |post| %>
+            <article class="card">
+              <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
+              <p class="subtle">by <%= post.user&.name || 'Someone' %> • <%= time_ago_in_words(post.created_at) %> ago • ❤️ <%= post.likes_count %></p>
+              <%= link_to 'Open post', post_path(post), class: 'link' %>
+            </article>
+          <% end %>
+        </div>
+      </div>
+
+      <aside>
+        <h2 style="margin-top:0">Latest</h2>
+        <ul class="mini-list">
+          <% @news_latest.each do |a| %>
+            <li class="mini-item">
+              <div>
+                <strong>
+                  <% if a.respond_to?(:url) && a.url.present? %>
+                    <%= link_to truncate(a.title.to_s, length: 80), a.url, class: 'link', target: '_blank', rel: 'noopener' %>
+                  <% else %>
+                    <%= truncate(a.title.to_s, length: 80) %>
+                  <% end %>
+                </strong>
+                <div class="story-meta"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+        <h3 style="margin-top:16px">Topics</h3>
+        <div class="topic-chips">
+          <% @trending_tags.each do |t| %>
+            <%= link_to "##{t.name}", tag_path(t.name), class: 'chip' %>
+          <% end %>
+        </div>
+      </aside>
     </div>
-  </div>
-</section>
-
-<section class="section alt">
-  <div class="container">
-    <h2>Top by category</h2>
-    <div class="cards-grid">
-      <% @top_posts_by_tag.each do |tag, post| %>
-        <% next unless post %>
-        <article class="card">
-          <div class="icon" aria-hidden="true">#<%= tag.name %></div>
-          <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
-          <p class="subtle">by <%= post.user&.name || 'Someone' %> • ❤️ <%= post.likes_count %></p>
-          <div>
-            <%= link_to 'View category', tag_path(tag.name), class: 'link' %>
-            &nbsp;•&nbsp;
-            <%= link_to 'Open post', post_path(post), class: 'link' %>
-          </div>
-        </article>
-      <% end %>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2>News</h2>
-    <% if defined?(@latest_articles) && @latest_articles.present? %>
-      <div class="cards-grid">
-        <% @latest_articles.each do |a| %>
-          <article class="card">
-            <h3>
-              <% if a.respond_to?(:url) && a.url.present? %>
-                <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
-              <% else %>
-                <%= a.title %>
-              <% end %>
-            </h3>
-            <p class="subtle"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></p>
-            <p><%= truncate(a.body.to_s, length: 120) %></p>
-          </article>
-        <% end %>
-      </div>
-      <div style="margin-top:12px">
-        <%= link_to 'See all news', blog_path, class: 'link' %>
-      </div>
-    <% else %>
-      <p class="subtle">No news yet. Use the Import page to add a News RSS feed.</p>
-    <% end %>
-  </div>
-  </section>
-
-<section class="cta-band section">
-  <div class="container cta-band-inner">
-    <h2>Join in</h2>
-    <% if user_signed_in? %>
-      <%= link_to 'Create a post', new_post_path, class: 'btn' %>
-    <% else %>
-      <div class="cta-group">
-        <%= link_to 'Login', login_path, class: 'btn btn-outline' %>
-        <%= link_to 'Signup', signup_path, class: 'btn' %>
-      </div>
-    <% end %>
   </div>
 </section>
