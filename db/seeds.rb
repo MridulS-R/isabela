@@ -12,10 +12,27 @@ Article.find_or_create_by!(title: 'Case Study: 27% Lower CPL with Enrichment') d
   p.published_at = Time.now - 7.days
 end
 
-# Optional: seed an admin user via env vars
-if ENV['ADMIN_EMAIL'] && ENV['ADMIN_PASSWORD']
-  User.find_or_create_by!(email: ENV['ADMIN_EMAIL']) do |u|
-    u.name = 'Admin'
-    u.password = ENV['ADMIN_PASSWORD']
+# Optional: seed or update an admin user via env vars
+if ENV['ADMIN_EMAIL'].present?
+  admin_email = ENV['ADMIN_EMAIL']
+  admin_password = ENV['ADMIN_PASSWORD']
+  user = User.find_or_initialize_by(email: admin_email)
+  user.name = (user.name.presence || 'Admin')
+  if user.new_record?
+    if admin_password.blank?
+      puts "ADMIN_PASSWORD not set; skipping admin creation"
+    else
+      user.password = admin_password
+      user.save!
+      puts "Created admin user #{admin_email}"
+    end
+  else
+    if admin_password.present?
+      user.password = admin_password
+      user.save!
+      puts "Updated admin user password for #{admin_email}"
+    else
+      puts "Admin user #{admin_email} exists; no password change"
+    end
   end
 end

@@ -89,3 +89,23 @@ What it does:
 After importing, visit the home page or the Hots view to see the data:
 - Home shows “Hots” and “Top by category”.
 - Hots: `/posts?sort=hot`.
+
+### Import from the UI or API (production-friendly)
+
+Admin-only import endpoint and UI:
+- UI: visit `/imports/new` while signed in as the admin (email must match `ADMIN_EMAIL`) or provide `X-Admin-Token`.
+- API: `POST /imports` with JSON `{ "url": "https://.../reddit.csv", "owner_email": "owner@example.com" }` and header `X-Admin-Token: $ADMIN_TOKEN`.
+
+Env vars to set on Render (Web Service):
+- `ADMIN_EMAIL` (optional, email allowed to access the form)
+- `ADMIN_TOKEN` (recommended for API access)
+
+Example curl:
+```
+curl -X POST "$APP_URL/imports" \
+  -H 'Content-Type: application/json' \
+  -H "X-Admin-Token: $ADMIN_TOKEN" \
+  -d '{"url":"https://example.com/reddit.csv","owner_email":"owner@example.com"}'
+```
+
+The import runs asynchronously via `ImportRedditJob`.

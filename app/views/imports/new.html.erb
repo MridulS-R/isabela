@@ -1,0 +1,24 @@
+<% content_for :title, 'Import Reddit Data' %>
+
+<div class="section">
+  <div class="container">
+    <h1>Import Reddit data</h1>
+    <p class="subtle">Paste a public CSV/JSON URL from Kaggle output hosting (e.g., GitHub raw, S3 presigned).</p>
+
+    <%= form_with url: imports_path, method: :post do |f| %>
+      <div class="form-row">
+        <div>
+          <%= label_tag :url, 'Data URL (CSV or JSON)' %>
+          <%= url_field_tag :url, nil, required: true, placeholder: 'https://.../reddit.csv' %>
+        </div>
+        <div>
+          <%= label_tag :owner_email, 'Owner email (optional)' %>
+          <%= email_field_tag :owner_email, nil, placeholder: 'owner@example.com' %>
+        </div>
+      </div>
+      <p class="help">Requires admin access. The import runs in the background.</p>
+      <%= submit_tag 'Start Import', class: 'btn' %>
+    <% end %>
+  </div>
+  </div>
+

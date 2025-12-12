@@ -8,6 +8,9 @@
         <li><%= link_to 'Hots', posts_path(sort: 'hot'), aria: { current: (current_page?(posts_path(sort: 'hot'))) ? 'page' : nil } %></li>
         <li><%= link_to 'News', blog_path, aria: { current: current_page?(blog_path) ? 'page' : nil } %></li>
         <% if user_signed_in? %>
+          <% if admin_user? %>
+            <li><%= link_to 'Import', new_import_path %></li>
+          <% end %>
           <li><%= link_to 'New Post', new_post_path, class: 'btn btn-small' %></li>
           <li><span class="subtle">Hi, <%= current_user.name.presence || current_user.email %></span></li>
           <li>

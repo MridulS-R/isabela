@@ -16,4 +16,7 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#about'
   get '/blog', to: 'pages#blog'
   get '/contact', to: 'pages#contact'
+
+  # Admin imports (UI + API)
+  resources :imports, only: %i[new create]
 end
