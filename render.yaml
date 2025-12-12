@@ -10,6 +10,7 @@ services:
     env: ruby
     plan: free
     buildCommand: |
+      bundle config set without 'development test'
       bundle install
       bundle exec rake assets:precompile
     startCommand: bundle exec puma -C config/puma.rb
