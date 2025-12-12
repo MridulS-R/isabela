@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   def how_it_works; end
   def about; end
   def blog
-    @posts = Post.published
+    @articles = Article.published
   end
   def contact; end
 end

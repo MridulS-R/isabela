@@ -46,6 +46,7 @@ Option A — Blueprint (recommended)
   - Install gems, precompile assets, run migrations, and run Puma with `config/puma.rb`.
   - Set `SECRET_KEY_BASE` automatically from the blueprint and `DATABASE_URL` from the linked Postgres.
   - Serve static assets (`RAILS_SERVE_STATIC_FILES=true`).
+  - Store uploaded images in Postgres via Active Storage Database service (`ACTIVE_STORAGE_SERVICE=database`).
 
 Option B — Manual web service
 - New → Web Service → Select repo
@@ -61,3 +62,4 @@ Option B — Manual web service
 Notes for Render
 - Active Record is enabled; Postgres is used in production via `DATABASE_URL`.
 - Hosts for `*.onrender.com` and your custom domain are allowed in `production.rb`.
+ - Images currently save to DB (Active Storage `database` service). To move to S3 later: set up AWS creds, switch `ACTIVE_STORAGE_SERVICE=amazon`, and add the `amazon` config in `config/storage.yml`.

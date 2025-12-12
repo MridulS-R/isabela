@@ -1,0 +1,31 @@
+<section class="section">
+  <div class="container" style="max-width:740px">
+    <h1>New Post</h1>
+    <p class="subtle">Upload images and add an optional caption with hashtags (e.g., #ruby, #fitness).</p>
+
+    <%= form_with model: @post, local: true do |f| %>
+      <% if @post.errors.any? %>
+        <div class="error" role="alert">
+          <strong>There were problems with your submission:</strong>
+          <ul>
+            <% @post.errors.full_messages.each do |m| %>
+              <li><%= m %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :images, 'Images' %>
+        <%= f.file_field :images, multiple: true, accept: 'image/*' %>
+        <p class="help">You can select multiple images.</p>
+      </div>
+      <div>
+        <%= f.label :caption, 'Caption (optional)' %>
+        <%= f.text_area :caption, placeholder: 'Share a story... include #hashtags to organize', rows: 3 %>
+      </div>
+      <%= f.submit 'Post', class: 'btn' %>
+    <% end %>
+  </div>
+</section>
+

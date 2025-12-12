@@ -1,0 +1,26 @@
+<section class="section">
+  <div class="container">
+    <h1>##<%= @tag.name %></h1>
+    <p class="subtle">Community built around ##<%= @tag.name %>. Posts using this hashtag appear here automatically.</p>
+
+    <div class="cards-grid">
+      <% @posts.each do |post| %>
+        <article class="card">
+          <div class="subtle" style="margin-bottom:8px">
+            <strong><%= post.user.name.presence || post.user.email %></strong>
+            · <%= time_ago_in_words(post.created_at) %> ago
+          </div>
+          <div class="post-images" style="display:grid; gap:8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+            <% post.images.each do |img| %>
+              <%= image_tag url_for(img), alt: '', style: 'width:100%; height:auto; border-radius:12px; border:1px solid var(--border);' %>
+            <% end %>
+          </div>
+          <% if post.caption.present? %>
+            <p style="margin-top:8px"><%= raw post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></p>
+          <% end %>
+        </article>
+      <% end %>
+    </div>
+  </div>
+</section>
+

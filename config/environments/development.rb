@@ -7,5 +7,5 @@ Rails.application.configure do
   config.server_timing = true
   config.assets.debug = true
   config.assets.quiet = true
+  config.active_storage.service = :local
 end
-

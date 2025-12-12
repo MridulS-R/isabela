@@ -1,17 +1,17 @@
-<% content_for :title, 'Resources — VisionData' %>
+<% content_for :title, 'Updates — #community' %>
 
 <section class="section">
   <div class="container">
-    <h1>Resources</h1>
-    <p class="lead">Articles, guides, and case studies to help you put data to work.</p>
+    <h1>Updates</h1>
+    <p class="lead">Product updates, community guides, and stories from creators.</p>
   </div>
 </section>
 
 <section class="section alt">
   <div class="container">
-    <% if @posts.present? %>
+    <% if @articles.present? %>
       <div class="cards-grid">
-        <% @posts.each do |post| %>
+        <% @articles.each do |post| %>
           <article class="card">
             <h3><%= post.title %></h3>
             <p><%= truncate(post.body, length: 160) %></p>

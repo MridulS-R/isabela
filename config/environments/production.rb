@@ -8,6 +8,8 @@ Rails.application.configure do
   config.assets.compile = false
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info').to_sym
+  # Set Active Storage service; default to local (ephemeral) unless S3 configured
+  config.active_storage.service = (ENV['ACTIVE_STORAGE_SERVICE'] || 'local').to_sym
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new($stdout)

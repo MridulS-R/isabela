@@ -1,18 +1,27 @@
 <header class="site-header">
   <div class="container header-inner">
-    <%= link_to raw('<span class="logo" aria-hidden="true">▦</span> VisionData'), root_path, class: 'brand' %>
+    <%= link_to raw('<span class="logo" aria-hidden="true">▦</span> #community'), root_path, class: 'brand' %>
     <button class="nav-toggle" aria-controls="primary-nav" aria-expanded="false">Menu</button>
     <nav id="primary-nav" class="site-nav" aria-label="Primary">
       <ul>
         <li><%= link_to 'Home', root_path, aria: { current: current_page?(root_path) ? 'page' : nil } %></li>
-        <li><%= link_to 'Solutions', solutions_path, aria: { current: current_page?(solutions_path) ? 'page' : nil } %></li>
-        <li><%= link_to 'Data Coverage', '/data-coverage', aria: { current: request.path == '/data-coverage' ? 'page' : nil } %></li>
+        <li><%= link_to 'Explore', posts_path, aria: { current: current_page?(posts_path) ? 'page' : nil } %></li>
+        <li><%= link_to 'Features', solutions_path, aria: { current: current_page?(solutions_path) ? 'page' : nil } %></li>
+        <li><%= link_to 'Platform', '/data-coverage', aria: { current: request.path == '/data-coverage' ? 'page' : nil } %></li>
         <li><%= link_to 'How It Works', '/how-it-works', aria: { current: request.path == '/how-it-works' ? 'page' : nil } %></li>
-        <li><%= link_to 'Resources', blog_path, aria: { current: current_page?(blog_path) ? 'page' : nil } %></li>
+        <li><%= link_to 'Updates', blog_path, aria: { current: current_page?(blog_path) ? 'page' : nil } %></li>
         <li><%= link_to 'About', about_path, aria: { current: current_page?(about_path) ? 'page' : nil } %></li>
-        <li><%= link_to 'Contact', contact_path, class: 'btn btn-small', aria: { current: current_page?(contact_path) ? 'page' : nil } %></li>
+        <% if user_signed_in? %>
+          <li><%= link_to 'New Post', new_post_path, class: 'btn btn-small' %></li>
+          <li><span class="subtle">Hi, <%= current_user.name.presence || current_user.email %></span></li>
+          <li>
+            <%= button_to 'Log out', logout_path, method: :delete, class: 'btn btn-small', form: { style: 'display:inline' } %>
+          </li>
+        <% else %>
+          <li><%= link_to 'Log in', login_path %></li>
+          <li><%= link_to 'Sign up', signup_path, class: 'btn btn-small' %></li>
+        <% end %>
       </ul>
     </nav>
   </div>
 </header>
-

@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= content_for?(:title) ? yield(:title) : "VisionData" %></title>
-  <meta name="description" content="VisionData provides comprehensive business and consumer data, enrichment, segmentation, analytics, and APIs to power growth.">
+  <title><%= content_for?(:title) ? yield(:title) : "#community" %></title>
+  <meta name="description" content="#community is a friendly social platform for groups, creators, and communities to connect, share posts, host events, and build meaningful conversations.">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +17,16 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <%= render 'shared/header' %>
   <main id="main">
+    <% if notice.present? %>
+      <div class="container" role="status" style="max-width:1120px; padding-top: 12px;">
+        <p class="success"><%= notice %></p>
+      </div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="container" role="alert" style="max-width:1120px; padding-top: 12px;">
+        <p class="error"><%= alert %></p>
+      </div>
+    <% end %>
     <%= yield %>
   </main>
   <%= render 'shared/footer' %>
@@ -22,4 +34,3 @@
   <noscript>This site works best with JavaScript enabled. All content remains accessible without it.</noscript>
 </body>
 </html>
-

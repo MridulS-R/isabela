@@ -1,13 +1,13 @@
-<% content_for :title, 'VisionData — Turning raw data into actionable insights' %>
+<% content_for :title, '#community — A friendly social platform' %>
 
 <section class="hero">
   <div class="container hero-inner">
-    <h1>Turning raw data into actionable insights</h1>
-    <p class="lead">Accurate business and consumer data, powerful enrichment, and analytics that drive growth across channels.</p>
+    <h1>Welcome to #community</h1>
+    <p class="lead">Create groups, share posts, host events, and build meaningful conversations with people who care about the same things you do.</p>
     <div class="cta-group">
-      <%= link_to 'Request a Demo', contact_path(anchor: 'request-demo'), class: 'btn' %>
-      <%= link_to 'Talk to a Data Expert', contact_path(anchor: 'talk-to-expert'), class: 'btn btn-outline' %>
-      <%= link_to 'Get Started', solutions_path, class: 'btn btn-ghost' %>
+      <%= link_to 'Get Early Access', contact_path(anchor: 'request-demo'), class: 'btn' %>
+      <%= link_to 'Create a Group', solutions_path(anchor: 'groups'), class: 'btn btn-outline' %>
+      <%= link_to 'Explore Features', solutions_path, class: 'btn btn-ghost' %>
     </div>
   </div>
   <div class="hero-visual" aria-hidden="true">
@@ -26,46 +26,54 @@
       </g>
     </svg>
   </div>
+  <div class="cta-group" style="margin-top:16px">
+    <%= link_to 'Explore', posts_path, class: 'btn btn-outline' %>
+    <% if user_signed_in? %>
+      <%= link_to 'New Post', new_post_path, class: 'btn' %>
+    <% else %>
+      <%= link_to 'Sign up', signup_path, class: 'btn' %>
+    <% end %>
+  </div>
 </section>
 
 <section class="value-prop section">
   <div class="container">
-    <h2>Data that’s fresh, accurate, and ready to activate</h2>
-    <p>VisionData delivers comprehensive business and consumer coverage, robust enrichment and cleansing, and the tools to segment, analyze, and engage audiences across email, direct mail, and digital channels.</p>
+    <h2>Built for healthy communities</h2>
+    <p>#community makes it simple to start a space, invite people, and keep discussions welcoming with thoughtful defaults and safety tools.</p>
     <ul class="pill-list" role="list">
-      <li>Comprehensive business & consumer data</li>
-      <li>Data enrichment & cleansing</li>
-      <li>Audience segmentation & analytics</li>
-      <li>Lead generation & acquisition</li>
-      <li>Omnichannel marketing support</li>
-      <li>APIs & integrations</li>
-      <li>Compliance & privacy</li>
-      <li>Custom solutions & consulting</li>
+      <li>Groups & threads</li>
+      <li>Rich posts (text, links, media)</li>
+      <li>Events & RSVPs</li>
+      <li>DMs & mentions</li>
+      <li>Moderation tools</li>
+      <li>Creator analytics</li>
+      <li>Open API</li>
+      <li>Privacy-first defaults</li>
     </ul>
   </div>
 </section>
 
 <section class="features section alt">
   <div class="container">
-    <h2>Solutions built for performance</h2>
+    <h2>Features that matter</h2>
     <div class="cards-grid">
       <article class="card">
-        <div class="icon" aria-hidden="true">📇</div>
-        <h3>Data Solutions</h3>
-        <p>Fresh, accurate business and consumer records with rich attributes, plus data hygiene, dedupe, and identity resolution.</p>
-        <%= link_to 'Explore Data Solutions', solutions_path(anchor: 'data-solutions'), class: 'link' %>
+        <div class="icon" aria-hidden="true">👥</div>
+        <h3>Groups & Threads</h3>
+        <p>Create public or private groups, organize discussions into threads, and keep conversations on topic.</p>
+        <%= link_to 'See Groups', solutions_path(anchor: 'groups'), class: 'link' %>
       </article>
       <article class="card">
-        <div class="icon" aria-hidden="true">📈</div>
-        <h3>Marketing Solutions</h3>
-        <p>Audience building, targeted acquisition, and campaign execution across email, direct mail, and digital.</p>
-        <%= link_to 'Explore Marketing Solutions', solutions_path(anchor: 'marketing-solutions'), class: 'link' %>
+        <div class="icon" aria-hidden="true">📅</div>
+        <h3>Events & Meetups</h3>
+        <p>Plan events, manage RSVPs, and keep members informed with reminders and summaries.</p>
+        <%= link_to 'See Events', solutions_path(anchor: 'events'), class: 'link' %>
       </article>
       <article class="card">
-        <div class="icon" aria-hidden="true">🔌</div>
-        <h3>APIs & Integrations</h3>
-        <p>Programmatic access to data and enrichment with integrations for popular CRMs and marketing platforms.</p>
-        <%= link_to 'Explore APIs', solutions_path(anchor: 'apis'), class: 'link' %>
+        <div class="icon" aria-hidden="true">🛠️</div>
+        <h3>Creator Tools</h3>
+        <p>Schedule posts, pin threads, and view lightweight analytics to understand what resonates.</p>
+        <%= link_to 'See Creator Tools', solutions_path(anchor: 'creators'), class: 'link' %>
       </article>
     </div>
   </div>
@@ -73,12 +81,12 @@
 
 <section class="metrics section">
   <div class="container">
-    <h2>Coverage and quality at scale</h2>
+    <h2>Community at scale</h2>
     <div class="metrics-grid">
-      <div class="metric"><div class="num">50M+</div><div class="label">Business profiles</div></div>
-      <div class="metric"><div class="num">200M+</div><div class="label">Consumer profiles</div></div>
-      <div class="metric"><div class="num">400+</div><div class="label">Attributes per record</div></div>
-      <div class="metric"><div class="num">30 days</div><div class="label">Average refresh cadence</div></div>
+      <div class="metric"><div class="num">100K+</div><div class="label">Members</div></div>
+      <div class="metric"><div class="num">8K+</div><div class="label">Active groups</div></div>
+      <div class="metric"><div class="num">250K+</div><div class="label">Posts/day</div></div>
+      <div class="metric"><div class="num">&lt; 200ms</div><div class="label">Median read latency</div></div>
     </div>
     <p class="subtle">Figures represent typical coverage; availability varies by region and source.</p>
   </div>
@@ -86,7 +94,7 @@
 
 <section class="trust section alt">
   <div class="container">
-    <h2>Trusted by data‑driven teams</h2>
+    <h2>Loved by communities</h2>
     <div class="logo-row" aria-hidden="true">
       <div class="logo-pill">Acme SaaS</div>
       <div class="logo-pill">Northwind</div>
@@ -96,18 +104,17 @@
     </div>
     <div class="quote">
       <blockquote>
-        “VisionData has elevated our demand generation with cleaner data and smarter targeting. Our cost per qualified lead dropped 27% in the first quarter.”
+        “#community helped our student club stay organized and inclusive. Threads keep topics clear, and events boosted attendance by 40%.”
       </blockquote>
-      <p class="cite">— Priya S., VP Growth, Acme SaaS</p>
+      <p class="cite">— Maya R., Student Organizer</p>
     </div>
   </div>
 </section>
 
 <section class="cta-band section">
   <div class="container cta-band-inner">
-    <h2>See VisionData in action</h2>
-    <p>Book a live demo to explore data coverage, enrichment, and integrations tailored to your stack.</p>
-    <%= link_to 'Schedule a Demo', contact_path(anchor: 'request-demo'), class: 'btn' %>
+    <h2>Be part of #community</h2>
+    <p>Get early access and help shape a kinder social platform.</p>
+    <%= link_to 'Request Access', contact_path(anchor: 'request-demo'), class: 'btn' %>
   </div>
 </section>
-

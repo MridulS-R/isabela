@@ -1,0 +1,21 @@
+<section class="section">
+  <div class="container" style="max-width:560px">
+    <h1>Log in</h1>
+    <p class="subtle">Welcome back to #community.</p>
+
+    <%= form_with url: login_path, method: :post, local: true do |f| %>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" placeholder="you@example.com" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button class="btn" type="submit">Log in</button>
+      <p class="help">No account? <%= link_to 'Sign up', signup_path %></p>
+    <% end %>
+  </div>
+  
+</section>
+

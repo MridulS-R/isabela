@@ -1,52 +1,49 @@
-<% content_for :title, 'Data Coverage & Capabilities — VisionData' %>
+<% content_for :title, 'Platform & Capabilities — #community' %>
 
 <section class="section">
   <div class="container">
-    <h1>Data Coverage & Capabilities</h1>
-    <p class="lead">Breadth and depth you can measure — with quality processes that keep data fresh, accurate, and activation‑ready.</p>
+    <h1>Platform & Capabilities</h1>
+    <p class="lead">Fast, safe, and privacy‑first — the foundation for welcoming communities at scale.</p>
   </div>
 </section>
 
 <section class="section alt">
   <div class="container">
-    <h2>Coverage at a glance</h2>
+    <h2>At a glance</h2>
     <div class="metrics-grid">
-      <div class="metric"><div class="num">50M+</div><div class="label">Business profiles</div></div>
-      <div class="metric"><div class="num">200M+</div><div class="label">Consumer profiles</div></div>
-      <div class="metric"><div class="num">400+</div><div class="label">Attributes per record</div></div>
-      <div class="metric"><div class="num">90%+</div><div class="label">Email deliverability targets</div></div>
-      <div class="metric"><div class="num">30 days</div><div class="label">Avg. refresh cadence</div></div>
-      <div class="metric"><div class="num">99.9%</div><div class="label">API uptime objective</div></div>
+      <div class="metric"><div class="num">99.9%</div><div class="label">Uptime objective</div></div>
+      <div class="metric"><div class="num">&lt; 200ms</div><div class="label">Median read latency</div></div>
+      <div class="metric"><div class="num">SLA</div><div class="label">Priority moderation</div></div>
+      <div class="metric"><div class="num">GDPR</div><div class="label">Privacy by default</div></div>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <h2>Quality & Freshness</h2>
+    <h2>Safety & Privacy</h2>
     <ul class="pill-list" role="list">
-      <li>Multi-source compilation and normalization</li>
-      <li>Deterministic + probabilistic identity resolution</li>
-      <li>Ongoing verification and bounce monitoring</li>
-      <li>Change detection and recency scoring</li>
-      <li>Human-in-the-loop QA for critical fields</li>
-      <li>Regional compliance and consent workflows</li>
+      <li>Anti‑abuse protections and reporting</li>
+      <li>Role‑based moderation and guidelines</li>
+      <li>Content controls (visibility, mentions, reactions)</li>
+      <li>Data export tools for owners</li>
+      <li>GDPR/IT‑Act aligned processes</li>
     </ul>
   </div>
 </section>
 
 <section class="section alt">
   <div class="container">
-    <h2>Blended Identity & Persona Modeling</h2>
-    <p>We connect business and consumer identities to enable complete views of decision makers and buying committees. Our approach blends deterministic keys (domain, phone, government identifiers where permitted) with probabilistic signals (co‑occurrence, behavioral, and location) to maximize match accuracy while minimizing false links.</p>
+    <h2>Architecture & Moderation Layers</h2>
+    <p>#community separates content, membership, and moderation concerns to keep experiences fast and safe. Async pipelines evaluate signals and elevate reports for human review where appropriate.</p>
     <table>
       <thead>
         <tr><th>Layer</th><th>Examples</th><th>Purpose</th></tr>
       </thead>
       <tbody>
-        <tr><td>Deterministic</td><td>Domain, email, phone, firm ID</td><td>High‑confidence entity linking</td></tr>
-        <tr><td>Probabilistic</td><td>Location, device, co‑visit patterns</td><td>Expand coverage with conservative thresholds</td></tr>
-        <tr><td>Human QA</td><td>Manual validation on edge cases</td><td>Reduce false positives</td></tr>
+        <tr><td>Realtime</td><td>Rate limits, flood control</td><td>Prevent spam and abuse</td></tr>
+        <tr><td>Batch</td><td>Signals, velocity checks</td><td>Detect coordinated behavior</td></tr>
+        <tr><td>Human</td><td>Escalation & appeals</td><td>Fair outcomes on edge cases</td></tr>
       </tbody>
     </table>
   </div>
@@ -54,9 +51,8 @@
 
 <section class="section">
   <div class="container cta-band-inner">
-    <h2>Request a data dictionary</h2>
-    <p>Get a complete attribute list with definitions, types, and refresh cadence by source.</p>
-    <%= link_to 'Request Now', contact_path(anchor: 'request-demo'), class: 'btn' %>
+    <h2>Request platform access</h2>
+    <p>Tell us about your community and we’ll help you get started.</p>
+    <%= link_to 'Get Early Access', contact_path(anchor: 'request-demo'), class: 'btn' %>
   </div>
 </section>
-
