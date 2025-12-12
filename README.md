@@ -26,6 +26,11 @@ Rails marketing site for VisionData with static pages rendered via a controller 
 
 If `bin/rails` is missing after `bundle install`, run `bundle binstubs rails` or `bundle exec rails s` directly.
 
+### Database (dev)
+- Development/test use SQLite. Create/migrate with:
+  - `bundle exec rails db:setup`
+  - `bundle exec rails db:migrate`
+
 ## Notes
 
 - Accessible by default: semantic landmarks, keyboard‑friendly nav, high contrast.
@@ -35,11 +40,11 @@ If `bin/rails` is missing after `bundle install`, run `bundle binstubs rails` or
 ## Deploy to Render
 
 Option A — Blueprint (recommended)
-- Ensure your repo contains `render.yaml` (included).
+- Ensure your repo contains `render.yaml` (included). It provisions a free Postgres database and wires `DATABASE_URL`.
 - In Render, click New → Blueprint → connect repo → confirm.
 - Render will:
-  - Install gems, precompile assets, and run Puma with `config/puma.rb`.
-  - Set `SECRET_KEY_BASE` automatically from the blueprint.
+  - Install gems, precompile assets, run migrations, and run Puma with `config/puma.rb`.
+  - Set `SECRET_KEY_BASE` automatically from the blueprint and `DATABASE_URL` from the linked Postgres.
   - Serve static assets (`RAILS_SERVE_STATIC_FILES=true`).
 
 Option B — Manual web service
@@ -51,7 +56,8 @@ Option B — Manual web service
   - `RAILS_ENV=production`
   - `RAILS_SERVE_STATIC_FILES=true`
   - `SECRET_KEY_BASE` → Generate (Render can auto-generate)
+  - `DATABASE_URL` → Provided automatically if you link a Render Postgres instance
 
 Notes for Render
-- No database is required; Active Record is disabled in `config/application.rb`.
+- Active Record is enabled; Postgres is used in production via `DATABASE_URL`.
 - Hosts for `*.onrender.com` and your custom domain are allowed in `production.rb`.

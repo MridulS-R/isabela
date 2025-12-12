@@ -1,0 +1,21 @@
+default: &default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/development.sqlite3
+
+test:
+  <<: *default
+  database: db/test.sqlite3
+
+production:
+  # Use Render-provided DATABASE_URL for Postgres
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  encoding: unicode
+  variables:
+    statement_timeout: 5000
+

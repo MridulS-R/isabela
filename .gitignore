@@ -1,0 +1,36 @@
+# Logs
+/log/*
+!/log/.keep
+
+# Temporary files
+/tmp/*
+!/tmp/.keep
+
+# PID files
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Byebug history
+.byebug_history
+
+# SQLite databases (dev/test)
+/db/*.sqlite3
+/db/*.sqlite3-* 
+
+# Bundler
+/.bundle
+
+# Node/Yarn
+node_modules/
+
+# Coverage and artifacts
+coverage/
+public/assets
+public/packs
+public/packs-test
+public/.sprockets-manifest*
+
+# Credentials (if added later)
+config/master.key
+
