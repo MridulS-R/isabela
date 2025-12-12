@@ -15,12 +15,16 @@ class ImportsController < ApplicationController
       blob = ActiveStorage::Blob.create_and_upload!(io: upload, filename: upload.original_filename, content_type: upload.content_type)
       if kind == 'instagram_users'
         ImportInstagramUsersJob.perform_later(blob_id: blob.signed_id)
+      elsif kind == 'news_rss'
+        ImportNewsRssJob.perform_later(blob_id: blob.signed_id)
       else
         ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence)
       end
     elsif url.present?
       if kind == 'instagram_users'
         ImportInstagramUsersJob.perform_later(url: url)
+      elsif kind == 'news_rss'
+        ImportNewsRssJob.perform_later(url: url)
       else
         ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
       end

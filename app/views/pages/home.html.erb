@@ -47,6 +47,34 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <h2>News</h2>
+    <% if defined?(@latest_articles) && @latest_articles.present? %>
+      <div class="cards-grid">
+        <% @latest_articles.each do |a| %>
+          <article class="card">
+            <h3>
+              <% if a.respond_to?(:url) && a.url.present? %>
+                <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
+              <% else %>
+                <%= a.title %>
+              <% end %>
+            </h3>
+            <p class="subtle"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></p>
+            <p><%= truncate(a.body.to_s, length: 120) %></p>
+          </article>
+        <% end %>
+      </div>
+      <div style="margin-top:12px">
+        <%= link_to 'See all news', blog_path, class: 'link' %>
+      </div>
+    <% else %>
+      <p class="subtle">No news yet. Use the Import page to add a News RSS feed.</p>
+    <% end %>
+  </div>
+  </section>
+
 <section class="cta-band section">
   <div class="container cta-band-inner">
     <h2>Join in</h2>

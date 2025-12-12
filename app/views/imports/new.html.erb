@@ -8,7 +8,7 @@
     <%= form_with url: imports_path, method: :post, multipart: true do |f| %>
       <div>
         <%= label_tag :import_kind, 'Import type' %>
-        <%= select_tag :import_kind, options_for_select([['Reddit posts','reddit_posts'],['Instagram users','instagram_users']]), include_blank: false %>
+        <%= select_tag :import_kind, options_for_select([['Reddit posts','reddit_posts'],['Instagram users','instagram_users'],['News RSS','news_rss']]), include_blank: false %>
       </div>
       <div class="form-row">
         <div>

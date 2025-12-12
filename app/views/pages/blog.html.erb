@@ -13,9 +13,18 @@
       <div class="cards-grid">
         <% @articles.each do |post| %>
           <article class="card">
-            <h3><%= post.title %></h3>
-            <p><%= truncate(post.body, length: 160) %></p>
-            <p class="subtle"><%= post.published_at&.strftime('%b %d, %Y') %></p>
+            <h3>
+              <% if post.respond_to?(:url) && post.url.present? %>
+                <%= link_to post.title, post.url, class: 'link', target: '_blank', rel: 'noopener' %>
+              <% else %>
+                <%= post.title %>
+              <% end %>
+            </h3>
+            <p><%= truncate(post.body.to_s, length: 160) %></p>
+            <p class="subtle">
+              <%= post.published_at&.strftime('%b %d, %Y') %>
+              <% if post.respond_to?(:source) && post.source.present? %> • <%= post.source %><% end %>
+            </p>
           </article>
         <% end %>
       </div>

@@ -1,0 +1,10 @@
+class RefreshAllFeedsJob < ApplicationJob
+  queue_as :default
+
+  def perform
+    Feed.active.find_each do |feed|
+      RefreshFeedJob.perform_later(feed.id)
+    end
+  end
+end
+
