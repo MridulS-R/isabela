@@ -15,9 +15,3 @@ services:
         value: "true"
       - key: SECRET_KEY_BASE
         generateValue: true
-      - key: RENDER_EXTERNAL_HOSTNAME
-        fromService:
-          type: web
-          name: visiondata-web
-          property: hostname
-
