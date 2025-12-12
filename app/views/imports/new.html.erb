@@ -9,7 +9,7 @@
       <div class="form-row">
         <div>
           <%= label_tag :url, 'Data URL (CSV or JSON)' %>
-          <%= url_field_tag :url, nil, required: true, placeholder: 'https://.../reddit.csv' %>
+          <%= url_field_tag :url, nil, placeholder: 'https://.../reddit.csv' %>
         </div>
         <div>
           <%= label_tag :owner_email, 'Owner email (optional)' %>
@@ -21,7 +21,7 @@
         <%= label_tag :data_file, 'Upload CSV/JSON' %>
         <%= file_field_tag :data_file, accept: '.csv,.json' %>
       </div>
-      <p class="help">Provide a URL or upload a file. Requires admin access. The import runs in the background.</p>
+      <p class="help">Provide a URL or upload a file (one is required). Owner email is optional; imported posts will be attributed to that user.</p>
       <%= submit_tag 'Start Import', class: 'btn' %>
     <% end %>
   </div>
