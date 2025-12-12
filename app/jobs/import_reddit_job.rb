@@ -1,8 +1,11 @@
 class ImportRedditJob < ApplicationJob
   queue_as :default
 
-  # Args: url (http/https), owner_email (optional)
-  def perform(url:, owner_email: nil)
+  # Args:
+  #   - url: http/https URL to CSV/JSON (optional if file_path provided)
+  #   - file_path: absolute path to a CSV/JSON on disk (optional if url provided)
+  #   - owner_email: optional email to own imported posts
+  def perform(url: nil, file_path: nil, owner_email: nil)
     require 'open-uri'
     require 'csv'
     require 'json'
@@ -11,16 +14,23 @@ class ImportRedditJob < ApplicationJob
     require 'securerandom'
     require 'time'
 
-    raise ArgumentError, 'url is required' if url.to_s.strip.empty?
+    raise ArgumentError, 'url or file_path is required' if url.to_s.strip.empty? && file_path.to_s.strip.empty?
 
     owner = User.find_or_create_by!(email: (owner_email.presence || 'reddit-import@example.com')) do |u|
       u.name = 'Reddit Importer'
       u.password = SecureRandom.hex(12)
     end
 
-    io = URI.open(url, 'rb')
-    body = io.read
-    ext = File.extname(URI.parse(url).path).downcase
+    body = nil
+    ext = '.csv'
+    if file_path.present?
+      body = File.binread(file_path)
+      ext = File.extname(file_path).downcase unless File.extname(file_path).to_s.empty?
+    else
+      io = URI.open(url, 'rb')
+      body = io.read
+      ext = File.extname(URI.parse(url).path).downcase unless File.extname(URI.parse(url).path).to_s.empty?
+    end
 
     # 1x1 black PNG placeholder (base64)
     png_base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='
@@ -68,4 +78,3 @@ class ImportRedditJob < ApplicationJob
     Rails.logger.info("Imported #{imported} Reddit posts for #{owner.email}")
   end
 end
-

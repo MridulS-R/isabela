@@ -8,15 +8,24 @@ class ImportsController < ApplicationController
   def create
     url = params[:url].to_s
     owner_email = params[:owner_email].to_s
-    if url.blank?
+    upload = params[:data_file]
+
+    if upload.present?
+      tmp = Tempfile.new(['import', File.extname(upload.original_filename)])
+      tmp.binmode
+      tmp.write(upload.read)
+      tmp.flush
+      ImportRedditJob.perform_later(file_path: tmp.path, owner_email: owner_email.presence)
+      # Tempfile will be cleaned up by OS after process exits; keep path for job lifetime
+    elsif url.present?
+      ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
+    else
       respond_to do |format|
-        format.html { redirect_to new_import_path, alert: 'URL is required.' }
-        format.json { render json: { error: 'URL is required' }, status: :unprocessable_entity }
+        format.html { redirect_to new_import_path, alert: 'Provide a URL or upload a CSV/JSON file.' }
+        format.json { render json: { error: 'url or file is required' }, status: :unprocessable_entity }
       end
       return
     end
-
-    ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'Import started. Check back in a bit.' }
       format.json { render json: { status: 'enqueued' }, status: :accepted }
@@ -36,4 +45,3 @@ class ImportsController < ApplicationController
     end
   end
 end
-

@@ -11,7 +11,9 @@
           <% if admin_user? %>
             <li><%= link_to 'Import', new_import_path %></li>
           <% end %>
-          <li><%= link_to 'New Post', new_post_path, class: 'btn btn-small' %></li>
+          <li>
+            <%= link_to raw('＋'), new_post_path, class: 'btn btn-small btn-pink btn-icon', aria: { label: 'New Post' } %>
+          </li>
           <li><span class="subtle">Hi, <%= current_user.name.presence || current_user.email %></span></li>
           <li>
             <%= button_to 'Log out', logout_path, method: :delete, class: 'btn btn-small', form: { style: 'display:inline' } %>
