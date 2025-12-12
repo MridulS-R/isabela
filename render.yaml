@@ -22,7 +22,7 @@ services:
       - key: RAILS_SERVE_STATIC_FILES
         value: "true"
       - key: ACTIVE_STORAGE_SERVICE
-        value: database
+        value: local
       - key: RAILS_LOG_TO_STDOUT
         value: "true"
       - key: SECRET_KEY_BASE

@@ -7,7 +7,6 @@ gem 'puma', '>= 5.0'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'bcrypt', '~> 3.1'
-gem 'activestorage-database', '~> 1.1'
 
 group :development do
   gem 'web-console'
