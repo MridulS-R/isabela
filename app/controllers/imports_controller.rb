@@ -11,12 +11,8 @@ class ImportsController < ApplicationController
     upload = params[:data_file]
 
     if upload.present?
-      tmp = Tempfile.new(['import', File.extname(upload.original_filename)])
-      tmp.binmode
-      tmp.write(upload.read)
-      tmp.flush
-      ImportRedditJob.perform_later(file_path: tmp.path, owner_email: owner_email.presence)
-      # Tempfile will be cleaned up by OS after process exits; keep path for job lifetime
+      blob = ActiveStorage::Blob.create_and_upload!(io: upload, filename: upload.original_filename, content_type: upload.content_type)
+      ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence)
     elsif url.present?
       ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
     else

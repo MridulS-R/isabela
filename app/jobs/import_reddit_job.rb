@@ -2,10 +2,11 @@ class ImportRedditJob < ApplicationJob
   queue_as :default
 
   # Args:
-  #   - url: http/https URL to CSV/JSON (optional if file_path provided)
-  #   - file_path: absolute path to a CSV/JSON on disk (optional if url provided)
+  #   - url: http/https URL to CSV/JSON (optional)
+  #   - file_path: absolute path to a CSV/JSON on disk (optional)
+  #   - blob_id: ActiveStorage::Blob.signed_id of an uploaded CSV/JSON (preferred for uploads)
   #   - owner_email: optional email to own imported posts
-  def perform(url: nil, file_path: nil, owner_email: nil)
+  def perform(url: nil, file_path: nil, blob_id: nil, owner_email: nil)
     require 'open-uri'
     require 'csv'
     require 'json'
@@ -14,7 +15,7 @@ class ImportRedditJob < ApplicationJob
     require 'securerandom'
     require 'time'
 
-    raise ArgumentError, 'url or file_path is required' if url.to_s.strip.empty? && file_path.to_s.strip.empty?
+    raise ArgumentError, 'one of url, file_path, or blob_id is required' if url.to_s.strip.empty? && file_path.to_s.strip.empty? && blob_id.to_s.strip.empty?
 
     owner = User.find_or_create_by!(email: (owner_email.presence || 'reddit-import@example.com')) do |u|
       u.name = 'Reddit Importer'
@@ -23,7 +24,11 @@ class ImportRedditJob < ApplicationJob
 
     body = nil
     ext = '.csv'
-    if file_path.present?
+    if blob_id.present?
+      blob = ActiveStorage::Blob.find_signed(blob_id)
+      body = blob.download
+      ext = File.extname(blob.filename.to_s).downcase unless File.extname(blob.filename.to_s).to_s.empty?
+    elsif file_path.present?
       body = File.binread(file_path)
       ext = File.extname(file_path).downcase unless File.extname(file_path).to_s.empty?
     else
