@@ -3,7 +3,13 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show like unlike]
 
   def index
-    @posts = Post.includes(:user, images_attachments: :blob).recent.limit(50)
+    @posts = Post.includes(:user, images_attachments: :blob)
+    @posts = if params[:sort] == 'hot'
+      @posts.order(likes_count: :desc)
+    else
+      @posts.recent
+    end
+    @posts = @posts.limit(50)
     @trending_tags = Tag.joins(:taggings).group('tags.id').order(Arel.sql('COUNT(taggings.id) DESC')).limit(10)
   end
 
@@ -48,4 +54,3 @@ class PostsController < ApplicationController
     params.require(:post).permit(:caption, images: [])
   end
 end
-

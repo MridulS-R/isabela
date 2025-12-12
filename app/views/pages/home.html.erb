@@ -1,120 +1,62 @@
-<% content_for :title, '#community — A friendly social platform' %>
+<% content_for :title, '#community — Discover top posts' %>
 
 <section class="hero">
   <div class="container hero-inner">
-    <h1>Welcome to #community</h1>
-    <p class="lead">Create groups, share posts, host events, and build meaningful conversations with people who care about the same things you do.</p>
+    <h1>Top from the community</h1>
+    <p class="lead">Hand‑picked hot posts across categories and what’s new.</p>
     <div class="cta-group">
-      <%= link_to 'Get Early Access', contact_path(anchor: 'request-demo'), class: 'btn' %>
-      <%= link_to 'Create a Group', solutions_path(anchor: 'groups'), class: 'btn btn-outline' %>
-      <%= link_to 'Explore Features', solutions_path, class: 'btn btn-ghost' %>
+      <%= link_to 'View Hots', posts_path(sort: 'hot'), class: 'btn' %>
+      <%= link_to 'Latest', posts_path, class: 'btn btn-outline' %>
     </div>
   </div>
-  <div class="hero-visual" aria-hidden="true">
-    <svg viewBox="0 0 600 200" preserveAspectRatio="none" role="img" aria-label="" focusable="false">
-      <defs>
-        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="var(--brand)"/>
-          <stop offset="100%" stop-color="var(--brand-700)"/>
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="600" height="200" fill="url(#g)" opacity="0.08"/>
-      <g fill="none" stroke="var(--brand)" opacity="0.5">
-        <path d="M0 150 C 150 120, 300 180, 600 130"/>
-        <path d="M0 120 C 180 90, 340 140, 600 100" opacity="0.5"/>
-        <path d="M0 90 C 120 60, 360 120, 600 70" opacity="0.25"/>
-      </g>
-    </svg>
-  </div>
-  <div class="cta-group" style="margin-top:16px">
-    <%= link_to 'Explore', posts_path, class: 'btn btn-outline' %>
-    <% if user_signed_in? %>
-      <%= link_to 'New Post', new_post_path, class: 'btn' %>
-    <% else %>
-      <%= link_to 'Sign up', signup_path, class: 'btn' %>
-    <% end %>
-  </div>
 </section>
 
-<section class="value-prop section">
+<section class="section">
   <div class="container">
-    <h2>Built for healthy communities</h2>
-    <p>#community makes it simple to start a space, invite people, and keep discussions welcoming with thoughtful defaults and safety tools.</p>
-    <ul class="pill-list" role="list">
-      <li>Groups & threads</li>
-      <li>Rich posts (text, links, media)</li>
-      <li>Events & RSVPs</li>
-      <li>DMs & mentions</li>
-      <li>Moderation tools</li>
-      <li>Creator analytics</li>
-      <li>Open API</li>
-      <li>Privacy-first defaults</li>
-    </ul>
-  </div>
-</section>
-
-<section class="features section alt">
-  <div class="container">
-    <h2>Features that matter</h2>
+    <h2>Hots</h2>
     <div class="cards-grid">
-      <article class="card">
-        <div class="icon" aria-hidden="true">👥</div>
-        <h3>Groups & Threads</h3>
-        <p>Create public or private groups, organize discussions into threads, and keep conversations on topic.</p>
-        <%= link_to 'See Groups', solutions_path(anchor: 'groups'), class: 'link' %>
-      </article>
-      <article class="card">
-        <div class="icon" aria-hidden="true">📅</div>
-        <h3>Events & Meetups</h3>
-        <p>Plan events, manage RSVPs, and keep members informed with reminders and summaries.</p>
-        <%= link_to 'See Events', solutions_path(anchor: 'events'), class: 'link' %>
-      </article>
-      <article class="card">
-        <div class="icon" aria-hidden="true">🛠️</div>
-        <h3>Creator Tools</h3>
-        <p>Schedule posts, pin threads, and view lightweight analytics to understand what resonates.</p>
-        <%= link_to 'See Creator Tools', solutions_path(anchor: 'creators'), class: 'link' %>
-      </article>
+      <% @hot_posts.each do |post| %>
+        <article class="card">
+          <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
+          <p class="subtle">by <%= post.user&.name || 'Someone' %> • <%= time_ago_in_words(post.created_at) %> ago • ❤️ <%= post.likes_count %></p>
+          <%= link_to 'Open post', post_path(post), class: 'link' %>
+        </article>
+      <% end %>
     </div>
   </div>
 </section>
 
-<section class="metrics section">
+<section class="section alt">
   <div class="container">
-    <h2>Community at scale</h2>
-    <div class="metrics-grid">
-      <div class="metric"><div class="num">100K+</div><div class="label">Members</div></div>
-      <div class="metric"><div class="num">8K+</div><div class="label">Active groups</div></div>
-      <div class="metric"><div class="num">250K+</div><div class="label">Posts/day</div></div>
-      <div class="metric"><div class="num">&lt; 200ms</div><div class="label">Median read latency</div></div>
-    </div>
-    <p class="subtle">Figures represent typical coverage; availability varies by region and source.</p>
-  </div>
-</section>
-
-<section class="trust section alt">
-  <div class="container">
-    <h2>Loved by communities</h2>
-    <div class="logo-row" aria-hidden="true">
-      <div class="logo-pill">Acme SaaS</div>
-      <div class="logo-pill">Northwind</div>
-      <div class="logo-pill">BlueCart</div>
-      <div class="logo-pill">Contoso</div>
-      <div class="logo-pill">Globex</div>
-    </div>
-    <div class="quote">
-      <blockquote>
-        “#community helped our student club stay organized and inclusive. Threads keep topics clear, and events boosted attendance by 40%.”
-      </blockquote>
-      <p class="cite">— Maya R., Student Organizer</p>
+    <h2>Top by category</h2>
+    <div class="cards-grid">
+      <% @top_posts_by_tag.each do |tag, post| %>
+        <% next unless post %>
+        <article class="card">
+          <div class="icon" aria-hidden="true">#<%= tag.name %></div>
+          <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
+          <p class="subtle">by <%= post.user&.name || 'Someone' %> • ❤️ <%= post.likes_count %></p>
+          <div>
+            <%= link_to 'View category', tag_path(tag.name), class: 'link' %>
+            &nbsp;•&nbsp;
+            <%= link_to 'Open post', post_path(post), class: 'link' %>
+          </div>
+        </article>
+      <% end %>
     </div>
   </div>
 </section>
 
 <section class="cta-band section">
   <div class="container cta-band-inner">
-    <h2>Be part of #community</h2>
-    <p>Get early access and help shape a kinder social platform.</p>
-    <%= link_to 'Request Access', contact_path(anchor: 'request-demo'), class: 'btn' %>
+    <h2>Join in</h2>
+    <% if user_signed_in? %>
+      <%= link_to 'Create a post', new_post_path, class: 'btn' %>
+    <% else %>
+      <div class="cta-group">
+        <%= link_to 'Login', login_path, class: 'btn btn-outline' %>
+        <%= link_to 'Signup', signup_path, class: 'btn' %>
+      </div>
+    <% end %>
   </div>
 </section>

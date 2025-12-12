@@ -1,5 +1,11 @@
 class PagesController < ApplicationController
-  def home; end
+  def home
+    @hot_posts = Post.includes(:user).order(likes_count: :desc).limit(5)
+    @trending_tags = Tag.joins(:taggings).group('tags.id').order(Arel.sql('COUNT(taggings.id) DESC')).limit(6)
+    @top_posts_by_tag = @trending_tags.index_with do |tag|
+      tag.posts.includes(:user).order(likes_count: :desc).first
+    end
+  end
   def solutions; end
   def data_coverage; end
   def how_it_works; end

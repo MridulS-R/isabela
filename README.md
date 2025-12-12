@@ -62,4 +62,30 @@ Option B — Manual web service
 Notes for Render
 - Active Record is enabled; Postgres is used in production via `DATABASE_URL`.
 - Hosts for `*.onrender.com` and your custom domain are allowed in `production.rb`.
- - Images currently save to DB (Active Storage `database` service). To move to S3 later: set up AWS creds, switch `ACTIVE_STORAGE_SERVICE=amazon`, and add the `amazon` config in `config/storage.yml`.
+- Images currently save to DB (Active Storage `database` service). To move to S3 later: set up AWS creds, switch `ACTIVE_STORAGE_SERVICE=amazon`, and add the `amazon` config in `config/storage.yml`.
+
+## Import sample data (Kaggle)
+
+You can import Reddit posts from the Kaggle kernel output `ammar111/reddit-top-1000-posts-analysis-for-18-subreddits`.
+
+Steps:
+- Download the kernel outputs to a local folder using the Kaggle CLI:
+  - `kaggle kernels output ammar111/reddit-top-1000-posts-analysis-for-18-subreddits -p /absolute/path/to/dest`
+  - Identify the CSV file in that folder (open it to confirm headers like `title`, `subreddit`, `score`, etc.).
+- Run the importer rake task (path must be absolute):
+  - `bundle exec rails "kaggle:import_reddit[/absolute/path/to/dest/FILE.csv]"`
+  - Optionally specify an owner email to own the imported posts:
+    - `bundle exec rails "kaggle:import_reddit[/absolute/path/to/FILE.csv,owner@example.com]"`
+
+What it does:
+- Creates or reuses the owner user (default `reddit-import@example.com`).
+- For each CSV row, creates a `Post` with:
+  - `caption` from `title`
+  - `likes_count` from `score` (display only; not backed by Like rows)
+  - A tiny placeholder image attached (to satisfy the image validation)
+  - A tag from `subreddit` (normalized to lowercase and `_`)
+  - Timestamps from `created_utc` if present
+
+After importing, visit the home page or the Hots view to see the data:
+- Home shows “Hots” and “Top by category”.
+- Hots: `/posts?sort=hot`.
