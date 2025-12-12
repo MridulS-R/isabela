@@ -7,6 +7,8 @@ gem 'puma', '>= 5.0'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'bcrypt', '~> 3.1'
+# RSS/Atom feed parsing for News imports
+gem 'rss'
 
 group :development do
   gem 'web-console'
