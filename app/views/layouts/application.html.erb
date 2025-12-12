@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= content_for?(:title) ? yield(:title) : "VisionData" %></title>
+  <meta name="description" content="VisionData provides comprehensive business and consumer data, enrichment, segmentation, analytics, and APIs to power growth.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <%= favicon_link_tag 'favicon.svg' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <%= render 'shared/header' %>
+  <main id="main">
+    <%= yield %>
+  </main>
+  <%= render 'shared/footer' %>
+  <%= javascript_include_tag 'application' %>
+  <noscript>This site works best with JavaScript enabled. All content remains accessible without it.</noscript>
+</body>
+</html>
+

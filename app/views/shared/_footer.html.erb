@@ -1,0 +1,34 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <%= link_to raw('<span class="logo" aria-hidden="true">▦</span> VisionData'), root_path, class: 'brand' %>
+      <p class="subtle">Data to grow smarter.</p>
+      <p class="subtle">© <span id="year"></span> VisionData. All rights reserved.</p>
+    </div>
+    <div>
+      <h3 class="footer-title">Company</h3>
+      <ul>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Resources', blog_path %></li>
+        <li><%= link_to 'Contact', contact_path %></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="footer-title">Solutions</h3>
+      <ul>
+        <li><%= link_to 'Data', solutions_path(anchor: 'data-solutions') %></li>
+        <li><%= link_to 'Marketing', solutions_path(anchor: 'marketing-solutions') %></li>
+        <li><%= link_to 'APIs', solutions_path(anchor: 'apis') %></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="footer-title">Legal</h3>
+      <ul>
+        <li><a href="#" aria-disabled="true">Privacy Policy</a></li>
+        <li><a href="#" aria-disabled="true">Terms</a></li>
+        <li><a href="#" aria-disabled="true">GDPR & India IT Act</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+

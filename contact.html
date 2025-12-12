@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact VisionData</title>
+  <meta name="description" content="Reach VisionData to request a demo, talk to a data expert, or start a project.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><span class="logo" aria-hidden="true">▦</span> VisionData</a>
+      <button class="nav-toggle" aria-controls="primary-nav" aria-expanded="false">Menu</button>
+      <nav id="primary-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="data-coverage.html">Data Coverage</a></li>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="blog.html">Resources</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a class="btn btn-small" href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1>Get in touch</h1>
+        <p class="lead">We’d love to learn about your goals. Send a note and we’ll respond within one business day.</p>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="form-row">
+          <div>
+            <h2 id="request-demo">Request a Demo</h2>
+            <form data-enhanced="contact" aria-describedby="form-status">
+              <div class="form-row">
+                <div>
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" placeholder="Your name" required>
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="you@company.com" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="company">Company</label>
+                  <input id="company" name="company" type="text" placeholder="Company name">
+                </div>
+                <div>
+                  <label for="reason">I’m interested in</label>
+                  <select id="reason" name="reason">
+                    <option>Data Solutions</option>
+                    <option>Marketing Solutions</option>
+                    <option>APIs & Integrations</option>
+                    <option>Custom Project</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us a bit about your use case"></textarea>
+              </div>
+              <p id="form-status" class="help" hidden>We’ll reply shortly.</p>
+              <button class="btn" type="submit">Send</button>
+            </form>
+          </div>
+          <div>
+            <h2 id="talk-to-expert">Talk to a Data Expert</h2>
+            <p class="subtle">Prefer email or phone?</p>
+            <p><strong>Email:</strong> hello@visiondata.example</p>
+            <p><strong>Phone:</strong> +1 (555) 010‑1234</p>
+            <p><strong>Office:</strong> Bengaluru & San Francisco</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand" href="index.html"><span class="logo" aria-hidden="true">▦</span> VisionData</a>
+        <p class="subtle">© <span id="year"></span> VisionData</p>
+      </div>
+      <div>
+        <h3 class="footer-title">Next steps</h3>
+        <ul>
+          <li><a href="#request-demo">Schedule a demo</a></li>
+          <li><a href="#talk-to-expert">Talk to an expert</a></li>
+          <li><a href="solutions.html">Explore solutions</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

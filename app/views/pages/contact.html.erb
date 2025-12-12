@@ -1,0 +1,59 @@
+<% content_for :title, 'Contact VisionData' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Get in touch</h1>
+    <p class="lead">We’d love to learn about your goals. Send a note and we’ll respond within one business day.</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="form-row">
+      <div>
+        <h2 id="request-demo">Request a Demo</h2>
+        <form data-enhanced="contact" aria-describedby="form-status">
+          <div class="form-row">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@company.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" placeholder="Company name">
+            </div>
+            <div>
+              <label for="reason">I’m interested in</label>
+              <select id="reason" name="reason">
+                <option>Data Solutions</option>
+                <option>Marketing Solutions</option>
+                <option>APIs & Integrations</option>
+                <option>Custom Project</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us a bit about your use case"></textarea>
+          </div>
+          <p id="form-status" class="help" hidden>We’ll reply shortly.</p>
+          <button class="btn" type="submit">Send</button>
+        </form>
+      </div>
+      <div>
+        <h2 id="talk-to-expert">Talk to a Data Expert</h2>
+        <p class="subtle">Prefer email or phone?</p>
+        <p><strong>Email:</strong> hello@visiondata.example</p>
+        <p><strong>Phone:</strong> +1 (555) 010‑1234</p>
+        <p><strong>Office:</strong> Bengaluru & San Francisco</p>
+      </div>
+    </div>
+  </div>
+</section>
+
