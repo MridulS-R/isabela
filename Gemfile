@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby File.read('.ruby-version').strip rescue RUBY_VERSION
 
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 7.1.4'
 gem 'puma', '>= 5.0'
 gem 'sassc-rails'
 gem 'sprockets-rails'
