@@ -19,4 +19,7 @@ Rails.application.routes.draw do
 
   # Admin imports (UI + API)
   resources :imports, only: %i[new create]
+
+  # Admin dashboard
+  get '/admin', to: 'admin#dashboard', as: :admin_dashboard
 end

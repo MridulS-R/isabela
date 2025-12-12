@@ -9,6 +9,7 @@
         <li><%= link_to 'News', blog_path, aria: { current: current_page?(blog_path) ? 'page' : nil } %></li>
         <% if user_signed_in? %>
           <% if admin_user? %>
+            <li><%= link_to 'Dashboard', admin_dashboard_path %></li>
             <li><%= link_to 'Import', new_import_path %></li>
           <% end %>
           <li>

@@ -3,16 +3,20 @@
 <div class="section">
   <div class="container">
     <h1>Import Reddit data</h1>
-    <p class="subtle">Paste a public CSV/JSON URL from Kaggle output hosting (e.g., GitHub raw, S3 presigned).</p>
+    <p class="subtle">Upload a CSV/JSON file or paste a public URL. Choose what to import below.</p>
 
     <%= form_with url: imports_path, method: :post, multipart: true do |f| %>
+      <div>
+        <%= label_tag :import_kind, 'Import type' %>
+        <%= select_tag :import_kind, options_for_select([['Reddit posts','reddit_posts'],['Instagram users','instagram_users']]), include_blank: false %>
+      </div>
       <div class="form-row">
         <div>
           <%= label_tag :url, 'Data URL (CSV or JSON)' %>
           <%= url_field_tag :url, nil, placeholder: 'https://.../reddit.csv' %>
         </div>
         <div>
-          <%= label_tag :owner_email, 'Owner email (optional)' %>
+          <%= label_tag :owner_email, 'Owner email (for Reddit posts)' %>
           <%= email_field_tag :owner_email, nil, placeholder: 'owner@example.com' %>
         </div>
       </div>
@@ -21,7 +25,7 @@
         <%= label_tag :data_file, 'Upload CSV/JSON' %>
         <%= file_field_tag :data_file, accept: '.csv,.json' %>
       </div>
-      <p class="help">Provide a URL or upload a file (one is required). Owner email is optional; imported posts will be attributed to that user.</p>
+      <p class="help">Provide a URL or upload a file (one is required). Owner email applies only to Reddit post imports.</p>
       <%= submit_tag 'Start Import', class: 'btn' %>
     <% end %>
   </div>

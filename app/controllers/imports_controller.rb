@@ -9,12 +9,21 @@ class ImportsController < ApplicationController
     url = params[:url].to_s
     owner_email = params[:owner_email].to_s
     upload = params[:data_file]
+    kind = params[:import_kind].presence || 'reddit_posts'
 
     if upload.present?
       blob = ActiveStorage::Blob.create_and_upload!(io: upload, filename: upload.original_filename, content_type: upload.content_type)
-      ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence)
+      if kind == 'instagram_users'
+        ImportInstagramUsersJob.perform_later(blob_id: blob.signed_id)
+      else
+        ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence)
+      end
     elsif url.present?
-      ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
+      if kind == 'instagram_users'
+        ImportInstagramUsersJob.perform_later(url: url)
+      else
+        ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
+      end
     else
       respond_to do |format|
         format.html { redirect_to new_import_path, alert: 'Provide a URL or upload a CSV/JSON file.' }

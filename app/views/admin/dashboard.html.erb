@@ -1,0 +1,84 @@
+<% content_for :title, 'Admin Dashboard' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <p class="subtle">Overview of community activity and content.</p>
+
+    <div class="cards-grid" style="margin-top:12px">
+      <article class="card"><h3>Users</h3><p class="num"><%= @counts[:users] %></p></article>
+      <article class="card"><h3>Posts</h3><p class="num"><%= @counts[:posts] %></p></article>
+      <article class="card"><h3>Likes</h3><p class="num"><%= @counts[:likes] %></p></article>
+      <article class="card"><h3>Comments</h3><p class="num"><%= @counts[:comments] %></p></article>
+      <article class="card"><h3>Tags</h3><p class="num"><%= @counts[:tags] %></p></article>
+      <article class="card"><h3>Follows</h3><p class="num"><%= @counts[:follows] %></p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2>Posts per day (last 14)</h2>
+    <table>
+      <thead><tr><th>Date</th><th>Posts</th></tr></thead>
+      <tbody>
+        <% @series_posts_per_day.each do |d, n| %>
+          <tr><td><%= d.strftime('%Y-%m-%d') %></td><td><%= n %></td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Top tags</h2>
+    <table>
+      <thead><tr><th>Tag</th><th>Posts</th></tr></thead>
+      <tbody>
+        <% @top_tags.each do |t| %>
+          <tr>
+            <td>#<%= t.name %></td>
+            <td><%= t.taggings.count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2>Top users by posts</h2>
+    <table>
+      <thead><tr><th>User</th><th>Posts</th></tr></thead>
+      <tbody>
+        <% @top_users_by_posts.each do |u| %>
+          <tr>
+            <td><%= u.name.presence || u.email %></td>
+            <td><%= u.posts.size %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Top posts</h2>
+    <table>
+      <thead><tr><th>Caption</th><th>Likes</th><th>Created</th></tr></thead>
+      <tbody>
+        <% @top_posts.each do |p| %>
+          <tr>
+            <td><%= truncate(p.caption.to_s, length: 80) %></td>
+            <td><%= p.likes_count %></td>
+            <td><%= p.created_at.strftime('%Y-%m-%d') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
