@@ -8,6 +8,8 @@ Rails.application.configure do
   config.assets.compile = false
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info').to_sym
+  # Use in-process async jobs by default; switch to a persistent adapter when needed
+  config.active_job.queue_adapter = :async
   # Set Active Storage service; default to :local. If an unsupported
   # adapter (e.g., "database") is provided via env, fall back to :local
   # to avoid boot errors in environments without that adapter.
