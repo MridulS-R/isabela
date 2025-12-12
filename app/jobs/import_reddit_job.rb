@@ -51,7 +51,7 @@ class ImportRedditJob < ApplicationJob
       caption = title.to_s.strip
       return unless caption.present?
 
-      post = owner.posts.build(caption: caption, likes_count: score)
+      post = Post.new(user: owner, caption: caption, likes_count: score)
       post.images.attach(io: StringIO.new(Base64.decode64(png_base64)), filename: 'placeholder.png', content_type: 'image/png')
 
       if post.save
