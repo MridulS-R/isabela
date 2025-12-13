@@ -52,10 +52,12 @@
       const close = () => {
         adminDropdown.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
+        menu.hidden = true;
       };
       const open = () => {
         adminDropdown.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
+        menu.hidden = false;
       };
       btn.addEventListener('click', (e) => {
         e.preventDefault();

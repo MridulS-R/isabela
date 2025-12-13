@@ -4,6 +4,7 @@
   <div class="container">
     <div class="news-grid">
       <div>
+        <div class="brand-tag">#Community</div>
         <h2 style="margin-top:0">Top stories</h2>
         <div class="news-top">
           <% if @news_top.present? %>
@@ -14,15 +15,7 @@
           <% end %>
         </div>
 
-        <h2 style="margin-top:20px">Hots</h2>
-        <div class="cards-grid">
-          <% @hot_posts.each do |post| %>
-            <%= render 'shared/post_card', post: post %>
-          <% end %>
-        </div>
-        <div style="margin-top:12px">
-          <%= link_to 'Explore Hots', posts_path(sort: 'hot'), class: 'link' %>
-        </div>
+        
       </div>
 
       <aside>

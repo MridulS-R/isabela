@@ -1,50 +1,68 @@
 <section class="section">
-  <div class="container">
-    <div class="header-inner" style="margin-bottom:12px">
-      <h1>Explore</h1>
-      <% if user_signed_in? %>
-        <%= link_to 'New Post', new_post_path, class: 'btn btn-small' %>
-      <% end %>
-    </div>
-
-    <% if @trending_tags.present? %>
-      <h2 class="footer-title">Trending</h2>
-      <ul class="pill-list" role="list" style="margin-bottom:24px">
-        <% @trending_tags.each do |t| %>
-          <li><%= link_to "##{t.name}", tag_path(t.name) %></li>
+  <div class="container" style="display:grid; grid-template-columns: 1fr 320px; gap: 16px; align-items:start;">
+    <div>
+      <div class="header-inner" style="margin-bottom:12px">
+        <h1>Posts</h1>
+        <% if user_signed_in? %>
+          <%= link_to 'New Post', new_post_path, class: 'btn btn-small' %>
         <% end %>
-      </ul>
-    <% end %>
+      </div>
 
-    <div class="cards-grid">
-      <% @posts.each do |post| %>
-        <article class="card">
-          <div class="subtle" style="margin-bottom:8px">
-            <strong><%= post.user.name.presence || post.user.email %></strong>
-            · <%= time_ago_in_words(post.created_at) %> ago
+      <div class="timeline">
+        <% @posts.each do |post| %>
+          <div class="tweet">
+            <div>
+              <% if post.user&.avatar&.attached? %>
+                <%= image_tag url_for(post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
+              <% else %>
+                <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+              <% end %>
+            </div>
+            <div>
+              <div class="tweet-header">
+                <span class="tweet-name"><%= post.user.name.presence || 'User' %></span>
+                <span class="tweet-handle">@<%= post.user.username.presence || post.user.email.to_s.split('@').first %></span>
+                <span class="tweet-time">· <%= time_ago_in_words(post.created_at) %> ago</span>
+              </div>
+              <% if post.caption.present? %>
+                <div class="tweet-body"><%= raw post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></div>
+              <% end %>
+              <% if post.images.attached? %>
+                <div class="tweet-media">
+                  <% post.images.each do |img| %>
+                    <%= image_tag url_for(img), alt: '', loading: 'lazy' %>
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="tweet-actions">
+                <% if user_signed_in? %>
+                  <%= button_to '❤️ Like', like_post_path(post), method: :post, class: 'btn btn-small', form: { style: 'display:inline' } %>
+                  <%= form_with url: post_comments_path(post), method: :post, local: true do |f| %>
+                    <input type="text" name="body" placeholder="💬 Reply" style="width: 220px">
+                  <% end %>
+                <% end %>
+                <span><%= post.likes_count %> likes</span>
+              </div>
+            </div>
           </div>
-          <div class="post-images" style="display:grid; gap:8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
-            <% post.images.each do |img| %>
-              <%= image_tag url_for(img), alt: '', style: 'width:100%; height:auto; border-radius:12px; border:1px solid var(--border);' %>
-            <% end %>
-          </div>
-          <% if post.caption.present? %>
-            <p style="margin-top:8px"><%= raw post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></p>
-          <% end %>
-          <div style="display:flex; gap:10px; align-items:center; margin-top:8px">
-            <% if user_signed_in? %>
-              <%= button_to '❤️ Like', like_post_path(post), method: :post, form: { style: 'display:inline' }, class: 'btn btn-small' %>
-            <% end %>
-            <span class="subtle"><%= post.likes_count %> likes</span>
-          </div>
-          <% if user_signed_in? %>
-            <%= form_with url: post_comments_path(post), method: :post, local: true, style: 'margin-top:8px' do |f| %>
-              <label class="sr-only" for="comment-<%= post.id %>">Comment</label>
-              <input id="comment-<%= post.id %>" type="text" name="body" placeholder="Write a comment...">
-            <% end %>
-          <% end %>
-        </article>
-      <% end %>
+        <% end %>
+      </div>
     </div>
+
+    <aside>
+      <% if @trending_tags.present? %>
+        <h2 class="footer-title">Trending</h2>
+        <ul class="pill-list" role="list" style="margin-bottom:24px">
+          <% @trending_tags.each do |t| %>
+            <li><%= link_to "##{t.name}", tag_path(t.name) %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <div class="card">
+        <h3>Tips</h3>
+        <p class="subtle">Use hashtags to categorize posts, e.g., #design, #news</p>
+      </div>
+    </aside>
   </div>
 </section>
+
