@@ -72,4 +72,16 @@
       });
     }
   }
+
+  // Make tweets clickable to open thread, but ignore interactive targets
+  document.querySelectorAll('.tweet[data-url]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target.closest('a,button,input,textarea,form,label')) return;
+      const url = el.getAttribute('data-url');
+      if (url) {
+        window.location.href = url;
+      }
+    });
+  });
 })();

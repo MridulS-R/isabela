@@ -34,7 +34,7 @@
 
       <div class="timeline">
         <% @posts.each do |post| %>
-          <div class="tweet fade-in">
+          <div class="tweet fade-in" data-url="<%= post_path(post) %>">
             <div>
               <% if post.user&.avatar&.attached? %>
                 <%= image_tag url_for(post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
@@ -54,6 +54,7 @@
               <% if post.images.attached? %>
                 <div class="tweet-media">
                   <% post.images.each do |img| %>
+                    <% next unless attachment_present?(img) %>
                     <%= image_tag url_for(img), alt: '', loading: 'lazy' %>
                   <% end %>
                 </div>

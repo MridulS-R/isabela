@@ -28,6 +28,7 @@
             <% if @post.images.attached? %>
               <div class="tweet-media">
                 <% @post.images.each do |img| %>
+                  <% next unless attachment_present?(img) %>
                   <%= image_tag url_for(img), alt: '', loading: 'lazy' %>
                 <% end %>
               </div>
@@ -89,10 +90,10 @@
     </div>
 
     <aside>
-      <% if @more_from_user.present? %>
-        <h2 class="footer-title">More from <%= @post.user.name.presence || 'User' %></h2>
+      <% if @related_posts.present? %>
+        <h2 class="footer-title">Related posts</h2>
         <ul class="mini-list">
-          <% @more_from_user.each do |p| %>
+          <% @related_posts.each do |p| %>
             <li class="mini-item">
               <strong><%= link_to truncate(p.caption.to_s, length: 80), post_path(p), class: 'link' %></strong>
               <div class="story-meta"><%= time_ago_in_words(p.created_at) %> ago • ❤️ <%= p.likes_count %></div>
@@ -103,4 +104,3 @@
     </aside>
   </div>
 </section>
-
