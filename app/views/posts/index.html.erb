@@ -36,12 +36,35 @@
               <% end %>
               <div class="tweet-actions">
                 <% if user_signed_in? %>
-                  <%= button_to '❤️ Like', like_post_path(post), method: :post, class: 'btn btn-small', form: { style: 'display:inline' } %>
-                  <%= form_with url: post_comments_path(post), method: :post, local: true do |f| %>
-                    <input type="text" name="body" placeholder="💬 Reply" style="width: 220px">
+                  <%= button_to like_post_path(post), method: :post, class: 'icon-btn', form: { style: 'display:inline' } do %>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" />
+                    </svg>
+                    <span class="count"><%= post.likes_count %></span>
                   <% end %>
+                  <%= form_with url: post_comments_path(post), method: :post, local: true do |f| %>
+                    <div style="display:inline-flex; align-items:center; gap:6px">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15a4 4 0 0 1-4 4H8l-5 5V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z" />
+                      </svg>
+                      <input type="text" name="body" placeholder="Reply" style="width: 220px">
+                    </div>
+                  <% end %>
+                <% else %>
+                  <span class="count">❤️ <%= post.likes_count %></span>
                 <% end %>
-                <span><%= post.likes_count %> likes</span>
+                <button type="button" class="icon-btn" title="Share">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+                    <path d="M16 6l-4-4-4 4" />
+                    <path d="M12 2v14" />
+                  </svg>
+                </button>
+                <button type="button" class="icon-btn" title="Save">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -65,4 +88,3 @@
     </aside>
   </div>
 </section>
-

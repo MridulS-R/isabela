@@ -114,6 +114,12 @@ body {
   .tweet-media img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); }
   .tweet-actions { display: flex; gap: 16px; align-items: center; margin-top: 8px; color: var(--muted); font-size: 14px; }
   .tweet-actions .btn { padding: 6px 10px; }
+  .icon-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+  .icon-btn:hover { background: #f3f4f6; color: #111827; border-color: #e5e7eb; }
+  .icon { width: 18px; height: 18px; display: inline-block; }
+  .count { color: var(--muted); }
+  .tweet { background: #fff; }
+  .timeline { background: #fff; }
 
 /* Hero */
   .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); background: radial-gradient(800px 200px at 50% 0%, rgba(0,0,0,0.08), transparent 60%); }
