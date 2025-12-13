@@ -1,0 +1,106 @@
+<section class="section">
+  <div class="container" style="display:grid; grid-template-columns: 1fr 320px; gap: 16px; align-items:start;">
+    <div>
+      <div class="header-inner" style="margin-bottom:12px">
+        <h1>Thread</h1>
+        <%= link_to 'Back to Posts', posts_path, class: 'link' %>
+      </div>
+
+      <div class="timeline">
+        <!-- Main post -->
+        <div class="tweet fade-in">
+          <div>
+            <% if @post.user&.avatar&.attached? %>
+              <%= image_tag url_for(@post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
+            <% else %>
+              <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+            <% end %>
+          </div>
+          <div>
+            <div class="tweet-header">
+              <span class="tweet-name"><%= @post.user.name.presence || 'User' %></span>
+              <span class="tweet-handle">@<%= @post.user.username.presence || @post.user.email.to_s.split('@').first %></span>
+              <span class="tweet-time">· <%= @post.created_at.strftime('%b %d, %Y %H:%M') %></span>
+            </div>
+            <% if @post.caption.present? %>
+              <div class="tweet-body"><%= raw @post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></div>
+            <% end %>
+            <% if @post.images.attached? %>
+              <div class="tweet-media">
+                <% @post.images.each do |img| %>
+                  <%= image_tag url_for(img), alt: '', loading: 'lazy' %>
+                <% end %>
+              </div>
+            <% end %>
+            <div class="tweet-actions">
+              <% if user_signed_in? %>
+                <%= button_to like_post_path(@post), method: :post, class: 'icon-btn', form: { style: 'display:inline' } do %>
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" />
+                  </svg>
+                  <span class="count"><%= @post.likes_count %></span>
+                <% end %>
+              <% else %>
+                <span class="count">❤️ <%= @post.likes_count %></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reply form -->
+        <% if user_signed_in? %>
+          <div class="tweet fade-in">
+            <div>
+              <% if current_user&.avatar&.attached? %>
+                <%= image_tag url_for(current_user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
+              <% else %>
+                <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+              <% end %>
+            </div>
+            <div>
+              <%= form_with url: post_comments_path(@post), method: :post, local: true do |f| %>
+                <input type="text" name="body" placeholder="Reply to this post" style="width: 100%">
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Replies -->
+        <% @comments.each do |c| %>
+          <div class="tweet fade-in">
+            <div>
+              <% if c.user&.avatar&.attached? %>
+                <%= image_tag url_for(c.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
+              <% else %>
+                <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+              <% end %>
+            </div>
+            <div>
+              <div class="tweet-header">
+                <span class="tweet-name"><%= c.user.name.presence || 'User' %></span>
+                <span class="tweet-handle">@<%= c.user.username.presence || c.user.email.to_s.split('@').first %></span>
+                <span class="tweet-time">· <%= time_ago_in_words(c.created_at) %> ago</span>
+              </div>
+              <div class="tweet-body"><%= sanitize c.body, tags: %w[b strong i em a], attributes: %w[href title] %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <aside>
+      <% if @more_from_user.present? %>
+        <h2 class="footer-title">More from <%= @post.user.name.presence || 'User' %></h2>
+        <ul class="mini-list">
+          <% @more_from_user.each do |p| %>
+            <li class="mini-item">
+              <strong><%= link_to truncate(p.caption.to_s, length: 80), post_path(p), class: 'link' %></strong>
+              <div class="story-meta"><%= time_ago_in_words(p.created_at) %> ago • ❤️ <%= p.likes_count %></div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </aside>
+  </div>
+</section>
+

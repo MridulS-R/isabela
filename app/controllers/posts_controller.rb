@@ -19,6 +19,9 @@ class PostsController < ApplicationController
   end
 
   def show
+    @post = Post.includes(:user, images_attachments: :blob).find(params[:id])
+    @comments = @post.comments.includes(:user).order(created_at: :asc)
+    @more_from_user = @post.user.posts.where.not(id: @post.id).order(created_at: :desc).limit(5)
   end
 
   def new

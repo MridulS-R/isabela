@@ -46,7 +46,7 @@
               <div class="tweet-header">
                 <span class="tweet-name"><%= post.user.name.presence || 'User' %></span>
                 <span class="tweet-handle">@<%= post.user.username.presence || post.user.email.to_s.split('@').first %></span>
-                <span class="tweet-time">· <%= time_ago_in_words(post.created_at) %> ago</span>
+                <span class="tweet-time">· <%= link_to "#{time_ago_in_words(post.created_at)} ago", post_path(post), class: 'link' %></span>
               </div>
               <% if post.caption.present? %>
                 <div class="tweet-body"><%= raw post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></div>
