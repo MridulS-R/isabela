@@ -5,7 +5,9 @@
     <div class="news-grid">
       <div>
         <div class="brand-tag">#Community</div>
-        <h2 style="margin-top:0">Top stories</h2>
+        <h1 class="hero-title">#community</h1>
+        <p class="hero-subtitle">A friendly platform where groups and creators share posts, follow topics, and stay informed — built for healthy, modern communities.</p>
+        <h2 style="margin-top:8px">Top stories</h2>
         <div class="news-top">
           <% if @news_top.present? %>
             <%= render 'shared/news_card', article: @news_top.first, variant: :lead %>
