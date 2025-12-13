@@ -8,9 +8,33 @@
         <% end %>
       </div>
 
+      <% if user_signed_in? %>
+        <div class="composer">
+          <%= form_with model: Post.new, url: posts_path, method: :post, multipart: true do |f| %>
+            <%= f.text_area :caption, placeholder: "What's happening? #community", required: false %>
+            <div class="row">
+              <div>
+                <label class="icon-btn">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                  <%= f.file_field :images, multiple: true, accept: 'image/*', style: 'display:none' %>
+                  <span>Add images</span>
+                </label>
+              </div>
+              <div>
+                <%= f.submit 'Post', class: 'btn btn-small' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="timeline">
         <% @posts.each do |post| %>
-          <div class="tweet">
+          <div class="tweet fade-in">
             <div>
               <% if post.user&.avatar&.attached? %>
                 <%= image_tag url_for(post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
@@ -68,6 +92,15 @@
               </div>
             </div>
           </div>
+        <% end %>
+      </div>
+
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:12px">
+        <% if @page.to_i > 1 %>
+          <%= link_to 'Previous', posts_path(page: @page - 1, per: @per, sort: params[:sort]), class: 'btn btn-small' %>
+        <% end %>
+        <% if @has_more %>
+          <%= link_to 'Load more', posts_path(page: @page + 1, per: @per, sort: params[:sort]), class: 'btn btn-small' %>
         <% end %>
       </div>
     </div>

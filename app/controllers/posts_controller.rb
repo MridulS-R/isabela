@@ -3,13 +3,18 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show like unlike]
 
   def index
-    @posts = Post.includes(:user, images_attachments: :blob)
-    @posts = if params[:sort] == 'hot'
-      @posts.order(likes_count: :desc)
-    else
-      @posts.recent
-    end
-    @posts = @posts.limit(50)
+    per = (params[:per] || 20).to_i.clamp(1, 100)
+    page = (params[:page] || 1).to_i.clamp(1, 10_000)
+
+    scope = Post.includes(:user, images_attachments: :blob)
+    scope = params[:sort] == 'hot' ? scope.order(likes_count: :desc) : scope.recent
+
+    @total_posts = Post.count
+    @posts = scope.offset((page - 1) * per).limit(per)
+    @page = page
+    @per = per
+    @has_more = (page * per) < @total_posts
+
     @trending_tags = Tag.joins(:taggings).group('tags.id').order(Arel.sql('COUNT(taggings.id) DESC')).limit(10)
   end
 
@@ -23,7 +28,7 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to root_path, notice: 'Posted!'
+      redirect_to posts_path, notice: 'Posted!'
     else
       render :new, status: :unprocessable_entity
     end

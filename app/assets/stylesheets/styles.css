@@ -101,8 +101,9 @@ body {
 
   /* Timeline (Twitter-like) */
   .timeline { max-width: 720px; margin: 0 auto; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
-  .tweet { display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
-  .tweet:last-child { border-bottom: 0; }
+  .tweet { display: grid; grid-template-columns: 48px 1fr; gap: 12px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 16px; margin-bottom: 12px; box-shadow: var(--shadow); transition: transform .12s ease, box-shadow .12s ease, opacity .25s ease; }
+  .tweet:last-child { margin-bottom: 0; }
+  .tweet:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(17,24,39,0.12); }
   .tweet .avatar { width: 48px; height: 48px; }
   .tweet-header { display: flex; gap: 8px; align-items: baseline; }
   .tweet-name { font-weight: 700; color: #111827; }
@@ -119,7 +120,16 @@ body {
   .icon { width: 18px; height: 18px; display: inline-block; }
   .count { color: var(--muted); }
   .tweet { background: #fff; }
-  .timeline { background: #fff; }
+  .timeline { background: transparent; border: 0; padding: 8px 0; }
+  /* Fade-in animation for posts */
+  .fade-in { animation: fadeInUp .25s ease both; }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .composer { position: sticky; top: 72px; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; margin-bottom: 12px; z-index: 10; }
+  .composer textarea { width: 100%; min-height: 64px; resize: vertical; }
+  .composer .row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
 
 /* Hero */
   .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); background: radial-gradient(800px 200px at 50% 0%, rgba(0,0,0,0.08), transparent 60%); }
