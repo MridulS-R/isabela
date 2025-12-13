@@ -2,8 +2,12 @@
 
 <section class="section">
   <div class="container">
-    <h1>Updates</h1>
-    <p class="lead">Product updates, community guides, and stories from creators.</p>
+    <h1>News</h1>
+    <% if defined?(@current_source) && @current_source.present? %>
+      <p class="subtle">Breadcrumbs: <%= link_to 'News', blog_path, class: 'link' %> › <%= @current_source %></p>
+    <% else %>
+      <p class="lead">Top stories from across sources.</p>
+    <% end %>
   </div>
 </section>
 
@@ -12,25 +16,7 @@
     <% if @articles.present? %>
       <div class="cards-grid">
         <% @articles.each do |post| %>
-          <article class="card">
-            <% if post.first_image_url.present? %>
-              <%= image_tag post.first_image_url, alt: '', class: 'story-image' %>
-            <% end %>
-            <h3>
-              <% if post.respond_to?(:url) && post.url.present? %>
-                <%= link_to post.title, post.url, class: 'link', target: '_blank', rel: 'noopener' %>
-              <% else %>
-                <%= post.title %>
-              <% end %>
-            </h3>
-            <div class="story-html">
-              <%= sanitize(post.body.to_s, tags: %w[p br strong em b i a img ul ol li div span], attributes: %w[href src alt title]) %>
-            </div>
-            <p class="subtle">
-              <%= post.published_at&.strftime('%b %d, %Y') %>
-              <% if post.respond_to?(:source) && post.source.present? %> • <%= post.source %><% end %>
-            </p>
-          </article>
+          <%= render 'shared/news_card', article: post, variant: :secondary %>
         <% end %>
       </div>
     <% else %>

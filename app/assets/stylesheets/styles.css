@@ -66,11 +66,29 @@ body {
   .chip { display: inline-block; border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; color: #374151; background: #fff; font-size: 13px; text-decoration: none; }
   .headline-image, .card .story-image { width: 100%; height: auto; border-radius: 12px; margin-bottom: 8px; display: block; }
   .story-html img { max-width: 100%; height: auto; border-radius: 12px; }
+  /* Line clamp utilities */
+  .clamp-1, .clamp-2, .clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+  .clamp-1 { -webkit-line-clamp: 1; }
+  .clamp-2 { -webkit-line-clamp: 2; }
+  .clamp-3 { -webkit-line-clamp: 3; }
 
   @media (max-width: 980px) {
     .news-grid { grid-template-columns: 1fr; }
     .news-top { grid-template-columns: 1fr; }
   }
+
+  /* Admin dropdown */
+  .dropdown { position: relative; }
+  .dropdown-toggle { background: none; border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+  .dropdown-menu { position: absolute; top: 42px; right: 0; background: #fff; border: 1px solid var(--border); border-radius: 12px; min-width: 160px; padding: 8px; display: none; z-index: 1000; }
+  .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
+  .dropdown-menu li { list-style: none; }
+  .dropdown-menu a { display: block; padding: 8px 10px; color: #374151; text-decoration: none; border-radius: 8px; }
+  .dropdown-menu a:hover { background: #f3f4f6; color: #111827; }
+
+  /* Avatars & thumbs */
+  .avatar { width: 24px; height: 24px; border-radius: 999px; object-fit: cover; vertical-align: middle; }
+  .thumb { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
 
 /* Hero */
   .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); background: radial-gradient(800px 200px at 50% 0%, rgba(0,0,0,0.08), transparent 60%); }

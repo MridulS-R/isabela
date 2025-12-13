@@ -7,49 +7,21 @@
         <h2 style="margin-top:0">Top stories</h2>
         <div class="news-top">
           <% if @news_top.present? %>
-            <% lead = @news_top.first %>
-            <article class="headline-card" style="grid-column: 1 / -1">
-              <% if lead.first_image_url.present? %>
-                <%= image_tag lead.first_image_url, alt: '', class: 'headline-image' %>
-              <% end %>
-              <h2>
-                <% if lead.respond_to?(:url) && lead.url.present? %>
-                  <%= link_to lead.title, lead.url, class: 'link', target: '_blank', rel: 'noopener' %>
-                <% else %>
-                  <%= lead.title %>
-                <% end %>
-              </h2>
-              <p class="story-meta"><%= lead.published_at&.strftime('%b %d, %Y') %><% if lead.respond_to?(:source) && lead.source.present? %> • <%= lead.source %><% end %></p>
-              <p><%= truncate(lead.body.to_s, length: 180) %></p>
-            </article>
+            <%= render 'shared/news_card', article: @news_top.first, variant: :lead %>
           <% end %>
           <% @news_secondary.each do |a| %>
-            <article class="headline-card">
-              <% if a.first_image_url.present? %>
-                <%= image_tag a.first_image_url, alt: '', class: 'headline-image' %>
-              <% end %>
-              <h3>
-                <% if a.respond_to?(:url) && a.url.present? %>
-                  <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
-                <% else %>
-                  <%= a.title %>
-                <% end %>
-              </h3>
-              <p class="story-meta"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></p>
-              <p><%= truncate(a.body.to_s, length: 120) %></p>
-            </article>
+            <%= render 'shared/news_card', article: a, variant: :secondary %>
           <% end %>
         </div>
 
         <h2 style="margin-top:20px">Hots</h2>
         <div class="cards-grid">
           <% @hot_posts.each do |post| %>
-            <article class="card">
-              <h3><%= truncate(post.caption.to_s, length: 120) %></h3>
-              <p class="subtle">by <%= post.user&.name || 'Someone' %> • <%= time_ago_in_words(post.created_at) %> ago • ❤️ <%= post.likes_count %></p>
-              <%= link_to 'Open post', post_path(post), class: 'link' %>
-            </article>
+            <%= render 'shared/post_card', post: post %>
           <% end %>
+        </div>
+        <div style="margin-top:12px">
+          <%= link_to 'Explore Hots', posts_path(sort: 'hot'), class: 'link' %>
         </div>
       </div>
 
@@ -57,25 +29,18 @@
         <h2 style="margin-top:0">Latest</h2>
         <ul class="mini-list">
           <% @news_latest.each do |a| %>
-            <li class="mini-item">
-              <div>
-                <strong>
-                  <% if a.respond_to?(:url) && a.url.present? %>
-                    <%= link_to truncate(a.title.to_s, length: 80), a.url, class: 'link', target: '_blank', rel: 'noopener' %>
-                  <% else %>
-                    <%= truncate(a.title.to_s, length: 80) %>
-                  <% end %>
-                </strong>
-                <div class="story-meta"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.respond_to?(:source) && a.source.present? %> • <%= a.source %><% end %></div>
-              </div>
-            </li>
+            <%= render 'shared/mini_link', article: a %>
           <% end %>
         </ul>
+        <div style="margin-top:12px">
+          <%= link_to 'See all news', blog_path, class: 'link' %>
+        </div>
 
         <h3 style="margin-top:16px">Topics</h3>
         <div class="topic-chips">
           <% @trending_tags.each do |t| %>
-            <%= link_to "##{t.name}", tag_path(t.name), class: 'chip' %>
+            <% count = (t.try(:posts_count) || t.try(:read_attribute, 'posts_count') || 0) %>
+            <%= link_to "##{t.name} (#{count})", tag_path(t.name), class: 'chip' %>
           <% end %>
         </div>
       </aside>

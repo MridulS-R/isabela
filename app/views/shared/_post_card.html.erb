@@ -1,0 +1,15 @@
+<%# Locals: post: %>
+<article class="card">
+  <% if post.images.attached? %>
+    <%= image_tag url_for(post.images.first), alt: '', class: 'thumb', loading: 'lazy' %>
+  <% end %>
+  <h3 class="clamp-2"><%= truncate(post.caption.to_s, length: 120) %></h3>
+  <p class="subtle">
+    <% if post.user&.avatar&.attached? %>
+      <%= image_tag url_for(post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
+    <% end %>
+    <span>by <%= post.user&.name || 'Someone' %> • <%= time_ago_in_words(post.created_at) %> ago • ❤️ <%= post.likes_count %></span>
+  </p>
+  <%= link_to 'Open post', post_path(post), class: 'link' %>
+</article>
+
