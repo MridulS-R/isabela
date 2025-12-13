@@ -6,6 +6,7 @@
       <ul>
         <li><%= link_to 'Home', root_path, aria: { current: current_page?(root_path) ? 'page' : nil } %></li>
         <li><%= link_to 'Posts', posts_path, aria: { current: current_page?(posts_path) ? 'page' : nil } %></li>
+        <li><%= link_to 'Map', post_map_path, aria: { current: current_page?(post_map_path) ? 'page' : nil } %></li>
         <li><%= link_to 'News', blog_path, aria: { current: current_page?(blog_path) ? 'page' : nil } %></li>
         <% if user_signed_in? %>
           <% if admin_user? %>

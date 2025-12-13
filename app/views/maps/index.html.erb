@@ -1,0 +1,49 @@
+<% content_for :title, 'Post Map' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Post Activity Map</h1>
+    <p class="subtle">Shows approximate counts of posts by location. Updates periodically.</p>
+    <div id="map" style="height: 520px; border-radius: 16px; border:1px solid var(--border); overflow:hidden;"></div>
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  (function() {
+    const el = document.getElementById('map');
+    if (!el) return;
+    const map = L.map(el).setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let layerGroup = L.layerGroup().addTo(map);
+
+    function fetchData() {
+      fetch('<%= url_for(action: :data, controller: :maps, format: :json) %>')
+        .then(r => r.json())
+        .then(({ points }) => {
+          layerGroup.clearLayers();
+          (points || []).forEach(p => {
+            const radius = 4 + Math.min(24, p.count * 2);
+            const circle = L.circleMarker([p.lat, p.lng], {
+              radius,
+              color: '#111827',
+              fillColor: '#111827',
+              fillOpacity: 0.25,
+              weight: 1
+            }).bindTooltip(`${p.count} post${p.count === 1 ? '' : 's'}`);
+            circle.addTo(layerGroup);
+          });
+        })
+        .catch(() => {});
+    }
+
+    fetchData();
+    setInterval(fetchData, 30000);
+  })();
+</script>
+

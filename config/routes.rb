@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
   # Admin dashboard
   get '/admin', to: 'admin#dashboard', as: :admin_dashboard
+  # Map
+  get '/map', to: 'maps#index', as: :post_map
+  get '/map/data', to: 'maps#data'
   scope '/admin' do
     resources :feeds, only: %i[index create destroy], controller: 'feeds', as: :admin_feeds do
       post :refresh, on: :member
