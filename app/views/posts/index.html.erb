@@ -11,15 +11,9 @@
       <% if user_signed_in? %>
         <div class="composer">
           <%= form_with model: Post.new, url: posts_path, method: :post, multipart: true do |f| %>
-            <div class="form-row">
-              <div>
-                <%= label_tag :community_id, 'Community' %>
-                <%= select_tag 'post[community_id]', options_from_collection_for_select(@communities, :id, :name), prompt: 'Select community', required: true %>
-              </div>
-            </div>
             <%= f.text_area :caption, placeholder: "What's happening? #community_topic", required: false %>
             <div class="row">
-              <div>
+              <div style="display:inline-flex; align-items:center; gap:8px">
                 <label class="icon-btn">
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -29,6 +23,7 @@
                   <%= f.file_field :images, multiple: true, accept: 'image/*', style: 'display:none' %>
                   <span>Add images</span>
                 </label>
+                <%= text_field_tag 'post[community_slug]', nil, placeholder: 'community (e.g., dev)', required: true %>
               </div>
               <div>
                 <%= f.submit 'Post', class: 'btn btn-small' %>

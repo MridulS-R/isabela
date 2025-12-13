@@ -39,6 +39,19 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
+    slug = params.dig(:post, :community_slug).to_s.downcase.strip
+    if slug.present?
+      community = Community.find_by(slug: slug)
+      unless community
+        @post.errors.add(:base, "Community '#{slug}' not found")
+        return render :new, status: :unprocessable_entity
+      end
+      @post.community = community
+    end
+    unless @post.community
+      @post.errors.add(:base, 'Community is required')
+      return render :new, status: :unprocessable_entity
+    end
     if @post.save
       redirect_to posts_path, notice: 'Posted!'
     else
