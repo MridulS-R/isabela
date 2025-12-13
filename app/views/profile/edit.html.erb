@@ -1,0 +1,65 @@
+<% content_for :title, 'Edit Profile' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Edit Profile</h1>
+    <p class="subtle">Update your account details. Leave password blank to keep current.</p>
+
+    <% if @user.errors.any? %>
+      <div class="card" style="border-color: #fecaca;">
+        <h3>There were problems with your submission:</h3>
+        <ul>
+          <% @user.errors.full_messages.each do |m| %>
+            <li><%= m %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: @user, url: profile_path, method: :patch, multipart: true do |f| %>
+      <div class="form-row">
+        <div>
+          <%= f.label :name %>
+          <%= f.text_field :name %>
+        </div>
+        <div>
+          <%= f.label :username %>
+          <%= f.text_field :username, placeholder: 'e.g., johndoe' %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <%= f.label :email %>
+          <%= f.email_field :email %>
+        </div>
+        <div>
+          <%= f.label :avatar %><br>
+          <%= f.file_field :avatar, accept: 'image/*' %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :bio %>
+        <%= f.text_area :bio, rows: 4, placeholder: 'A short bio' %>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <%= f.label :password %>
+          <%= f.password_field :password, placeholder: 'Leave blank to keep current' %>
+        </div>
+        <div>
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation %>
+        </div>
+      </div>
+
+      <div style="margin-top:8px">
+        <%= f.submit 'Save changes', class: 'btn' %>
+        <%= link_to 'Cancel', profile_path, class: 'btn btn-outline' %>
+      </div>
+    <% end %>
+  </div>
+</section>
+

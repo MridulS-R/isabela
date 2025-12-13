@@ -5,6 +5,8 @@
     <h1>Profile</h1>
     <p class="subtle">Manage your account.</p>
 
+    <p><%= link_to 'Edit profile', edit_profile_path, class: 'link' %></p>
+
     <% if @is_admin %>
       <div class="cards-grid" style="margin-top:12px">
         <article class="card">
@@ -21,4 +23,3 @@
     <% end %>
   </div>
 </section>
-
