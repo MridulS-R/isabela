@@ -12,7 +12,6 @@ class CreateCommunities < ActiveRecord::Migration[7.1]
       t.timestamps
     end
     add_index :communities, :slug, unique: true
-    add_index :communities, :created_by_id
+    add_index :communities, :created_by_id unless index_exists?(:communities, :created_by_id)
   end
 end
-
