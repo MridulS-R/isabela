@@ -9,6 +9,9 @@
           <% if @news_top.present? %>
             <% lead = @news_top.first %>
             <article class="headline-card" style="grid-column: 1 / -1">
+              <% if lead.first_image_url.present? %>
+                <%= image_tag lead.first_image_url, alt: '', class: 'headline-image' %>
+              <% end %>
               <h2>
                 <% if lead.respond_to?(:url) && lead.url.present? %>
                   <%= link_to lead.title, lead.url, class: 'link', target: '_blank', rel: 'noopener' %>
@@ -22,6 +25,9 @@
           <% end %>
           <% @news_secondary.each do |a| %>
             <article class="headline-card">
+              <% if a.first_image_url.present? %>
+                <%= image_tag a.first_image_url, alt: '', class: 'headline-image' %>
+              <% end %>
               <h3>
                 <% if a.respond_to?(:url) && a.url.present? %>
                   <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>

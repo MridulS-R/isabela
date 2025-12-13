@@ -13,6 +13,9 @@
       <div class="cards-grid">
         <% @articles.each do |post| %>
           <article class="card">
+            <% if post.first_image_url.present? %>
+              <%= image_tag post.first_image_url, alt: '', class: 'story-image' %>
+            <% end %>
             <h3>
               <% if post.respond_to?(:url) && post.url.present? %>
                 <%= link_to post.title, post.url, class: 'link', target: '_blank', rel: 'noopener' %>
@@ -20,7 +23,9 @@
                 <%= post.title %>
               <% end %>
             </h3>
-            <p><%= truncate(post.body.to_s, length: 160) %></p>
+            <div class="story-html">
+              <%= sanitize(post.body.to_s, tags: %w[p br strong em b i a img ul ol li div span], attributes: %w[href src alt title]) %>
+            </div>
             <p class="subtle">
               <%= post.published_at&.strftime('%b %d, %Y') %>
               <% if post.respond_to?(:source) && post.source.present? %> • <%= post.source %><% end %>
