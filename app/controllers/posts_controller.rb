@@ -21,11 +21,16 @@ class PostsController < ApplicationController
   def show
     @post = Post.includes(:user, images_attachments: :blob).find(params[:id])
     @comments = @post.comments.includes(:user).order(created_at: :asc)
-    @related_posts = if @post.tags.exists?
-      Post.joins(:tags)
-          .where(tags: { id: @post.tags.select(:id) })
+    @related_posts = if @post.respond_to?(:topics) && @post.topics.exists?
+      Post.joins(:topics)
+          .where(topics: { id: @post.topics.select(:id) })
           .where.not(id: @post.id)
           .distinct
+          .order(likes_count: :desc, created_at: :desc)
+          .limit(5)
+    elsif @post.community_id.present?
+      Post.where(community_id: @post.community_id)
+          .where.not(id: @post.id)
           .order(likes_count: :desc, created_at: :desc)
           .limit(5)
     else
