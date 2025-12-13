@@ -5,7 +5,7 @@ namespace :community do
     general = Community.find_or_create_by!(slug: 'general') do |c|
       c.name = 'General'
       c.created_by = default_owner
-      c.visibility = :public
+      c.visibility = :publicly_visible
     end
 
     puts "Default community: #{general.slug}"
@@ -19,7 +19,7 @@ namespace :community do
         community = Community.find_or_create_by!(slug: cslug) do |c|
           c.name = cslug.humanize
           c.created_by = default_owner
-          c.visibility = :public
+          c.visibility = :publicly_visible
         end
       end
       p.update_columns(community_id: (community || general).id)

@@ -1,5 +1,5 @@
 class Community < ApplicationRecord
-  enum visibility: { public: 0, private: 1 }, _prefix: :visibility
+  enum visibility: { publicly_visible: 0, privately_visible: 1 }, _prefix: :visibility
 
   belongs_to :created_by, class_name: 'User'
 
