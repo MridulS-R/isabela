@@ -42,5 +42,32 @@
       form.reset();
     });
   }
-})();
 
+  // Admin dropdown click-to-toggle
+  const adminDropdown = document.querySelector('.dropdown');
+  if (adminDropdown) {
+    const btn = adminDropdown.querySelector('.dropdown-toggle');
+    const menu = adminDropdown.querySelector('.dropdown-menu');
+    if (btn && menu) {
+      const close = () => {
+        adminDropdown.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      };
+      const open = () => {
+        adminDropdown.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      };
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = adminDropdown.classList.contains('open');
+        if (isOpen) { close(); } else { open(); }
+      });
+      document.addEventListener('click', (e) => {
+        if (!adminDropdown.contains(e.target)) close();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
+    }
+  }
+})();
