@@ -213,6 +213,9 @@ GEM
       tsort
     reline (0.6.3)
       io-console (~> 0.5)
+    rexml (3.4.4)
+    rss (0.3.1)
+      rexml
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -271,6 +274,7 @@ DEPENDENCIES
   pg (>= 1.4)
   puma (>= 5.0)
   rails (~> 7.1.4)
+  rss
   sassc-rails
   sprockets-rails
   sqlite3 (~> 1.4)
