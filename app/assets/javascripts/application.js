@@ -44,34 +44,35 @@
   }
 
   // Admin dropdown click-to-toggle
-  const adminDropdown = document.querySelector('.dropdown');
-  if (adminDropdown) {
-    const btn = adminDropdown.querySelector('.dropdown-toggle');
-    const menu = adminDropdown.querySelector('.dropdown-menu');
-    if (btn && menu) {
-      const close = () => {
-        adminDropdown.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-        menu.hidden = true;
-      };
-      const open = () => {
-        adminDropdown.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-        menu.hidden = false;
-      };
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const isOpen = adminDropdown.classList.contains('open');
-        if (isOpen) { close(); } else { open(); }
-      });
-      document.addEventListener('click', (e) => {
-        if (!adminDropdown.contains(e.target)) close();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
-      });
-    }
-  }
+  const adminDropdowns = document.querySelectorAll('.dropdown');
+  adminDropdowns.forEach((dropdown) => {
+    const btn = dropdown.querySelector('.dropdown-toggle');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    if (!btn || !menu) return;
+    const close = () => {
+      dropdown.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.hidden = true;
+      menu.style.display = 'none';
+    };
+    const open = () => {
+      dropdown.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.hidden = false;
+      menu.style.display = 'block';
+    };
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = dropdown.classList.contains('open');
+      if (isOpen) { close(); } else { open(); }
+    });
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  });
 
   // Make tweets clickable to open thread, but ignore interactive targets
   document.querySelectorAll('.tweet[data-url]').forEach((el) => {
