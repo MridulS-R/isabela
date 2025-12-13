@@ -1,12 +1,14 @@
 module ApplicationHelper
+  # Checks if an ActiveStorage::Attachment's underlying blob actually exists
+  # on the configured service (guards against ephemeral/local storage 404s).
   def attachment_present?(attachment)
-    return false unless attachment&.attached?
+    return false unless attachment && attachment.respond_to?(:blob) && attachment.blob.present?
     begin
       service = ActiveStorage::Blob.service
-      service.respond_to?(:exist?) ? service.exist?(attachment.blob.key) : attachment.attached?
+      return true unless service.respond_to?(:exist?)
+      service.exist?(attachment.blob.key)
     rescue
-      attachment.attached?
+      true
     end
   end
 end
-
