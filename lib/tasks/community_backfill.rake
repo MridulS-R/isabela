@@ -42,4 +42,3 @@ namespace :community do
     puts 'Backfill complete.'
   end
 end
-

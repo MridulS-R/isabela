@@ -1,5 +1,5 @@
 class Community < ApplicationRecord
-  enum visibility: { public: 0, private: 1 }
+  enum visibility: { public: 0, private: 1 }, _prefix: :visibility
 
   belongs_to :created_by, class_name: 'User'
 
@@ -14,4 +14,3 @@ class Community < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: /\A[a-z0-9_\-]+\z/ }
 end
-
