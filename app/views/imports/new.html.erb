@@ -12,6 +12,10 @@
       </div>
       <div class="form-row">
         <div>
+          <%= label_tag :community_id, 'Community (required for Reddit/News)' %>
+          <%= select_tag :community_id, options_from_collection_for_select(Community.order(:name), :id, :name), prompt: 'Select community' %>
+        </div>
+        <div>
           <%= label_tag :url, 'Data URL (CSV or JSON)' %>
           <%= url_field_tag :url, nil, placeholder: 'https://.../reddit.csv' %>
         </div>

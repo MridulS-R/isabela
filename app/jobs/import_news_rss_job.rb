@@ -2,7 +2,7 @@ class ImportNewsRssJob < ApplicationJob
   queue_as :default
 
   # Args: url (preferred) OR blob_id/file_path for uploaded feed file
-  def perform(url: nil, blob_id: nil, file_path: nil, source: nil)
+  def perform(url: nil, blob_id: nil, file_path: nil, source: nil, community_id: nil)
     require 'open-uri'
     require 'rss'
 
@@ -29,6 +29,7 @@ class ImportNewsRssJob < ApplicationJob
       []
     end
 
+    community = Community.find_by(id: community_id)
     items.each do |entry|
       title = (entry.respond_to?(:title) ? entry.title.to_s : nil).to_s.strip
       link  = if entry.respond_to?(:link)
@@ -64,8 +65,8 @@ class ImportNewsRssJob < ApplicationJob
       art.body = content.presence || title
       art.published_at = published || art.published_at || Time.current
       art.source = feed_title if art.respond_to?(:source)
+      art.community = community if community
       art.save!
     end
   end
 end
-

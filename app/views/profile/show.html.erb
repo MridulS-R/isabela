@@ -1,0 +1,24 @@
+<% content_for :title, 'Profile' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Profile</h1>
+    <p class="subtle">Manage your account.</p>
+
+    <% if @is_admin %>
+      <div class="cards-grid" style="margin-top:12px">
+        <article class="card">
+          <h3>Admin — Feeds</h3>
+          <p class="subtle">Manage news feeds and refresh data.</p>
+          <%= link_to 'Open Feeds', admin_feeds_path, class: 'btn btn-small' %>
+        </article>
+        <article class="card">
+          <h3>Admin — Import</h3>
+          <p class="subtle">Import Reddit posts, Instagram users, and News (select a community).</p>
+          <%= link_to 'Open Import', new_import_path, class: 'btn btn-small' %>
+        </article>
+      </div>
+    <% end %>
+  </div>
+</section>
+

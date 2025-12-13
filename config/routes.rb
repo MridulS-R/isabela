@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get '/map', to: 'maps#index', as: :post_map
   get '/map/data', to: 'maps#data'
   get '/map.csv', to: 'maps#csv'
+  get '/profile', to: 'profile#show', as: :profile
   scope '/admin' do
     resources :feeds, only: %i[index create destroy], controller: 'feeds', as: :admin_feeds do
       post :refresh, on: :member

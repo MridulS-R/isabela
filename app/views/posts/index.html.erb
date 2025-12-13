@@ -11,7 +11,13 @@
       <% if user_signed_in? %>
         <div class="composer">
           <%= form_with model: Post.new, url: posts_path, method: :post, multipart: true do |f| %>
-            <%= f.text_area :caption, placeholder: "What's happening? #community", required: false %>
+            <div class="form-row">
+              <div>
+                <%= label_tag :community_id, 'Community' %>
+                <%= select_tag 'post[community_id]', options_from_collection_for_select(@communities, :id, :name), prompt: 'Select community', required: true %>
+              </div>
+            </div>
+            <%= f.text_area :caption, placeholder: "What's happening? #community_topic", required: false %>
             <div class="row">
               <div>
                 <label class="icon-btn">

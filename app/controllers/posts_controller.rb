@@ -15,7 +15,7 @@ class PostsController < ApplicationController
     @per = per
     @has_more = (page * per) < @total_posts
 
-    @trending_tags = Tag.joins(:taggings).group('tags.id').order(Arel.sql('COUNT(taggings.id) DESC')).limit(10)
+    @communities = Community.order(followers_count: :desc).limit(20)
   end
 
   def show

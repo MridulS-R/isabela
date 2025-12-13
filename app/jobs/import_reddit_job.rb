@@ -6,7 +6,8 @@ class ImportRedditJob < ApplicationJob
   #   - file_path: absolute path to a CSV/JSON on disk (optional)
   #   - blob_id: ActiveStorage::Blob.signed_id of an uploaded CSV/JSON (preferred for uploads)
   #   - owner_email: optional email to own imported posts
-  def perform(url: nil, file_path: nil, blob_id: nil, owner_email: nil)
+  #   - community_id: required community for posts
+  def perform(url: nil, file_path: nil, blob_id: nil, owner_email: nil, community_id: nil)
     require 'open-uri'
     require 'csv'
     require 'json'
@@ -21,6 +22,7 @@ class ImportRedditJob < ApplicationJob
       u.name = 'Reddit Importer'
       u.password = SecureRandom.hex(12)
     end
+    community = Community.find_by(id: community_id)
 
     body = nil
     ext = '.csv'
@@ -51,7 +53,7 @@ class ImportRedditJob < ApplicationJob
       caption = title.to_s.strip
       return unless caption.present?
 
-      post = Post.new(user: owner, caption: caption, likes_count: score)
+      post = Post.new(user: owner, caption: caption, likes_count: score, community: community)
       post.images.attach(io: StringIO.new(Base64.decode64(png_base64)), filename: 'placeholder.png', content_type: 'image/png')
 
       if post.save

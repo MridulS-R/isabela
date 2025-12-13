@@ -10,23 +10,24 @@ class ImportsController < ApplicationController
     owner_email = params[:owner_email].to_s
     upload = params[:data_file]
     kind = params[:import_kind].presence || 'reddit_posts'
+    community_id = params[:community_id]
 
     if upload.present?
       blob = ActiveStorage::Blob.create_and_upload!(io: upload, filename: upload.original_filename, content_type: upload.content_type)
       if kind == 'instagram_users'
         ImportInstagramUsersJob.perform_later(blob_id: blob.signed_id)
       elsif kind == 'news_rss'
-        ImportNewsRssJob.perform_later(blob_id: blob.signed_id)
+        ImportNewsRssJob.perform_later(blob_id: blob.signed_id, community_id: community_id)
       else
-        ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence)
+        ImportRedditJob.perform_later(blob_id: blob.signed_id, owner_email: owner_email.presence, community_id: community_id)
       end
     elsif url.present?
       if kind == 'instagram_users'
         ImportInstagramUsersJob.perform_later(url: url)
       elsif kind == 'news_rss'
-        ImportNewsRssJob.perform_later(url: url)
+        ImportNewsRssJob.perform_later(url: url, community_id: community_id)
       else
-        ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence)
+        ImportRedditJob.perform_later(url: url, owner_email: owner_email.presence, community_id: community_id)
       end
     else
       respond_to do |format|

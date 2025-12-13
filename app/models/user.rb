@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  enum role: { member: 0, admin: 1 }
+  has_many :community_follows, dependent: :destroy
+  has_many :followed_communities, through: :community_follows, source: :community
   has_many :active_follows, class_name: 'Follow', foreign_key: 'follower_id', dependent: :destroy
   has_many :passive_follows, class_name: 'Follow', foreign_key: 'followed_id', dependent: :destroy
   has_many :following, through: :active_follows, source: :followed
