@@ -20,5 +20,21 @@ class MapsController < ApplicationController
 
     render json: { points: points }
   end
-end
 
+  def csv
+    require 'csv'
+    counts = Post.where.not(latitude: nil, longitude: nil)
+                 .group(Arel.sql('ROUND(latitude, 2), ROUND(longitude, 2)'))
+                 .count
+
+    csv_str = CSV.generate(headers: true) do |csv|
+      csv << %w[latitude longitude count]
+      counts.each do |(lat_lng, count)|
+        lat, lng = lat_lng.is_a?(Array) ? lat_lng : lat_lng.to_s.split(',').map(&:to_f)
+        csv << [lat, lng, count]
+      end
+    end
+
+    send_data csv_str, filename: "post_counts.csv", type: 'text/csv'
+  end
+end
