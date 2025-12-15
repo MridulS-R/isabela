@@ -1,0 +1,21 @@
+<% content_for :title, 'Reset Password' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Reset your password</h1>
+    <%= form_with url: update_password_path(id: @user.id, token: @token), method: :patch do %>
+      <div class="form-row">
+        <div>
+          <label for="password">New password</label>
+          <%= password_field_tag :password, nil, required: true %>
+        </div>
+        <div>
+          <label for="password_confirmation">Confirm password</label>
+          <%= password_field_tag :password_confirmation, nil, required: true %>
+        </div>
+      </div>
+      <%= submit_tag 'Update password', class: 'btn' %>
+    <% end %>
+  </div>
+</section>
+

@@ -19,5 +19,8 @@ module Visiondata
       g.assets false
       g.helper false
     end
+
+    # Lightweight login throttle (Rack::Attack alternative without gem)
+    config.middleware.use ::LoginThrottle
   end
 end

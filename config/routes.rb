@@ -29,6 +29,14 @@ Rails.application.routes.draw do
   get '/profile', to: 'profile#show', as: :profile
   get '/profile/edit', to: 'profile#edit', as: :edit_profile
   patch '/profile', to: 'profile#update'
+
+  # Auth flows
+  get '/password/new', to: 'passwords#new', as: :new_password
+  post '/password', to: 'passwords#create', as: :passwords
+  get '/password/edit', to: 'passwords#edit', as: :edit_password
+  patch '/password/update', to: 'passwords#update', as: :update_password
+  get '/confirm', to: 'confirmations#show', as: :confirm_email
+  post '/confirm/resend', to: 'confirmations#resend', as: :resend_confirmation
   scope '/admin' do
     resources :feeds, only: %i[index create destroy], controller: 'feeds', as: :admin_feeds do
       post :refresh, on: :member

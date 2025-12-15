@@ -20,4 +20,33 @@ class User < ApplicationRecord
   def downcase_email
     self.email = email.to_s.downcase
   end
+
+  # Token helpers (confirmation / password reset)
+  public
+  def generate_token!(field_prefix)
+    raw = SecureRandom.urlsafe_base64(24)
+    digest = Digest::SHA256.hexdigest(raw)
+    self["#{field_prefix}_token_digest"] = digest
+    self["#{field_prefix}_sent_at"] = Time.current if has_attribute?("#{field_prefix}_sent_at")
+    save!(validate: false)
+    raw
+  end
+
+  def clear_token!(field_prefix)
+    self["#{field_prefix}_token_digest"] = nil
+    self["#{field_prefix}_sent_at"] = nil if has_attribute?("#{field_prefix}_sent_at")
+    save!(validate: false)
+  end
+
+  def valid_token?(field_prefix, raw, expires_in: 1.hour)
+    return false if raw.to_s.blank?
+    digest = self["#{field_prefix}_token_digest"]
+    return false if digest.blank?
+    return false if has_attribute?("#{field_prefix}_sent_at") && self["#{field_prefix}_sent_at"].present? && self["#{field_prefix}_sent_at"] < expires_in.ago
+    ActiveSupport::SecurityUtils.secure_compare(Digest::SHA256.hexdigest(raw), digest)
+  end
+
+  def confirmed?
+    confirmed_at.present?
+  end
 end
