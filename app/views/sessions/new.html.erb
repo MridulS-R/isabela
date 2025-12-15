@@ -12,10 +12,14 @@
         <label for="password">Password</label>
         <input id="password" type="password" name="password" placeholder="••••••••" required>
       </div>
+      <div>
+        <label>
+          <input type="checkbox" name="remember_me" value="1"> Remember me
+        </label>
+      </div>
       <button class="btn" type="submit">Log in</button>
       <p class="help">No account? <%= link_to 'Sign up', signup_path %></p>
     <% end %>
   </div>
   
 </section>
-

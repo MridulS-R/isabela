@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'profile#show', as: :profile
   get '/profile/edit', to: 'profile#edit', as: :edit_profile
   patch '/profile', to: 'profile#update'
+  post '/profile/sessions/sign_out_others', to: 'profile#sign_out_others', as: :sign_out_other_sessions
 
   # Auth flows
   get '/password/new', to: 'passwords#new', as: :new_password

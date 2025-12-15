@@ -3,6 +3,22 @@ class ProfileController < ApplicationController
 
   def show
     @is_admin = admin_user?
+    @sessions = []
+    if current_user
+      @sessions = current_user.user_sessions.order(updated_at: :desc)
+      @current_session_digest = Digest::SHA256.hexdigest(cookies.signed[:session_token].to_s) if cookies.signed[:session_token]
+    end
+  end
+
+  def sign_out_others
+    return redirect_to login_path unless current_user
+    current = Digest::SHA256.hexdigest(cookies.signed[:session_token].to_s) if cookies.signed[:session_token]
+    if current.present?
+      current_user.user_sessions.where.not(token_digest: current).delete_all
+      redirect_to profile_path, notice: 'Signed out of other sessions.'
+    else
+      redirect_to profile_path, alert: 'No active session token found.'
+    end
   end
 
   def edit

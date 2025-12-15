@@ -4,6 +4,23 @@
   <div class="container">
     <h1>Profile</h1>
     <p class="subtle">Manage your account.</p>
+    <% if @sessions.present? %>
+      <h2>Active sessions</h2>
+      <table>
+        <thead><tr><th>Device</th><th>IP</th><th>Last seen</th><th></th></tr></thead>
+        <tbody>
+          <% @sessions.each do |s| %>
+            <tr>
+              <td><%= s.user_agent.to_s.truncate(48) %> <% if @current_session_digest == s.token_digest %><span class="subtle">(This device)</span><% end %></td>
+              <td><%= s.ip %></td>
+              <td><%= time_ago_in_words(s.last_seen_at || s.updated_at) %> ago</td>
+              <td></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= button_to 'Sign out other sessions', sign_out_other_sessions_path, method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Sign out everywhere else?' } } %>
+    <% end %>
 
     <p><%= link_to 'Edit profile', edit_profile_path, class: 'link' %></p>
 

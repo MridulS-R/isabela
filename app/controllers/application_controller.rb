@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
   def current_user
     return @current_user if defined?(@current_user)
     @current_user = User.find_by(id: session[:user_id]) if session[:user_id]
+    if @current_user.blank?
+      # Try remember me
+      raw = cookies.signed[:remember_token]
+      if raw.present?
+        digest = Digest::SHA256.hexdigest(raw)
+        @current_user = User.find_by(remember_token_digest: digest)
+        session[:user_id] = @current_user.id if @current_user
+      end
+    end
+    touch_user_session
   end
 
   def user_signed_in?
@@ -15,6 +25,14 @@ class ApplicationController < ActionController::Base
   def require_login
     return if user_signed_in?
     redirect_to login_path, alert: 'Please log in to continue.'
+  end
+
+  def touch_user_session
+    return unless @current_user
+    raw = cookies.signed[:session_token]
+    return if raw.blank?
+    digest = Digest::SHA256.hexdigest(raw)
+    UserSession.where(user_id: @current_user.id, token_digest: digest).update_all(last_seen_at: Time.current)
   end
 
   def admin_user?
