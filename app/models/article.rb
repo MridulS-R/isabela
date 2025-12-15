@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+  belongs_to :community, optional: false
   validates :title, presence: true
   validates :body, presence: true
 

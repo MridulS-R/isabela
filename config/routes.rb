@@ -39,6 +39,9 @@ Rails.application.routes.draw do
   patch '/password/update', to: 'passwords#update', as: :update_password
   get '/confirm', to: 'confirmations#show', as: :confirm_email
   post '/confirm/resend', to: 'confirmations#resend', as: :resend_confirmation
+
+  # Community news
+  get '/c/:slug/news', to: 'communities#news', as: :community_news
   scope '/admin' do
     resources :feeds, only: %i[index create destroy], controller: 'feeds', as: :admin_feeds do
       post :refresh, on: :member

@@ -108,11 +108,11 @@
     </div>
 
     <aside>
-      <% if @trending_tags.present? %>
-        <h2 class="footer-title">Trending</h2>
+      <% if @communities.present? %>
+        <h2 class="footer-title">Communities</h2>
         <ul class="pill-list" role="list" style="margin-bottom:24px">
-          <% @trending_tags.each do |t| %>
-            <li><%= link_to "##{t.name}", tag_path(t.name) %></li>
+          <% @communities.each do |c| %>
+            <li><%= link_to c.name, community_news_path(c.slug) %></li>
           <% end %>
         </ul>
       <% end %>

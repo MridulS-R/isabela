@@ -1,0 +1,28 @@
+<% content_for :title, "#{@community.name} — News" %>
+
+<section class="section">
+  <div class="container">
+    <h1><%= @community.name %> — News</h1>
+    <p class="subtle"><%= @community.description.to_s %></p>
+
+    <% if @articles.present? %>
+      <div class="news-top">
+        <% lead = @articles.first %>
+        <%= render 'shared/news_card', article: lead, variant: :lead %>
+        <% @articles.drop(1).first(4).each do |a| %>
+          <%= render 'shared/news_card', article: a, variant: :secondary %>
+        <% end %>
+      </div>
+
+      <h2 style="margin-top:20px">Latest</h2>
+      <div class="cards-grid">
+        <% @articles.drop(5).each do |a| %>
+          <%= render 'shared/news_card', article: a, variant: :secondary %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="subtle">No articles yet for this community.</p>
+    <% end %>
+  </div>
+</section>
+
