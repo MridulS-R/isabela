@@ -19,7 +19,10 @@
           <% end %>
         </tbody>
       </table>
-      <%= button_to 'Sign out other sessions', sign_out_other_sessions_path, method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Sign out everywhere else?' } } %>
+      <div style="display:flex; gap:8px; margin-top:8px">
+        <%= button_to 'Sign out other sessions', sign_out_other_sessions_path, method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Sign out everywhere else?' } } %>
+        <%= button_to 'Sign out all sessions', sign_out_all_sessions_path, method: :post, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Sign out from all devices (including this one)?' } } %>
+      </div>
     <% end %>
 
     <p><%= link_to 'Edit profile', edit_profile_path, class: 'link' %></p>

@@ -21,6 +21,19 @@ class ProfileController < ApplicationController
     end
   end
 
+  def sign_out_all
+    return redirect_to login_path unless current_user
+    # Delete all session records for user
+    current_user.user_sessions.delete_all
+    # Clear remember token from DB and cookies
+    current_user.update_columns(remember_token_digest: nil, remember_created_at: nil) rescue nil
+    cookies.delete(:remember_token)
+    # Clear current session cookie and reset
+    cookies.delete(:session_token)
+    reset_session
+    redirect_to root_path, notice: 'Signed out from all devices.'
+  end
+
   def edit
     @user = current_user
   end

@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
       # Remember me
       if params[:remember_me].to_s == '1'
         raw = user.generate_token!('remember')
+        user.update_columns(remember_created_at: Time.current) rescue nil
         cookies.permanent.signed[:remember_token] = { value: raw, httponly: true, secure: Rails.env.production?, same_site: :lax }
       else
         cookies.delete(:remember_token)
