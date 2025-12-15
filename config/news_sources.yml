@@ -1,0 +1,19 @@
+sources:
+  - name: Example Tech
+    community_slug: dev
+    kind: website
+    list_urls:
+      - https://example.com/tech
+    link_selector: "article h2 a"
+    body_selector: "article .content"
+    date_selector: "meta[property='article:published_time']"
+
+  - name: Example Sports
+    community_slug: sports
+    kind: website
+    list_urls:
+      - https://example.com/sports
+    link_selector: "h2 a"
+    body_selector: "main .article-body"
+    date_selector: "meta[name='date']"
+

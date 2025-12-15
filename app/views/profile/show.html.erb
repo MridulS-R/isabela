@@ -30,14 +30,17 @@
     <% if @is_admin %>
       <div class="cards-grid" style="margin-top:12px">
         <article class="card">
-          <h3>Admin — Feeds</h3>
-          <p class="subtle">Manage news feeds and refresh data.</p>
-          <%= link_to 'Open Feeds', admin_feeds_path, class: 'btn btn-small' %>
-        </article>
-        <article class="card">
           <h3>Admin — Import</h3>
           <p class="subtle">Import Reddit posts, Instagram users, and News (select a community).</p>
           <%= link_to 'Open Import', new_import_path, class: 'btn btn-small' %>
+        </article>
+        <article class="card">
+          <h3>Admin — Crawl News</h3>
+          <p class="subtle">Crawl predefined news sources and ingest Articles for communities.</p>
+          <form action="<%= url_for(controller: :news_crawl, action: :enqueue) %>" method="post" style="display:inline">
+            <%= csrf_meta_tags %>
+            <button class="btn btn-small" type="submit">Start crawl</button>
+          </form>
         </article>
       </div>
     <% end %>

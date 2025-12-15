@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   patch '/profile', to: 'profile#update'
   post '/profile/sessions/sign_out_others', to: 'profile#sign_out_others', as: :sign_out_other_sessions
   post '/profile/sessions/sign_out_all', to: 'profile#sign_out_all', as: :sign_out_all_sessions
+  post '/admin/news_crawl', to: 'news_crawl#enqueue'
 
   # Auth flows
   get '/password/new', to: 'passwords#new', as: :new_password
@@ -42,10 +43,5 @@ Rails.application.routes.draw do
 
   # Community news
   get '/c/:slug/news', to: 'communities#news', as: :community_news
-  scope '/admin' do
-    resources :feeds, only: %i[index create destroy], controller: 'feeds', as: :admin_feeds do
-      post :refresh, on: :member
-      post :refresh_all, on: :collection
-    end
-  end
+  # Feeds removed; crawling uses predefined sources via rake/jobs
 end
