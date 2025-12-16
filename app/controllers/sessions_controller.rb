@@ -6,8 +6,14 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email].to_s.downcase)
     if user&.authenticate(params[:password])
       unless user.confirmed?
-        flash.now[:alert] = 'Please confirm your email before signing in.'
-        return render :new, status: :unprocessable_entity
+        admin_email = ENV['ADMIN_EMAIL'].to_s.downcase
+        if (user.respond_to?(:admin?) && user.admin?) || (admin_email.present? && user.email.to_s.downcase == admin_email)
+          # Auto-confirm trusted admin accounts on first login
+          user.update_columns(confirmed_at: Time.current) rescue nil
+        else
+          flash.now[:alert] = 'Please confirm your email before signing in.'
+          return render :new, status: :unprocessable_entity
+        end
       end
       session[:user_id] = user.id
       # Create a session record and cookie for session management
