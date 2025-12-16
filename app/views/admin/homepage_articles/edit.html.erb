@@ -1,0 +1,52 @@
+<% content_for :title, 'Edit Front Page Article' %>
+
+<section class="section">
+  <div class="container">
+    <p class="subtle"><%= link_to '← Back', admin_homepage_articles_path, class: 'link' %></p>
+    <h1>Edit Front Page Article</h1>
+    <%= form_with model: @record, url: admin_homepage_article_path(@record), method: :patch, multipart: true do |f| %>
+      <div class="form-row">
+        <div>
+          <%= f.label :community_id, 'Community' %>
+          <%= f.collection_select :community_id, Community.order(:name), :id, :name, { prompt: 'Select community' } %>
+          <label style="display:block; margin-top:6px;">
+            <%= check_box_tag :use_default, '1', false %> Use default “General” (auto‑create if missing)
+          </label>
+        </div>
+        <div>
+          <%= f.label :slot %>
+          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, {}, required: true %>
+        </div>
+        <div>
+          <%= f.label :position %>
+          <%= f.number_field :position, min: 0 %>
+        </div>
+      </div>
+      <div>
+        <%= f.label :md_file, 'Replace Markdown file' %><br>
+        <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown' %>
+      </div>
+      <div class="form-row">
+        <div>
+          <%= f.label :status %>
+          <%= f.select :status, HomepageArticle.statuses.keys.map { |s| [s, s] } %>
+        </div>
+        <div>
+          <%= f.label :published_at %>
+          <%= f.datetime_field :published_at %>
+        </div>
+        <div>
+          <%= f.label :unpublished_at %>
+          <%= f.datetime_field :unpublished_at %>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label style="display:inline-block; margin-right:12px;">
+          <%= check_box_tag :publish_now, '1', false %> Publish now
+        </label>
+        <%= f.submit 'Save', class: 'btn' %>
+      </div>
+    <% end %>
+  </div>
+</section>
+

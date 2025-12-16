@@ -5,7 +5,12 @@ class ParseHomepageArticleJob < ApplicationJob
     rec = HomepageArticle.find(id)
     raise 'No md_file attached' unless rec.md_file.attached?
     parser = Services::HomepageMdParser
-    io = rec.md_file.download
+    begin
+      io = rec.md_file.download
+    rescue ActiveStorage::FileNotFoundError
+      Rails.logger.warn("ParseHomepageArticleJob: file missing for record ##{id}; skipping")
+      return
+    end
     result = parser.parse(StringIO.new(io))
 
     # Validate required metadata

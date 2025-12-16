@@ -1,8 +1,7 @@
 class Admin::HomepageArticlesController < ApplicationController
   before_action :require_login
   before_action :require_admin!
-  before_action :set_record, only: [:edit, :update, :destroy, :publish, :retire]
-  before_action :set_record, only: [:reparse]
+  before_action :set_record, only: [:show, :edit, :update, :destroy, :publish, :retire, :reparse]
 
   def index
     @records = HomepageArticle.includes(:community).order(updated_at: :desc)
@@ -36,6 +35,8 @@ class Admin::HomepageArticlesController < ApplicationController
       render :index, status: :unprocessable_entity
     end
   end
+
+  def show; end
 
   def edit; end
 
