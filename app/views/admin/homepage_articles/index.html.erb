@@ -3,7 +3,7 @@
 <section class="section">
   <div class="container">
     <h1>Front Page Articles</h1>
-    <p class="subtle">Upload a Markdown file with front matter to create a community-linked front page article.</p>
+    <p class="subtle">Upload a Markdown file with front matter to create a community-linked front page article. <%= link_to 'Download example template', '/templates/front_page_template.md', class: 'link' %></p>
 
     <%= form_with model: @record, url: admin_homepage_articles_path, method: :post, multipart: true do |f| %>
       <div class="form-row">
@@ -60,4 +60,3 @@
     </table>
   </div>
 </section>
-
