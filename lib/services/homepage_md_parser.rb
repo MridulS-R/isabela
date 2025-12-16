@@ -24,7 +24,14 @@ class HomepageMdParser
     if data.is_a?(Hash)
       data = data.transform_keys { |k| k.to_s }
     end
-    html = simple_markdown_to_html(body.to_s)
+
+    # Strip template labels from body and infer caption if provided inline
+    body_text, inferred = strip_template_tags(body.to_s)
+    if inferred['body_sub_heading'].present? && data['body_sub_heading'].to_s.strip.empty?
+      data['body_sub_heading'] = inferred['body_sub_heading']
+    end
+
+    html = simple_markdown_to_html(body_text)
     Result.new(data, html)
   end
 
@@ -60,6 +67,26 @@ class HomepageMdParser
       end
     end
     paragraphs.join("\n")
+  end
+
+  # Remove common template labels from the body and capture inline caption.
+  def self.strip_template_tags(text)
+    lines = text.to_s.lines
+    inferred = {}
+    kept = []
+    lines.each do |line|
+      stripped = line.strip
+      # Remove plain 'body:' markers
+      next if stripped.match?(/^body\s*:?\s*$/i)
+      # Capture caption: Body Sub Heading: <value>
+      if (m = stripped.match(/^body[ _-]*sub[ _-]*heading\s*:\s*(.+)$/i))
+        caption = m[1].to_s.strip
+        inferred['body_sub_heading'] = caption if caption.present?
+        next
+      end
+      kept << line
+    end
+    [kept.join, inferred]
   end
 end
 end
