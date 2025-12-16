@@ -15,10 +15,14 @@
 <section class="section">
   <div class="container">
     <div class="front-article">
+      <% if @record.hero_image.attached? %>
+        <div class="hero-image">
+          <%= image_tag url_for(@record.hero_image), alt: '', loading: 'lazy' %>
+        </div>
+      <% end %>
       <div class="story-html">
         <%= @record.content_html.to_s.html_safe %>
       </div>
     </div>
   </div>
 </section>
-

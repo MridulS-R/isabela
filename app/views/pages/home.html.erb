@@ -21,8 +21,12 @@
         <% subhed  = meta['subheading'] || meta['subtitle'] || meta['dek'] %>
         <% pub     = @hp_lead.published_at %>
 
-        <%# Optional hero image if first <img> exists in HTML %>
-        <% if @hp_lead.content_html.to_s =~ /<img[^>]+src=["']([^"']+)["']/i %>
+        <%# Prefer uploaded hero image; otherwise, use first image in HTML %>
+        <% if @hp_lead.hero_image&.attached? %>
+          <div class="hero-image">
+            <%= image_tag url_for(@hp_lead.hero_image), alt: '', loading: 'lazy' %>
+          </div>
+        <% elsif @hp_lead.content_html.to_s =~ /<img[^>]+src=["']([^"']+)["']/i %>
           <div class="hero-image">
             <img src="<%= Regexp.last_match(1) %>" alt="" loading="lazy">
           </div>

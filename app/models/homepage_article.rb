@@ -5,6 +5,7 @@ class HomepageArticle < ApplicationRecord
   belongs_to :community
   belongs_to :created_by, class_name: 'User', optional: true
   has_one_attached :md_file
+  has_one_attached :hero_image
 
   validates :slot, presence: true
   validates :status, presence: true
@@ -23,4 +24,3 @@ class HomepageArticle < ApplicationRecord
     self.metadata_json = hash.to_json
   end
 end
-

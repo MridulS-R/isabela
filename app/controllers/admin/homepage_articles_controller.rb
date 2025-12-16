@@ -27,6 +27,9 @@ class Admin::HomepageArticlesController < ApplicationController
     if params[:homepage_article][:md_file]
       @record.md_file.attach(params[:homepage_article][:md_file])
     end
+    if params[:homepage_article][:hero_image]
+      @record.hero_image.attach(params[:homepage_article][:hero_image])
+    end
     if @record.save
       ParseHomepageArticleJob.perform_later(@record.id) if @record.md_file.attached?
       redirect_to admin_homepage_articles_path, notice: 'Front page article created.'
@@ -43,6 +46,9 @@ class Admin::HomepageArticlesController < ApplicationController
   def update
     if params[:homepage_article][:md_file]
       @record.md_file.attach(params[:homepage_article][:md_file])
+    end
+    if params[:homepage_article][:hero_image]
+      @record.hero_image.attach(params[:homepage_article][:hero_image])
     end
     attrs = record_params
     if params[:publish_now].to_s == '1'

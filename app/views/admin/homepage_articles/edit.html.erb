@@ -26,6 +26,16 @@
         <%= f.label :md_file, 'Replace Markdown file' %><br>
         <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown' %>
       </div>
+      <div>
+        <%= f.label :hero_image, 'Replace hero image (optional)' %><br>
+        <%= f.file_field :hero_image, accept: 'image/*' %>
+        <% if @record.hero_image.attached? %>
+          <div style="margin-top:6px">
+            <span class="subtle">Current:</span>
+            <%= image_tag url_for(@record.hero_image), alt: '', style: 'max-width:200px; height:auto; border:1px solid #e5e7eb; border-radius:6px;' %>
+          </div>
+        <% end %>
+      </div>
       <div class="form-row">
         <div>
           <%= f.label :status %>
@@ -49,4 +59,3 @@
     <% end %>
   </div>
 </section>
-
