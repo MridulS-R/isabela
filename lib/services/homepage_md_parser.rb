@@ -1,4 +1,5 @@
 require 'yaml'
+require 'date'
 
 module Services
 class HomepageMdParser
@@ -9,7 +10,20 @@ class HomepageMdParser
   def self.parse(io)
     text = io.read.to_s
     fm, body = extract_front_matter(text)
-    data = (fm.present? ? YAML.safe_load(fm) : {}) || {}
+    # Safe‑load YAML front matter but allow common time/date types
+    data = {}
+    if fm.present?
+      data = YAML.safe_load(
+        fm,
+        permitted_classes: [Time, Date, DateTime],
+        permitted_symbols: [],
+        aliases: false
+      ) || {}
+    end
+    # Normalize keys to strings for consistent access
+    if data.is_a?(Hash)
+      data = data.transform_keys { |k| k.to_s }
+    end
     html = simple_markdown_to_html(body.to_s)
     Result.new(data, html)
   end
