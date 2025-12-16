@@ -1,16 +1,17 @@
 <% content_for :title, '#CommunNity — Front Page' %>
 
-<section class="section">
-  <div class="container">
+<section class="section news-front">
+  <div class="page">
     <header class="masthead">
       <% masthead_meta = (defined?(@hp_lead) && @hp_lead.present?) ? (@hp_lead.metadata || {}) : {} %>
       <% masthead_title = masthead_meta['homepage_heading'].presence || masthead_meta['brand'].presence || masthead_meta['masthead'].presence || '#CommunNity' %>
       <% masthead_strap  = masthead_meta['strap'].presence || masthead_meta['tagline'].presence || 'Front Page — The latest from communities you care about' %>
-      <div class="brand-banner"><%= masthead_title %></div>
-      <div class="strap"><%= masthead_strap %></div>
-      <div class="dateline">
-        <span><%= Time.current.strftime('%A, %B %e, %Y') %></span>
-        <span>Edition: Online</span>
+      <div class="brand"><%= masthead_title %></div>
+      <p class="strap"><%= masthead_strap %></p>
+      <div class="meta-line">
+        <span>Edition: <%= (masthead_meta['edition'].presence || 'Daily') %></span>
+        <span><%= Time.current.strftime('%B %e, %Y') %></span>
+        <span><%= request.host %></span>
       </div>
     </header>
 
@@ -21,9 +22,24 @@
         <% subhed  = meta['subheading'] || meta['subtitle'] || meta['dek'] %>
         <% pub     = @hp_lead.published_at %>
 
+        <header class="article-header">
+          <h1 class="headline"><%= heading %></h1>
+          <% if subhed.present? %>
+            <p class="subheading"><%= subhed %></p>
+          <% end %>
+          <div class="byline">
+            <% if meta['author'].present? %>
+              <span><b><%= meta['author'] %></b></span>
+            <% end %>
+            <% if pub.present? %>
+              <span>Published: <%= pub.strftime('%Y-%m-%d') %></span>
+            <% end %>
+          </div>
+        </header>
+
         <%# Prefer uploaded hero image; otherwise, use first image in HTML %>
         <% if @hp_lead.hero_image&.attached? %>
-          <figure class="hero-image hero-centered">
+          <figure class="lead-media">
             <%= image_tag url_for(@hp_lead.hero_image), alt: '', loading: 'lazy' %>
             <% cap = meta['body_sub_heading'].to_s.presence %>
             <% if cap %>
@@ -31,7 +47,7 @@
             <% end %>
           </figure>
         <% elsif @hp_lead.content_html.to_s =~ /<img[^>]+src=["']([^"']+)["']/i %>
-          <figure class="hero-image hero-centered">
+          <figure class="lead-media">
             <img src="<%= Regexp.last_match(1) %>" alt="" loading="lazy">
             <% cap = meta['body_sub_heading'].to_s.presence %>
             <% if cap %>
@@ -40,13 +56,7 @@
           </figure>
         <% end %>
 
-        <h1 class="headline"><%= heading %></h1>
-        <% if subhed.present? %>
-          <p class="subhed"><%= subhed %></p>
-        <% end %>
-        <p class="byline"><%= pub&.strftime('%B %e, %Y') %></p>
-
-        <div class="story-html">
+        <div class="article-body">
           <%= @hp_lead.content_html.to_s.html_safe %>
         </div>
       <% elsif @news_top.present? %>
@@ -56,15 +66,22 @@
             <%= image_tag lead.first_image_url, alt: '', loading: 'lazy' %>
           </div>
         <% end %>
-        <h1 class="headline"><%= lead.title %></h1>
-        <p class="subhed"><%= truncate(strip_tags(lead.body.to_s), length: 200) %></p>
-        <p class="byline"><%= lead.published_at&.strftime('%B %e, %Y') %><% if lead.source.present? %> • <%= lead.source %><% end %></p>
-        <div class="story-html">
+        <header class="article-header">
+          <h1 class="headline"><%= lead.title %></h1>
+          <p class="subheading"><%= truncate(strip_tags(lead.body.to_s), length: 200) %></p>
+          <div class="byline">
+            <span><%= lead.published_at&.strftime('%Y-%m-%d') %></span>
+            <% if lead.source.present? %><span>• <b><%= lead.source %></b></span><% end %>
+          </div>
+        </header>
+        <div class="article-body">
           <%= sanitize(lead.body.to_s, tags: %w[p br strong em b i a img ul ol li blockquote h2 h3], attributes: %w[href src alt title rel target]) %>
         </div>
       <% else %>
-        <h1 class="headline">Welcome</h1>
-        <p class="subhed">Add a front page article from the admin profile page to publish your first edition.</p>
+        <header class="article-header">
+          <h1 class="headline">Welcome</h1>
+          <p class="subheading">Add a front page article from the admin profile page to publish your first edition.</p>
+        </header>
       <% end %>
     </article>
   </div>
