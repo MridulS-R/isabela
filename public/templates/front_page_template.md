@@ -3,6 +3,8 @@ title: "Front Page Headline Goes Here"
 subheading: "A concise subheading (dek) that summarizes the story."
 author: "#CommunNity Editorial"
 published_at: 2025-01-01 09:00:00 Z
+homepage_heading: "#CommunNity"
+strap: "Front Page — The latest from communities you care about"
 ---
 
 <!--

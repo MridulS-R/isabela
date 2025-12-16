@@ -30,7 +30,9 @@ namespace :setup do
     # Create or update a lead HomepageArticle
     sample_meta = {
       title: 'Local Makers Unite for #CommunNity Fair',
-      subheading: 'From food stalls to robotics demos, a celebration of neighbors building together.'
+      subheading: 'From food stalls to robotics demos, a celebration of neighbors building together.',
+      homepage_heading: '#CommunNity',
+      strap: 'Front Page — The latest from communities you care about'
     }
 
     sample_html = <<~HTML

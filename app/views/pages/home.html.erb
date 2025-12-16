@@ -3,8 +3,11 @@
 <section class="section">
   <div class="container">
     <header class="masthead">
-      <div class="brand-banner">#CommunNity</div>
-      <div class="strap">Front Page — The latest from communities you care about</div>
+      <% masthead_meta = (defined?(@hp_lead) && @hp_lead.present?) ? (@hp_lead.metadata || {}) : {} %>
+      <% masthead_title = masthead_meta['homepage_heading'].presence || masthead_meta['brand'].presence || masthead_meta['masthead'].presence || '#CommunNity' %>
+      <% masthead_strap  = masthead_meta['strap'].presence || masthead_meta['tagline'].presence || 'Front Page — The latest from communities you care about' %>
+      <div class="brand-banner"><%= masthead_title %></div>
+      <div class="strap"><%= masthead_strap %></div>
       <div class="dateline">
         <span><%= Time.current.strftime('%A, %B %e, %Y') %></span>
         <span>Edition: Online</span>
