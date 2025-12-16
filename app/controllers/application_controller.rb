@@ -37,9 +37,12 @@ class ApplicationController < ActionController::Base
 
   def admin_user?
     return false unless user_signed_in?
-    admin_email = ENV['ADMIN_EMAIL']
-    return true if admin_email.blank?
-    current_user.email.to_s.downcase == admin_email.to_s.downcase
+    # Prefer role-based admin if available
+    return true if current_user.respond_to?(:admin?) && current_user.admin?
+    # Fallback to ENV-bound email check
+    admin_email = ENV['ADMIN_EMAIL'].presence
+    return current_user.email.to_s.downcase == admin_email.to_s.downcase if admin_email
+    false
   end
 
   def require_admin!
