@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= ENV.fetch('APP_NAME', 'Isabela') %></title>
+    <style>
+      /* Minimal, email-safe inline styles */
+      body { margin: 0; padding: 0; background: #f6f7f9; color: #111; }
+      .container { width: 100%; padding: 24px 0; }
+      .content { max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 6px; overflow: hidden; border: 1px solid #e6e8eb; }
+      .header { padding: 16px 20px; background: #0f172a; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; }
+      .body { padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5; }
+      .footer { padding: 16px 20px; color: #6b7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; }
+      a { color: #0ea5e9; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="header">
+          <%= ENV.fetch('APP_NAME', 'Isabela') %>
+        </div>
+        <div class="body">
+          <%= yield %>
+        </div>
+        <div class="footer">
+          This email was sent by <%= ENV.fetch('APP_NAME', 'Isabela') %>.
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>
+
