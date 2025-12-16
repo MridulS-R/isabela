@@ -39,8 +39,9 @@
           <p class="subtle">Crawl predefined news sources and ingest Articles for communities.</p>
           <form action="<%= url_for(controller: :news_crawl, action: :enqueue) %>" method="post" style="display:inline">
             <%= csrf_meta_tags %>
-            <button class="btn btn-small" type="submit">Start crawl</button>
+            <button class="btn btn-small" type="submit">Crawl all sources</button>
           </form>
+          <p class="subtle" style="margin-top:8px"><%= link_to 'Manage sources', admin_news_sources_path, class: 'link' %></p>
         </article>
       </div>
     <% end %>

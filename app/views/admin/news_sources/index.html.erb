@@ -1,0 +1,82 @@
+<% content_for :title, 'News Sources' %>
+
+<section class="section">
+  <div class="container">
+    <h1>News Sources</h1>
+    <p class="subtle">Manage predefined sites to crawl for community news.</p>
+
+    <%= form_with model: @source, url: admin_news_sources_path, method: :post do |f| %>
+      <div class="form-row">
+        <div>
+          <%= f.label :name %>
+          <%= f.text_field :name, required: true %>
+        </div>
+        <div>
+          <%= f.label :community_id, 'Community' %>
+          <%= f.collection_select :community_id, Community.order(:name), :id, :name, prompt: 'Select community', required: true %>
+        </div>
+        <div>
+          <%= f.label :kind %>
+          <%= f.select :kind, NewsSource.kinds.keys.map { |k| [k, k] }, {}, required: true %>
+        </div>
+        <div>
+          <%= f.label :active %><br>
+          <%= f.check_box :active, checked: true %>
+        </div>
+      </div>
+      <div class="form-row">
+        <div style="flex:2">
+          <%= f.label :list_urls, 'List URLs (one per line)' %>
+          <%= f.text_area :list_urls, rows: 3, placeholder: "https://example.com/news\nhttps://example.com/tech" %>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <%= f.label :link_selector %>
+          <%= f.text_field :link_selector, placeholder: 'e.g., article h2 a' %>
+        </div>
+        <div>
+          <%= f.label :body_selector %>
+          <%= f.text_field :body_selector, placeholder: 'e.g., article .content' %>
+        </div>
+        <div>
+          <%= f.label :date_selector %>
+          <%= f.text_field :date_selector, placeholder: "e.g., meta[property='article:published_time']" %>
+        </div>
+      </div>
+      <%= f.submit 'Add source', class: 'btn' %>
+    <% end %>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="header-inner" style="padding:0">
+      <h2 style="margin:0">Existing sources</h2>
+      <%= button_to 'Crawl all', admin_news_sources_path.merge(action: nil), method: :post, form: { action: admin_news_sources_path }, class: 'btn btn-small', formmethod: 'post', formaction: admin_news_sources_path %>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Community</th><th>Kind</th><th>Active</th><th>Last crawled</th><th>Error</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% @sources.each do |s| %>
+          <tr>
+            <td><%= s.name %></td>
+            <td><%= s.community.name %></td>
+            <td><%= s.kind %></td>
+            <td><%= s.active ? 'Yes' : 'No' %></td>
+            <td><%= s.last_crawled_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
+            <td class="subtle"><%= truncate(s.last_error.to_s, length: 60) %></td>
+            <td>
+              <%= button_to 'Crawl', crawl_admin_news_source_path(s), method: :post, class: 'btn btn-small' %>
+              <%= link_to 'Edit', edit_admin_news_source_path(s), class: 'btn btn-small btn-outline' %>
+              <%= button_to 'Remove', admin_news_source_path(s), method: :delete, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Remove source?' } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+

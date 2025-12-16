@@ -45,3 +45,8 @@ Rails.application.routes.draw do
   get '/c/:slug/news', to: 'communities#news', as: :community_news
   # Feeds removed; crawling uses predefined sources via rake/jobs
 end
+  namespace :admin do
+    resources :news_sources do
+      post :crawl, on: :member
+    end
+  end
