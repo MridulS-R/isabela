@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       post :publish, on: :member
       post :retire, on: :member
     end
+    resources :communities, only: [:create]
     resources :news_sources do
       post :crawl, on: :member
     end
