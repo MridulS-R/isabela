@@ -2,7 +2,7 @@
 title: "Neighbors Build a Parklet in a Day"
 subheading: "Volunteers transform a lane with planters, benches, and art."
 homepage_heading: "#CommunNity"
-strap: "Front Page — The latest from communities you care about"
+body_sub_heading: "A simple image can anchor a story and invite readers in."
 author: "#CommunNity Editorial"
 published_at: 2025-01-15 10:00:00 Z
 ---
@@ -26,4 +26,3 @@ Small, community‑led projects can change how people use shared spaces. Benches
 ## What’s next
 
 Organizers are hosting a feedback walk next week and planning a care calendar so the space stays tidy. If you’d like to adopt a planter or propose a mini‑event, add your name to the sign‑up sheet.
-

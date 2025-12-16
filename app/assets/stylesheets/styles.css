@@ -156,7 +156,10 @@ body {
   }
   /* Front page full article layout */
   .front-article { max-width: 760px; margin: 0 auto; }
-  .front-article .hero-image img { width: 100%; height: auto; border-radius: 6px; margin: 0 0 12px; }
+  .front-article .hero-image { margin: 0 auto 10px; text-align: center; }
+  .front-article .hero-image img { width: 100%; max-width: 960px; height: auto; border-radius: 6px; margin: 0 auto 8px; display: block; }
+  .front-article .hero-image.hero-centered { column-span: all; }
+  .front-article .hero-caption { color: #6b7280; font-size: 14px; font-style: italic; margin-bottom: 12px; }
   .front-article .headline { font-family: Georgia, 'Times New Roman', serif; font-weight: 900; font-size: clamp(28px, 4vw, 56px); line-height: 1.05; margin: 10px 0 6px; }
   .front-article .subhed { font-family: Georgia, 'Times New Roman', serif; color: #374151; font-size: clamp(16px, 2vw, 20px); margin: 6px 0 8px; }
   .front-article .byline { color: #6b7280; font-size: 14px; margin-bottom: 14px; }

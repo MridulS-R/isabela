@@ -16,9 +16,13 @@
   <div class="container">
     <div class="front-article">
       <% if @record.hero_image.attached? %>
-        <div class="hero-image">
+        <figure class="hero-image hero-centered">
           <%= image_tag url_for(@record.hero_image), alt: '', loading: 'lazy' %>
-        </div>
+          <% cap = (@record.metadata || {})['body_sub_heading'].to_s.presence %>
+          <% if cap %>
+            <figcaption class="hero-caption"><%= cap %></figcaption>
+          <% end %>
+        </figure>
       <% end %>
       <div class="story-html">
         <%= @record.content_html.to_s.html_safe %>
