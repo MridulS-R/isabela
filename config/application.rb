@@ -1,5 +1,6 @@
 require_relative 'boot'
 require "rails"
+require_relative "../lib/login_throttle"
 require "active_record/railtie"
 require "active_storage/engine"
 require "active_job/railtie"

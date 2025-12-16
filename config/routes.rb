@@ -46,6 +46,10 @@ Rails.application.routes.draw do
   # Feeds removed; crawling uses predefined sources via rake/jobs
 end
   namespace :admin do
+    resources :homepage_articles do
+      post :publish, on: :member
+      post :retire, on: :member
+    end
     resources :news_sources do
       post :crawl, on: :member
     end

@@ -1,0 +1,63 @@
+<% content_for :title, 'Front Page Articles' %>
+
+<section class="section">
+  <div class="container">
+    <h1>Front Page Articles</h1>
+    <p class="subtle">Upload a Markdown file with front matter to create a community-linked front page article.</p>
+
+    <%= form_with model: @record, url: admin_homepage_articles_path, method: :post, multipart: true do |f| %>
+      <div class="form-row">
+        <div>
+          <%= f.label :community_id, 'Community' %>
+          <%= f.collection_select :community_id, Community.order(:name), :id, :name, prompt: 'Select community', required: true %>
+        </div>
+        <div>
+          <%= f.label :slot %>
+          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, {}, required: true %>
+        </div>
+        <div>
+          <%= f.label :position %>
+          <%= f.number_field :position, value: 0, min: 0 %>
+        </div>
+      </div>
+      <div>
+        <%= f.label :md_file, 'Markdown file' %><br>
+        <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown', required: true %>
+      </div>
+      <div style="margin-top:8px">
+        <%= f.submit 'Create', class: 'btn' %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <h2>Existing</h2>
+    <table>
+      <thead><tr><th>Community</th><th>Slot</th><th>Pos</th><th>Status</th><th>Published</th><th>Updated</th><th></th></tr></thead>
+      <tbody>
+        <% @records.each do |r| %>
+          <tr>
+            <td><%= r.community.name %></td>
+            <td><%= r.slot %></td>
+            <td><%= r.position %></td>
+            <td><%= r.status %></td>
+            <td><%= r.published_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
+            <td><%= r.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
+            <td>
+              <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'btn btn-small btn-outline' %>
+              <% if r.published? %>
+                <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Retire this item?' } } %>
+              <% else %>
+                <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'btn btn-small' %>
+              <% end %>
+              <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Remove?' } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
