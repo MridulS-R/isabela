@@ -1,7 +1,7 @@
 ---
 title: "Front Page Headline Goes Here"
 subheading: "A concise subheading (dek) that summarizes the story."
-author: "#CommuniNity Editorial"
+author: "#CommunNity Editorial"
 published_at: 2025-01-01 09:00:00 Z
 ---
 
@@ -25,4 +25,3 @@ Share context and why this matters to the community. You can include links like 
 ## What’s Next
 
 Outline upcoming steps, calls to action, or highlights. Break up long text with short paragraphs.
-

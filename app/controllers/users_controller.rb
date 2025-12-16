@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to root_path, notice: 'Welcome to #CommuniNity!'
+      redirect_to root_path, notice: 'Welcome to #CommunNity!'
     else
       render :new, status: :unprocessable_entity
     end

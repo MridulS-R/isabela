@@ -2,7 +2,7 @@ namespace :setup do
   desc 'Create a root admin user and a sample front page article (lead)'
   task root_and_front_page: :environment do
     # Create or update root user
-    email = ENV['ROOT_EMAIL'].presence || 'root@communinity.example'
+    email = ENV['ROOT_EMAIL'].presence || 'root@communnity.example'
     password = ENV['ROOT_PASSWORD'].presence || 'Password123!'
 
     user = User.find_or_initialize_by(email: email)
@@ -29,13 +29,13 @@ namespace :setup do
 
     # Create or update a lead HomepageArticle
     sample_meta = {
-      title: 'Local Makers Unite for #CommuniNity Fair',
+      title: 'Local Makers Unite for #CommunNity Fair',
       subheading: 'From food stalls to robotics demos, a celebration of neighbors building together.'
     }
 
     sample_html = <<~HTML
       <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd53?w=1600&q=80" alt="Community fair" />
-      <p>Under clear skies and a friendly buzz, neighbors gathered for the first annual <strong>#CommuniNity</strong> Fair — a hands‑on showcase of projects, local food, and music. Organizers said the event grew from a simple idea: give makers, clubs, and small businesses a welcoming place to share what they’re building.</p>
+      <p>Under clear skies and a friendly buzz, neighbors gathered for the first annual <strong>#CommunNity</strong> Fair — a hands‑on showcase of projects, local food, and music. Organizers said the event grew from a simple idea: give makers, clubs, and small businesses a welcoming place to share what they’re building.</p>
       <p>Highlights included a robotics demo from the school club, a repair station for bikes, and a rotating lineup of acoustic sets. Volunteers helped run a kid’s corner with craft kits and a mini‑library swap.</p>
       <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80" alt="Robotics demo" />
       <h2>What’s Next</h2>
@@ -55,4 +55,3 @@ namespace :setup do
     puts "Tip: set ENV ADMIN_EMAIL=#{email} to access admin features with this user."
   end
 end
-
