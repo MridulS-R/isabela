@@ -13,6 +13,9 @@ module Visiondata
   class Application < Rails::Application
     config.load_defaults 7.1
     config.time_zone = 'UTC'
+    # Load lib/ for custom middleware and services (production eager loading)
+    config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib')
     config.generators do |g|
       g.orm :active_record
       g.test_framework nil

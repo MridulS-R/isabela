@@ -1,44 +1,57 @@
-<% content_for :title, '#community — Top stories' %>
+<% content_for :title, '#community — Front Page' %>
 
 <section class="section">
   <div class="container">
-    <div class="news-grid">
-      <div>
-        <div class="brand-tag">#Community</div>
-        <h1 class="hero-title">#community</h1>
-        <p class="hero-subtitle">A friendly platform where groups and creators share posts, follow topics, and stay informed — built for healthy, modern communities.</p>
-        <h2 style="margin-top:8px">Top stories</h2>
-        <div class="news-top">
-          <% if @news_top.present? %>
-            <%= render 'shared/news_card', article: @news_top.first, variant: :lead %>
-          <% end %>
-          <% @news_secondary.each do |a| %>
-            <%= render 'shared/news_card', article: a, variant: :secondary %>
-          <% end %>
-        </div>
-
-        
+    <header class="masthead">
+      <div class="brand-banner">COMMUNNITY</div>
+      <div class="strap">Front Page — The latest from communities you care about</div>
+      <div class="dateline">
+        <span><%= Time.current.strftime('%A, %B %e, %Y') %></span>
+        <span>Edition: Online</span>
       </div>
+    </header>
 
-      <aside>
-        <h2 style="margin-top:0">Latest</h2>
-        <ul class="mini-list">
-          <% @news_latest.each do |a| %>
-            <%= render 'shared/mini_link', article: a %>
+    <div class="newspaper-grid">
+      <% if @news_top.present? %>
+        <% lead = @news_top.first %>
+        <article class="story lead">
+          <% if lead.first_image_url.present? %>
+            <%= image_tag lead.first_image_url, alt: '', loading: 'lazy' %>
           <% end %>
-        </ul>
-        <div style="margin-top:12px">
-          <%= link_to 'See all news', blog_path, class: 'link' %>
-        </div>
+          <div class="kicker">Top Story</div>
+          <h2 class="headline lead">
+            <% if lead.url.present? %>
+              <%= link_to lead.title, lead.url, class: 'link', target: '_blank', rel: 'noopener' %>
+            <% else %>
+              <%= lead.title %>
+            <% end %>
+          </h2>
+          <div class="subhed"><%= truncate(strip_tags(lead.body.to_s), length: 180) %></div>
+          <div class="byline"><%= lead.published_at&.strftime('%b %d, %Y') %><% if lead.source.present? %> • <%= lead.source %><% end %></div>
+        </article>
+      <% end %>
 
-        <h3 style="margin-top:16px">Topics</h3>
-        <div class="topic-chips">
-          <% @trending_tags.each do |t| %>
-            <% count = (t.try(:posts_count) || t.try(:read_attribute, 'posts_count') || 0) %>
-            <%= link_to "##{t.name} (#{count})", tag_path(t.name), class: 'chip' %>
-          <% end %>
-        </div>
-      </aside>
+      <% @news_secondary.each do |a| %>
+        <article class="story">
+          <div class="kicker">News</div>
+          <h3 class="headline">
+            <% if a.url.present? %>
+              <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
+            <% else %>
+              <%= a.title %>
+            <% end %>
+          </h3>
+          <div class="subhed"><%= truncate(strip_tags(a.body.to_s), length: 120) %></div>
+          <div class="byline"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.source.present? %> • <%= a.source %><% end %></div>
+        </article>
+      <% end %>
+
+      <% @news_latest.first(9).each do |a| %>
+        <article class="story">
+          <h4 class="headline"><%= link_to truncate(a.title.to_s, length: 100), (a.url.presence || '#'), class: 'link', target: (a.url.present? ? '_blank' : nil), rel: 'noopener' %></h4>
+          <p class="byline"><%= a.published_at&.strftime('%b %d') %><% if a.source.present? %> • <%= a.source %><% end %></p>
+        </article>
+      <% end %>
     </div>
   </div>
 </section>
