@@ -1,7 +1,9 @@
 class PagesController < ApplicationController
   def home
     # Prefer curated homepage articles; fallback to Articles
-    lead_rec = HomepageArticle.visible.lead.order(published_at: :desc).first rescue nil
+    # Prefer a published LEAD front-page article; otherwise fall back to most-recent visible of any slot
+    lead_rec = (HomepageArticle.visible.lead.order(published_at: :desc).first rescue nil)
+    lead_rec ||= (HomepageArticle.visible.order(published_at: :desc).first rescue nil)
     secondary_recs = HomepageArticle.visible.secondary.order(position: :asc, published_at: :desc).limit(4) rescue []
     brief_recs = HomepageArticle.visible.brief.order(position: :asc, published_at: :desc).limit(9) rescue []
 

@@ -11,6 +11,10 @@ class Admin::HomepageArticlesController < ApplicationController
   def create
     @record = HomepageArticle.new(record_params)
     @record.created_by = current_user
+    if params[:publish_now].to_s == '1'
+      @record.status = :published
+      @record.published_at ||= Time.current
+    end
     # Allow using a default 'general' community if requested
     if @record.community_id.blank? && params[:use_default].to_s == '1'
       general = Community.find_or_create_by!(slug: 'general') do |c|
@@ -39,6 +43,9 @@ class Admin::HomepageArticlesController < ApplicationController
       @record.md_file.attach(params[:homepage_article][:md_file])
     end
     attrs = record_params
+    if params[:publish_now].to_s == '1'
+      attrs = attrs.merge(status: :published, published_at: (attrs[:published_at].presence || Time.current))
+    end
     if attrs[:community_id].blank? && params[:use_default].to_s == '1'
       general = Community.find_or_create_by!(slug: 'general') do |c|
         c.name = 'General'

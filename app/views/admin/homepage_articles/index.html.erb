@@ -17,7 +17,8 @@
         </div>
         <div>
           <%= f.label :slot %>
-          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, {}, required: true %>
+          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, { selected: :lead }, required: true %>
+          <p class="help">Homepage shows the most recent <strong>lead</strong> article. If no lead is published, it will show the most recent published article.</p>
         </div>
         <div>
           <%= f.label :position %>
@@ -29,6 +30,9 @@
         <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown', required: true %>
       </div>
       <div style="margin-top:8px">
+        <label style="display:inline-block; margin-right:12px;">
+          <%= check_box_tag :publish_now, '1', true %> Publish now
+        </label>
         <%= f.submit 'Create', class: 'btn' %>
       </div>
     <% end %>
