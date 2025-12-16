@@ -4,7 +4,7 @@ class ParseHomepageArticleJob < ApplicationJob
   def perform(id)
     rec = HomepageArticle.find(id)
     raise 'No md_file attached' unless rec.md_file.attached?
-    parser = HomepageMdParser
+    parser = Services::HomepageMdParser
     io = rec.md_file.download
     result = parser.parse(StringIO.new(io))
 
@@ -22,4 +22,3 @@ class ParseHomepageArticleJob < ApplicationJob
     ActionController::Base.helpers.sanitize(html.to_s, tags: allowed_tags, attributes: allowed_attributes)
   end
 end
-

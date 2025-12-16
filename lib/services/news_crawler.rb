@@ -2,6 +2,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'uri'
 
+module Services
 class NewsCrawler
   MIN_INTERVAL_PER_HOST = 1.0 # seconds
 
@@ -143,4 +144,5 @@ class NewsCrawler
     Rails.cache.write(key, Time.now + MIN_INTERVAL_PER_HOST)
     body
   end
+end
 end

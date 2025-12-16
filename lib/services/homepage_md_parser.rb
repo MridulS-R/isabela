@@ -1,5 +1,6 @@
 require 'yaml'
 
+module Services
 class HomepageMdParser
   FRONT_MATTER_BOUNDARY = /^---\s*$/.freeze
 
@@ -47,4 +48,4 @@ class HomepageMdParser
     paragraphs.join("\n")
   end
 end
-
+end

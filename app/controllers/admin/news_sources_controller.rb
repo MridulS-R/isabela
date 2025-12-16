@@ -34,7 +34,7 @@ class Admin::NewsSourcesController < ApplicationController
   end
 
   def crawl
-    NewsCrawler.new.crawl_source_record(@source)
+    Services::NewsCrawler.new.crawl_source_record(@source)
     redirect_to admin_news_sources_path, notice: 'Crawl completed for this source.'
   end
 
@@ -53,4 +53,3 @@ class Admin::NewsSourcesController < ApplicationController
     p
   end
 end
-
