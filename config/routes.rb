@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     resources :homepage_articles do
       post :publish, on: :member
       post :retire, on: :member
+      post :reparse, on: :member
     end
     resources :communities, only: [:create]
     resources :news_sources do

@@ -2,6 +2,7 @@ class Admin::HomepageArticlesController < ApplicationController
   before_action :require_login
   before_action :require_admin!
   before_action :set_record, only: [:edit, :update, :destroy, :publish, :retire]
+  before_action :set_record, only: [:reparse]
 
   def index
     @records = HomepageArticle.includes(:community).order(updated_at: :desc)
@@ -70,6 +71,15 @@ class Admin::HomepageArticlesController < ApplicationController
   def retire
     @record.update!(status: :retired, unpublished_at: Time.current)
     redirect_to admin_homepage_articles_path, notice: 'Retired.'
+  end
+
+  def reparse
+    if @record.md_file.attached?
+      ParseHomepageArticleJob.perform_later(@record.id)
+      redirect_to admin_homepage_articles_path, notice: 'Re-parse enqueued.'
+    else
+      redirect_to admin_homepage_articles_path, alert: 'No Markdown file attached.'
+    end
   end
 
   def destroy

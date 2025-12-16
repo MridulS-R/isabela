@@ -1,0 +1,24 @@
+<% content_for :title, 'Front Page Preview' %>
+
+<section class="section">
+  <div class="container">
+    <p class="subtle"><%= link_to '← Back', admin_homepage_articles_path, class: 'link' %></p>
+    <% meta = @record.metadata || {} %>
+    <h1><%= meta['title'].presence || 'Untitled' %></h1>
+    <% if meta['subheading'].present? %>
+      <p class="subtle"><%= meta['subheading'] %></p>
+    <% end %>
+    <p class="subtle">Status: <%= @record.status %> • Slot: <%= @record.slot %> • Community: <%= @record.community&.name || '—' %></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="front-article">
+      <div class="story-html">
+        <%= @record.content_html.to_s.html_safe %>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -70,11 +70,13 @@
             <td><%= r.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
             <td>
               <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'btn btn-small btn-outline' %>
+              <%= link_to 'Preview', admin_homepage_article_path(r), class: 'btn btn-small btn-outline' %>
               <% if r.published? %>
                 <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Retire this item?' } } %>
               <% else %>
                 <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'btn btn-small' %>
               <% end %>
+              <%= button_to 'Re-parse', reparse_admin_homepage_article_path(r), method: :post, class: 'btn btn-small btn-outline' %>
               <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Remove?' } } %>
             </td>
           </tr>
