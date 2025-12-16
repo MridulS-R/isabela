@@ -159,7 +159,21 @@ body {
   .front-article .subhed { font-family: Georgia, 'Times New Roman', serif; color: #374151; font-size: clamp(16px, 2vw, 20px); margin: 6px 0 8px; }
   .front-article .byline { color: #6b7280; font-size: 14px; margin-bottom: 14px; }
   .front-article .story-html { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.7; color: #111827; }
-  .front-article .story-html img { max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 12px auto; }
+  /* Newspaper-style columns */
+  .front-article .story-html {
+    column-count: 3;
+    column-gap: 28px;
+  }
+  @media (max-width: 1100px) { .front-article .story-html { column-count: 2; } }
+  @media (max-width: 720px) { .front-article .story-html { column-count: 1; } }
+  .front-article .story-html img { max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 12px auto; break-inside: avoid; }
+  .front-article .story-html h1,
+  .front-article .story-html h2,
+  .front-article .story-html h3,
+  .front-article .story-html p,
+  .front-article .story-html ul,
+  .front-article .story-html ol,
+  .front-article .story-html blockquote { break-inside: avoid; }
   .front-article .story-html p { margin: 0 0 14px; }
   .composer { position: sticky; top: 72px; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; margin-bottom: 12px; z-index: 10; }
   .composer textarea { width: 100%; min-height: 64px; resize: vertical; }
