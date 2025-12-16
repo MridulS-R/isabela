@@ -30,6 +30,11 @@
     <% if @is_admin %>
       <div class="cards-grid" style="margin-top:12px">
         <article class="card">
+          <h3>Admin — Front Page</h3>
+          <p class="subtle">Create and publish the front page article by uploading Markdown with front matter.</p>
+          <%= link_to 'Manage Front Page', admin_homepage_articles_path, class: 'btn btn-small' %>
+        </article>
+        <article class="card">
           <h3>Admin — Import</h3>
           <p class="subtle">Import Reddit posts, Instagram users, and News (select a community).</p>
           <%= link_to 'Open Import', new_import_path, class: 'btn btn-small' %>

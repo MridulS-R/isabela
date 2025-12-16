@@ -1,9 +1,9 @@
-<% content_for :title, '#community — Front Page' %>
+<% content_for :title, '#CommuniNity — Front Page' %>
 
 <section class="section">
   <div class="container">
     <header class="masthead">
-      <div class="brand-banner">COMMUNNITY</div>
+      <div class="brand-banner">#CommuniNity</div>
       <div class="strap">Front Page — The latest from communities you care about</div>
       <div class="dateline">
         <span><%= Time.current.strftime('%A, %B %e, %Y') %></span>
@@ -11,47 +11,46 @@
       </div>
     </header>
 
-    <div class="newspaper-grid">
-      <% if @news_top.present? %>
+    <article class="front-article">
+      <% if defined?(@hp_lead) && @hp_lead.present? %>
+        <% meta = @hp_lead.metadata || {} %>
+        <% heading = meta['title'] || meta['heading'] || 'Front Page' %>
+        <% subhed  = meta['subheading'] || meta['subtitle'] || meta['dek'] %>
+        <% pub     = @hp_lead.published_at %>
+
+        <%# Optional hero image if first <img> exists in HTML %>
+        <% if @hp_lead.content_html.to_s =~ /<img[^>]+src=["']([^"']+)["']/i %>
+          <div class="hero-image">
+            <img src="<%= Regexp.last_match(1) %>" alt="" loading="lazy">
+          </div>
+        <% end %>
+
+        <h1 class="headline"><%= heading %></h1>
+        <% if subhed.present? %>
+          <p class="subhed"><%= subhed %></p>
+        <% end %>
+        <p class="byline"><%= pub&.strftime('%B %e, %Y') %></p>
+
+        <div class="story-html">
+          <%= @hp_lead.content_html.to_s.html_safe %>
+        </div>
+      <% elsif @news_top.present? %>
         <% lead = @news_top.first %>
-        <article class="story lead">
-          <% if lead.first_image_url.present? %>
+        <% if lead.first_image_url.present? %>
+          <div class="hero-image">
             <%= image_tag lead.first_image_url, alt: '', loading: 'lazy' %>
-          <% end %>
-          <div class="kicker">Top Story</div>
-          <h2 class="headline lead">
-            <% if lead.url.present? %>
-              <%= link_to lead.title, lead.url, class: 'link', target: '_blank', rel: 'noopener' %>
-            <% else %>
-              <%= lead.title %>
-            <% end %>
-          </h2>
-          <div class="subhed"><%= truncate(strip_tags(lead.body.to_s), length: 180) %></div>
-          <div class="byline"><%= lead.published_at&.strftime('%b %d, %Y') %><% if lead.source.present? %> • <%= lead.source %><% end %></div>
-        </article>
+          </div>
+        <% end %>
+        <h1 class="headline"><%= lead.title %></h1>
+        <p class="subhed"><%= truncate(strip_tags(lead.body.to_s), length: 200) %></p>
+        <p class="byline"><%= lead.published_at&.strftime('%B %e, %Y') %><% if lead.source.present? %> • <%= lead.source %><% end %></p>
+        <div class="story-html">
+          <%= sanitize(lead.body.to_s, tags: %w[p br strong em b i a img ul ol li blockquote h2 h3], attributes: %w[href src alt title rel target]) %>
+        </div>
+      <% else %>
+        <h1 class="headline">Welcome</h1>
+        <p class="subhed">Add a front page article from the admin profile page to publish your first edition.</p>
       <% end %>
-
-      <% @news_secondary.each do |a| %>
-        <article class="story">
-          <div class="kicker">News</div>
-          <h3 class="headline">
-            <% if a.url.present? %>
-              <%= link_to a.title, a.url, class: 'link', target: '_blank', rel: 'noopener' %>
-            <% else %>
-              <%= a.title %>
-            <% end %>
-          </h3>
-          <div class="subhed"><%= truncate(strip_tags(a.body.to_s), length: 120) %></div>
-          <div class="byline"><%= a.published_at&.strftime('%b %d, %Y') %><% if a.source.present? %> • <%= a.source %><% end %></div>
-        </article>
-      <% end %>
-
-      <% @news_latest.first(9).each do |a| %>
-        <article class="story">
-          <h4 class="headline"><%= link_to truncate(a.title.to_s, length: 100), (a.url.presence || '#'), class: 'link', target: (a.url.present? ? '_blank' : nil), rel: 'noopener' %></h4>
-          <p class="byline"><%= a.published_at&.strftime('%b %d') %><% if a.source.present? %> • <%= a.source %><% end %></p>
-        </article>
-      <% end %>
-    </div>
+    </article>
   </div>
 </section>
