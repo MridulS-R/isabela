@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :user_signed_in?
   helper_method :admin_user?
   helper_method :unread_notifications_count
+  helper_method :can_view_post?
 
   private
   def current_user
@@ -63,5 +64,20 @@ class ApplicationController < ActionController::Base
     Notification.where(user_id: current_user.id, read_at: nil).count
   rescue
     0
+  end
+
+  def can_view_post?(post)
+    return true if post.respond_to?(:visibility_public?) && post.visibility_public?
+    return true if user_signed_in? && post.user_id == current_user.id
+    if post.respond_to?(:visibility_followers?) && post.visibility_followers?
+      return false unless user_signed_in?
+      return current_user.following.exists?(id: post.user_id)
+    end
+    if post.respond_to?(:visibility_community?) && post.visibility_community?
+      return false unless user_signed_in? && post.community_id.present?
+      return current_user.followed_communities.exists?(id: post.community_id)
+    end
+    # Default deny if unknown
+    false
   end
 end

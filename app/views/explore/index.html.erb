@@ -1,0 +1,45 @@
+<% content_for :title, 'Explore' %>
+
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h1 class="text-2xl font-bold">Users to follow</h1>
+      <ul class="mt-3 space-y-2">
+        <% @users.each do |u| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-800 p-2">
+            <div>
+              <%= link_to (u.name.presence || u.email), user_public_path(u), class: 'text-sky-600 hover:underline' %>
+            </div>
+            <% if user_signed_in? %>
+              <% following = current_user.following.exists?(id: u.id) rescue false %>
+              <% if following %>
+                <%= button_to 'Following', unfollow_user_path(u.id), method: :delete, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
+              <% else %>
+                <%= button_to 'Follow', follow_user_path(u.id), method: :post, class: 'px-2 py-1 rounded bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold">Communities to join</h2>
+      <ul class="mt-3 space-y-2">
+        <% @communities.each do |c| %>
+          <li class="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-800 p-2">
+            <%= link_to "##{c.name}", community_path(c.slug), class: 'text-sky-600 hover:underline' %>
+            <% if user_signed_in? %>
+              <% following = current_user.followed_communities.exists?(id: c.id) rescue false %>
+              <% if following %>
+                <%= button_to 'Following', unfollow_community_path(c.slug), method: :delete, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
+              <% else %>
+                <%= button_to 'Follow', follow_community_path(c.slug), method: :post, class: 'px-2 py-1 rounded bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>
+

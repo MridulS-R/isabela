@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#about'
   get '/blog', to: 'pages#blog'
   get '/contact', to: 'pages#contact'
+  get '/search', to: 'search#index', as: :search
+  get '/explore', to: 'explore#index', as: :explore
 
   # Admin imports (UI + API)
   resources :imports, only: %i[new create]

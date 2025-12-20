@@ -10,6 +10,12 @@
           <li><%= link_to 'Map', post_map_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(post_map_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
           <li><%= link_to 'News', blog_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(blog_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
           <li><%= link_to 'Trending', trending_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(trending_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
+          <li>
+            <%= form_with url: search_path, method: :get, local: true, class: 'hidden lg:flex items-center' do %>
+              <input type="text" name="q" placeholder="Search" class="px-3 py-1.5 rounded-l border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
+              <button class="px-3 py-1.5 rounded-r border-y border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm">Go</button>
+            <% end %>
+          </li>
           <% if user_signed_in? %>
             <li><%= link_to 'Bookmarks', bookmarks_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(bookmarks_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
             <li>
