@@ -2,6 +2,7 @@
 
 <section class="py-10">
   <div class="mx-auto max-w-5xl px-4">
+    <div class="surface p-4 sm:p-6">
     <header class="text-center border-b-2 border-slate-900 pb-4 mb-6">
       <% masthead_meta = (defined?(@hp_lead) && @hp_lead.present?) ? (@hp_lead.metadata || {}) : {} %>
       <% masthead_title = masthead_meta['homepage_heading'].presence || masthead_meta['brand'].presence || masthead_meta['masthead'].presence || '#CommunNity' %>
@@ -84,5 +85,6 @@
         </header>
       <% end %>
     </article>
+    </div>
   </div>
 </section>
