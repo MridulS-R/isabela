@@ -5,18 +5,25 @@ class TimelinesController < ApplicationController
     per = (params[:per] || 20).to_i.clamp(1, 100)
     page = (params[:page] || 1).to_i.clamp(1, 10_000)
 
-    user_ids = [current_user.id]
-    if current_user.respond_to?(:following)
-      user_ids += current_user.following.pluck(:id)
-    end
-    community_ids = []
-    if current_user.respond_to?(:followed_communities)
-      community_ids = current_user.followed_communities.pluck(:id)
-    end
+    following_ids = current_user.respond_to?(:following) ? current_user.following.pluck(:id) : []
+    user_ids = ([current_user.id] + following_ids).uniq
+    community_ids = current_user.respond_to?(:followed_communities) ? current_user.followed_communities.pluck(:id) : []
 
-    scope = Post.includes(:user, images_attachments: :blob)
-                .where('posts.user_id IN (?) OR posts.community_id IN (?)', user_ids.uniq, community_ids.uniq)
-                .order(created_at: :desc)
+    base = Post.includes(:user, images_attachments: :blob)
+               .where('posts.user_id IN (?) OR posts.community_id IN (?)', user_ids, community_ids)
+
+    vis_public = Post.visibilities[:public]
+    vis_followers = Post.visibilities[:followers]
+    vis_community = Post.visibilities[:community]
+
+    scope = base.where(
+      [
+        'posts.visibility = ? OR (posts.visibility = ? AND posts.user_id IN (?)) OR (posts.visibility = ? AND (posts.community_id IN (?) OR posts.user_id = ?))',
+        vis_public,
+        vis_followers, following_ids + [current_user.id],
+        vis_community, community_ids, current_user.id
+      ]
+    ).order(created_at: :desc)
 
     @total_posts = scope.count
     @posts = scope.offset((page - 1) * per).limit(per)
@@ -25,4 +32,3 @@ class TimelinesController < ApplicationController
     @has_more = (page * per) < @total_posts
   end
 end
-

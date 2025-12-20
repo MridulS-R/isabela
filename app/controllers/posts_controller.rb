@@ -20,6 +20,9 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.includes(:user, images_attachments: :blob).find(params[:id])
+    unless can_view_post?(@post)
+      return redirect_to(root_path, alert: 'Not authorized to view this post.')
+    end
     @comments = @post.comments.includes(:user).order(created_at: :asc)
     @related_posts = if @post.respond_to?(:topics) && @post.topics.exists?
       Post.joins(:topics)
@@ -120,5 +123,19 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:caption, :latitude, :longitude, :location, images: [])
+  end
+
+  def can_view_post?(post)
+    return true if post.visibility_public?
+    return true if user_signed_in? && post.user_id == current_user.id
+    if post.visibility_followers?
+      return false unless user_signed_in?
+      return current_user.following.exists?(id: post.user_id)
+    end
+    if post.visibility_community?
+      return false unless user_signed_in? && post.community_id.present?
+      return current_user.followed_communities.exists?(id: post.community_id)
+    end
+    false
   end
 end

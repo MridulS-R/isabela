@@ -13,6 +13,14 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   get '/home', to: 'timelines#home', as: :home
+
+  # Follows (users)
+  post '/u/:id/follow', to: 'follows#create', as: :follow_user
+  delete '/u/:id/follow', to: 'follows#destroy', as: :unfollow_user
+
+  # Community follows
+  post '/c/:slug/follow', to: 'community_follows#create', as: :follow_community
+  delete '/c/:slug/follow', to: 'community_follows#destroy', as: :unfollow_community
   get '/solutions', to: 'pages#solutions'
   get '/data-coverage', to: 'pages#data_coverage'
   get '/how-it-works', to: 'pages#how_it_works'

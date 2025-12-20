@@ -17,10 +17,18 @@
             <% end %>
           </div>
           <div>
-            <div class="tweet-header">
+            <div class="tweet-header flex items-center gap-2 flex-wrap">
               <span class="tweet-name"><%= @post.user.name.presence || 'User' %></span>
               <span class="tweet-handle">@<%= @post.user.username.presence || @post.user.email.to_s.split('@').first %></span>
               <span class="tweet-time">· <%= @post.created_at.strftime('%b %d, %Y %H:%M') %></span>
+              <% if user_signed_in? && current_user.id != @post.user_id %>
+                <% following = current_user.following.exists?(id: @post.user_id) rescue false %>
+                <% if following %>
+                  <%= button_to 'Following', unfollow_user_path(@post.user_id), method: :delete, class: 'ml-2 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800' %>
+                <% else %>
+                  <%= button_to 'Follow', follow_user_path(@post.user_id), method: :post, class: 'ml-2 px-2 py-1 rounded bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+                <% end %>
+              <% end %>
             </div>
             <% if @post.caption.present? %>
               <div class="tweet-body"><%= raw @post.caption.gsub(/#(\w+)/){|m| link_to m, tag_path(m.delete('#').downcase) } %></div>

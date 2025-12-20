@@ -2,9 +2,19 @@
 
 <section class="py-8">
   <div class="mx-auto max-w-5xl px-4">
-    <header class="mb-6">
-      <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">#<%= @community.name %></h1>
-      <p class="mt-1 text-slate-500 dark:text-slate-400">@<%= @community.slug %></p>
+    <header class="mb-6 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">#<%= @community.name %></h1>
+        <p class="mt-1 text-slate-500 dark:text-slate-400">@<%= @community.slug %></p>
+      </div>
+      <% if user_signed_in? %>
+        <% following = current_user.followed_communities.exists?(id: @community.id) rescue false %>
+        <% if following %>
+          <%= button_to 'Following', unfollow_community_path(@community.slug), method: :delete, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
+        <% else %>
+          <%= button_to 'Follow', follow_community_path(@community.slug), method: :post, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
+        <% end %>
+      <% end %>
     </header>
 
     <% if @posts.any? %>
@@ -46,4 +56,3 @@
     <% end %>
   </div>
 </section>
-
