@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_posts, through: :bookmarks, source: :post
+  belongs_to :pinned_post, class_name: 'Post', optional: true
   has_secure_password
   has_one_attached :avatar
 

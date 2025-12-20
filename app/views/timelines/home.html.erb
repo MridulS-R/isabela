@@ -72,6 +72,18 @@
                   </svg>
                   <span class="count"><%= post.likes_count %></span>
                 <% end %>
+                <% if user_signed_in? %>
+                  <% saved = current_user.bookmarked_posts.exists?(id: post.id) rescue false %>
+                  <% if saved %>
+                    <%= button_to unbookmark_post_path(post), method: :delete, class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' do %>
+                      Unsave
+                    <% end %>
+                  <% else %>
+                    <%= button_to bookmark_post_path(post), method: :post, class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' do %>
+                      Save
+                    <% end %>
+                  <% end %>
+                <% end %>
                 <%= form_with url: post_comments_path(post), method: :post, local: true do |f| %>
                   <div class="inline-flex items-center gap-2">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

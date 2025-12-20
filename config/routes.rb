@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   root 'pages#home'
-  resources :posts, only: %i[index show new create]
+  resources :posts, only: %i[index show new create edit update destroy]
   post '/posts/:id/repost', to: 'posts#repost', as: :repost_post
   post '/posts/:id/quote', to: 'posts#quote', as: :quote_post
+  post '/posts/:id/pin', to: 'posts#pin', as: :pin_post
+  delete '/posts/:id/pin', to: 'posts#unpin', as: :unpin_post
   post '/posts/:id/like', to: 'posts#like', as: :like_post
   delete '/posts/:id/like', to: 'posts#unlike', as: :unlike_post
   post '/posts/:id/comments', to: 'posts#comment', as: :post_comments
@@ -13,6 +15,9 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   get '/home', to: 'timelines#home', as: :home
+  get '/bookmarks', to: 'bookmarks#index', as: :bookmarks
+  post '/posts/:id/bookmark', to: 'bookmarks#create', as: :bookmark_post
+  delete '/posts/:id/bookmark', to: 'bookmarks#destroy', as: :unbookmark_post
 
   # Follows (users)
   post '/u/:id/follow', to: 'follows#create', as: :follow_user
@@ -60,6 +65,9 @@ Rails.application.routes.draw do
   # Community news
   get '/c/:slug', to: 'communities#show', as: :community
   get '/c/:slug/news', to: 'communities#news', as: :community_news
+
+  # Public user profile
+  get '/u/:id', to: 'users_public#show', as: :user_public
   # Feeds removed; crawling uses predefined sources via rake/jobs
 
   namespace :admin do

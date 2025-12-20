@@ -1,0 +1,32 @@
+<% content_for :title, 'Edit Post' %>
+
+<section class="py-8">
+  <div class="mx-auto max-w-2xl px-4">
+    <h1 class="text-2xl font-bold">Edit Post</h1>
+    <%= form_with model: @post, url: post_path(@post), method: :patch, local: true, multipart: true do |f| %>
+      <% if @post.errors.any? %>
+        <div class="rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-2 text-sm" role="alert">
+          <ul class="list-disc ml-5 mt-1">
+            <% @post.errors.full_messages.each do |m| %>
+              <li><%= m %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mt-4">
+        <%= f.label :caption, class: 'block text-sm font-medium' %>
+        <%= f.text_area :caption, rows: 4, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
+      </div>
+      <div class="mt-4">
+        <%= f.label :images, 'Add images (optional)', class: 'block text-sm font-medium' %>
+        <%= f.file_field :images, multiple: true, accept: 'image/*', class: 'mt-1 block w-full text-sm' %>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <%= f.submit 'Save', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+        <%= link_to 'Cancel', post_path(@post), class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800' %>
+      </div>
+    <% end %>
+  </div>
+</section>
+

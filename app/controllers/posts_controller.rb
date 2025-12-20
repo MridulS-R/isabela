@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
-  before_action :require_login, only: %i[new create like unlike comment repost quote]
-  before_action :set_post, only: %i[show like unlike repost quote]
+  before_action :require_login, only: %i[new create edit update destroy like unlike comment repost quote pin unpin]
+  before_action :set_post, only: %i[show like unlike repost quote edit update destroy pin unpin]
+  before_action :require_owner!, only: %i[edit update destroy pin unpin]
 
   def index
     per = (params[:per] || 20).to_i.clamp(1, 100)
@@ -67,6 +68,22 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: 'Updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @post.destroy
+    redirect_to posts_path, notice: 'Deleted.'
+  end
+
   def like
     current_user.likes.find_or_create_by!(post: @post)
     if @post.user_id != current_user.id
@@ -116,6 +133,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def pin
+    current_user.update!(pinned_post: @post)
+    redirect_back fallback_location: post_path(@post), notice: 'Pinned to profile.'
+  end
+
+  def unpin
+    if current_user.pinned_post_id == @post.id
+      current_user.update!(pinned_post: nil)
+    end
+    redirect_back fallback_location: post_path(@post), notice: 'Unpinned.'
+  end
+
   private
   def set_post
     @post = Post.find(params[:id])
@@ -137,5 +166,9 @@ class PostsController < ApplicationController
       return current_user.followed_communities.exists?(id: post.community_id)
     end
     false
+  end
+
+  def require_owner!
+    redirect_to root_path, alert: 'Not authorized' unless @post.user_id == current_user.id
   end
 end
