@@ -31,4 +31,8 @@ Rails.application.configure do
   # Allow Render hosts
   config.hosts << /.*\.onrender\.com/
   config.hosts << ENV['RENDER_EXTERNAL_HOSTNAME'] if ENV['RENDER_EXTERNAL_HOSTNAME']
+
+  # Action Cable: allow any origin by default (Render routes through multiple hosts)
+  # Tighten this with specific origins/domains once your deployment URL is fixed.
+  config.action_cable.disable_request_forgery_protection = true
 end
