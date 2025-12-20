@@ -37,6 +37,9 @@
       <div class="timeline space-y-3 mt-3">
         <% @posts.each do |post| %>
           <div class="tweet fade-in rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3" data-url="<%= post_path(post) %>">
+            <% if defined?(@promoted_ids) && @promoted_ids.include?(post.id) %>
+              <div class="mb-1 text-xs uppercase tracking-wide text-amber-600">Sponsored</div>
+            <% end %>
             <div>
               <% if post.user&.avatar&.attached? %>
                 <%= image_tag url_for(post.user.avatar), alt: '', class: 'avatar rounded-full w-10 h-10 object-cover', loading: 'lazy' %>
@@ -85,6 +88,11 @@
                   <% else %>
                     <%= button_to bookmark_post_path(post), method: :post, class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' do %>
                       Save
+                    <% end %>
+                  <% end %>
+                  <% if defined?(@promoted_ids) && @promoted_ids.include?(post.id) %>
+                    <% if (pp = PromotedPost.find_by(post_id: post.id)) %>
+                      <%= link_to 'Learn more', promotion_click_path(pp), class: 'text-xs text-sky-600 hover:underline' %>
                     <% end %>
                   <% end %>
                 <% end %>

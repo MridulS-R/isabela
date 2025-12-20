@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#about'
   get '/blog', to: 'pages#blog'
   get '/contact', to: 'pages#contact'
+  get '/ad/:id', to: 'promotions#click', as: :promotion_click
   resources :reports, only: %i[new create]
   get '/search', to: 'search#index', as: :search
   get '/explore', to: 'explore#index', as: :explore
@@ -82,6 +83,10 @@ Rails.application.routes.draw do
   # Feeds removed; crawling uses predefined sources via rake/jobs
 
   namespace :admin do
+    resources :promoted_posts, only: %i[index create destroy] do
+      post :activate, on: :member
+      post :deactivate, on: :member
+    end
     resources :reports do
       post :hide_post, on: :member
       delete :delete_post, on: :member

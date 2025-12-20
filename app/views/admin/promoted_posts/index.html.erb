@@ -1,0 +1,47 @@
+<% content_for :title, 'Promoted Posts' %>
+
+<section class="py-8">
+  <div class="mx-auto max-w-5xl px-4">
+    <h1 class="text-2xl font-bold">Promoted Posts</h1>
+    <%= form_with url: admin_promoted_posts_path, method: :post, local: true, class: 'mt-4 flex items-end gap-2' do %>
+      <div>
+        <label class="block text-sm font-medium">Post ID</label>
+        <input type="number" name="post_id" required class="mt-1 w-40 px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Weight</label>
+        <input type="number" name="weight" value="1" min="1" max="10" class="mt-1 w-24 px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+      </div>
+      <button class="px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black">Add</button>
+    <% end %>
+
+    <div class="overflow-x-auto mt-4 rounded-lg border border-slate-200 dark:border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><tr><th class="p-2 text-left">ID</th><th class="p-2 text-left">Post</th><th class="p-2 text-left">Active</th><th class="p-2 text-left">Weight</th><th class="p-2 text-left">Impressions</th><th class="p-2 text-left">Clicks</th><th class="p-2 text-left">CTR</th><th class="p-2 text-left">Last Shown</th><th class="p-2"></th></tr></thead>
+        <tbody>
+          <% @records.each do |r| %>
+            <tr class="border-t border-slate-200 dark:border-slate-800">
+              <td class="p-2"><%= r.id %></td>
+              <td class="p-2"><%= link_to "Post ##{r.post_id}", post_path(r.post_id), class: 'text-sky-600 hover:underline' %></td>
+              <td class="p-2"><%= r.active ? 'Yes' : 'No' %></td>
+              <td class="p-2"><%= r.weight %></td>
+              <td class="p-2"><%= r.impressions_count %></td>
+              <td class="p-2"><%= r.clicks_count %></td>
+              <td class="p-2"><%= (r.impressions_count > 0) ? ((r.clicks_count.to_f / r.impressions_count) * 100).round(1) : 0 %>%</td>
+              <td class="p-2"><%= r.last_shown_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
+              <td class="p-2 space-x-1">
+                <% if r.active %>
+                  <%= button_to 'Deactivate', deactivate_admin_promoted_post_path(r), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
+                <% else %>
+                  <%= button_to 'Activate', activate_admin_promoted_post_path(r), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
+                <% end %>
+                <%= button_to 'Remove', admin_promoted_post_path(r), method: :delete, class: 'px-2 py-1 rounded border border-rose-200 text-rose-700 hover:bg-rose-50', form: { data: { turbo_confirm: 'Remove placement?' } } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+

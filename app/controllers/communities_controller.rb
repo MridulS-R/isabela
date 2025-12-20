@@ -18,10 +18,30 @@ class CommunitiesController < ApplicationController
         vis_community, member, (user_signed_in? ? current_user.id : 0)
       ]
     )
-    if ENV['FEED_RANKING'].to_s.downcase == 'on' || params[:sort] == 'ranked'
-      @posts = scope.order(hot_score: :desc, created_at: :desc).limit(50)
+    base = if ENV['FEED_RANKING'].to_s.downcase == 'on' || params[:sort] == 'ranked'
+      scope.order(hot_score: :desc, created_at: :desc)
     else
-      @posts = scope.order(created_at: :desc).limit(50)
+      scope.order(created_at: :desc)
+    end
+    list = base.limit(50).to_a
+    @promoted_ids = []
+    begin
+      promos = PromotedPost.active.order(Arel.sql('last_shown_at NULLS FIRST'), :impressions_count).limit(2)
+      merged = []
+      insert_every = 8
+      pi = 0
+      list.each_with_index do |p, idx|
+        merged << p
+        if ((idx + 1) % insert_every == 0) && promos[pi]
+          merged << promos[pi].post
+          @promoted_ids << promos[pi].post_id
+          promos[pi].increment_impression! rescue nil
+          pi += 1
+        end
+      end
+      @posts = merged
+    rescue
+      @posts = list
     end
   end
 

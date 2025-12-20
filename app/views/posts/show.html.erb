@@ -59,6 +59,9 @@
                     Save
                   <% end %>
                 <% end %>
+                <% if ENV['TIPS_URL'].present? %>
+                  <%= link_to 'Tip', "#{ENV['TIPS_URL']}?user=#{@post.user_id}&post=#{@post.id}", class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                <% end %>
                 <%= link_to 'Report', new_report_path(type: 'post', id: @post.id), class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
               <% else %>
                 <span class="count">❤️ <%= @post.likes_count %></span>

@@ -31,7 +31,28 @@ class TimelinesController < ApplicationController
     end
 
     @total_posts = scope.count
-    @posts = scope.offset((page - 1) * per).limit(per)
+    page_posts = scope.offset((page - 1) * per).limit(per).to_a
+
+    # Inject promoted posts every N items
+    @promoted_ids = []
+    begin
+      promos = PromotedPost.active.order(Arel.sql('last_shown_at NULLS FIRST'), :impressions_count).limit(3)
+      merged = []
+      insert_every = 6
+      pi = 0
+      page_posts.each_with_index do |p, idx|
+        merged << p
+        if ((idx + 1) % insert_every == 0) && promos[pi]
+          merged << promos[pi].post
+          @promoted_ids << promos[pi].post_id
+          promos[pi].increment_impression! rescue nil
+          pi += 1
+        end
+      end
+      @posts = merged
+    rescue => e
+      @posts = page_posts
+    end
     @page = page
     @per = per
     @has_more = (page * per) < @total_posts

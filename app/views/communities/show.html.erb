@@ -26,6 +26,9 @@
       <ul class="space-y-4">
         <% @posts.each do |p| %>
           <li class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <% if defined?(@promoted_ids) && @promoted_ids.include?(p.id) %>
+              <div class="mb-1 text-xs uppercase tracking-wide text-amber-600">Sponsored</div>
+            <% end %>
             <div class="flex items-start gap-3">
               <div class="shrink-0 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700"></div>
               <div class="min-w-0 flex-1">
@@ -50,6 +53,11 @@
                   <%= button_to 'Like', like_post_path(p), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
                   <%= link_to 'Comment', post_path(p), class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
                   <%= button_to 'Repost', repost_post_path(p), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                  <% if defined?(@promoted_ids) && @promoted_ids.include?(p.id) %>
+                    <% if (pp = PromotedPost.find_by(post_id: p.id)) %>
+                      <%= link_to 'Learn more', promotion_click_path(pp), class: 'text-xs text-sky-600 hover:underline' %>
+                    <% end %>
+                  <% end %>
                 </div>
               </div>
             </div>
