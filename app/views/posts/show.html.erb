@@ -1,6 +1,6 @@
 <section class="py-8">
   <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4 items-start">
-    <div>
+    <div class="surface p-4 sm:p-6">
       <div class="flex items-center justify-between mb-3">
         <h1 class="text-2xl font-bold">Thread</h1>
         <%= link_to 'Back to Posts', posts_path, class: 'text-sky-600 hover:underline' %>
@@ -111,14 +111,14 @@
       </div>
     </div>
 
-    <aside>
+    <aside class="card p-3">
       <% if @related_posts.present? %>
-        <h2 class="footer-title">Related posts</h2>
-        <ul class="mini-list">
+        <h2 class="font-semibold mb-2">Related posts</h2>
+        <ul class="space-y-2">
           <% @related_posts.each do |p| %>
-            <li class="mini-item">
-              <strong><%= link_to truncate(p.caption.to_s, length: 80), post_path(p), class: 'link' %></strong>
-              <div class="story-meta"><%= time_ago_in_words(p.created_at) %> ago • ❤️ <%= p.likes_count %></div>
+            <li>
+              <strong><%= link_to truncate(p.caption.to_s, length: 80), post_path(p), class: 'link-brand' %></strong>
+              <div class="text-xs text-slate-500"><%= time_ago_in_words(p.created_at) %> ago • ❤️ <%= p.likes_count %></div>
             </li>
           <% end %>
         </ul>
