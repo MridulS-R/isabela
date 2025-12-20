@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-1: #402E7A; /* deep violet */
+    --brand-2: #4C3BCF; /* primary */
+    --brand-3: #4B70F5; /* accent */
+    --brand-4: #3DC2EC; /* highlight */
+  }
+}
+
+@layer utilities {
+  .btn { @apply inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium; }
+  .btn-brand { color: #fff; background-color: var(--brand-2); }
+  .btn-brand:hover { background-color: var(--brand-1); }
+  .btn-ghost { @apply border border-slate-200 dark:border-slate-700; color: #111827; }
+  .link-brand { color: var(--brand-3); }
+  .link-brand:hover { text-decoration: underline; }
+  .badge-brand { background-color: var(--brand-3); color: #fff; }
+  .brand-text { color: var(--brand-1); }
+  .nav-link { color: #374151; }
+  .nav-link:hover { background-color: rgba(76,59,207,0.08); color: #111827; }
+  .nav-active { background-color: rgba(76,59,207,0.12); color: #111827; }
+}

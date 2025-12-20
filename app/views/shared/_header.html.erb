@@ -7,25 +7,17 @@
           <li><%= link_to 'Home', root_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(root_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
           <li><%= link_to 'Feed', home_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(home_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
           <li><%= link_to 'Posts', posts_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(posts_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
-          <li><%= link_to 'Map', post_map_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(post_map_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
-          <li><%= link_to 'News', blog_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(blog_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
-          <li><%= link_to 'Trending', trending_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(trending_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
-          <li>
-            <%= form_with url: search_path, method: :get, local: true, class: 'hidden lg:flex items-center' do %>
-              <input type="text" name="q" placeholder="Search" class="px-3 py-1.5 rounded-l border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
-              <button class="px-3 py-1.5 rounded-r border-y border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm">Go</button>
-            <% end %>
-          </li>
+          
           <% if user_signed_in? %>
-            <li><%= link_to 'Bookmarks', bookmarks_path, class: "px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white #{current_page?(bookmarks_path) ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : ''}" %></li>
+            
             <li>
-              <%= link_to raw('＋'), new_post_path, class: 'inline-flex items-center justify-center w-9 h-9 rounded-full bg-pink-500 text-white hover:bg-pink-600 shadow ring-1 ring-pink-600/20', aria: { label: 'New Post' } %>
+              <%= link_to raw('＋'), new_post_path, class: 'inline-flex items-center justify-center w-9 h-9 rounded-full btn-brand shadow ring-1 ring-slate-900/5', aria: { label: 'New Post' } %>
             </li>
             <li>
               <%= link_to (current_user.name.presence || current_user.email), profile_path, class: 'px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white' %>
             </li>
             <li>
-              <%= link_to notifications_path, id: 'notif-link', class: 'relative px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white' do %>
+              <%= link_to notifications_path, id: 'notif-link', class: 'relative px-3 py-2 rounded-lg nav-link' do %>
                 <span class="inline-flex items-center gap-1">
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -34,9 +26,9 @@
                   Notifications
                 </span>
                 <% if unread_notifications_count.to_i > 0 %>
-                  <span id="notif-badge" class="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] text-[11px] px-1 rounded-full bg-rose-600 text-white"><%= unread_notifications_count %></span>
+                  <span id="notif-badge" class="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] text-[11px] px-1 rounded-full badge-brand"><%= unread_notifications_count %></span>
                 <% else %>
-                  <span id="notif-badge" class="hidden absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] text-[11px] px-1 rounded-full bg-rose-600 text-white">0</span>
+                  <span id="notif-badge" class="hidden absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] text-[11px] px-1 rounded-full badge-brand">0</span>
                 <% end %>
               <% end %>
             </li>
@@ -44,8 +36,8 @@
               <%= button_to 'Log out', logout_path, method: :delete, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black', form: { class: 'inline' } %>
             </li>
           <% else %>
-            <li><%= link_to 'Login', login_path, class: 'px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white' %></li>
-            <li><%= link_to 'Signup', signup_path, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %></li>
+            <li><%= link_to 'Login', login_path, class: 'px-3 py-2 rounded-lg nav-link' %></li>
+            <li><%= link_to 'Signup', signup_path, class: 'btn btn-brand' %></li>
           <% end %>
         </ul>
         <button id="theme-toggle" class="ml-1 inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800" aria-label="Toggle dark mode">☾</button>

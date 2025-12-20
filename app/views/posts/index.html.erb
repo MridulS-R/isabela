@@ -2,10 +2,21 @@
   <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4 items-start">
     <div>
       <div class="flex items-center justify-between mb-3">
-        <h1 class="text-2xl font-bold">Posts</h1>
-        <% if user_signed_in? %>
-          <%= link_to 'New Post', new_post_path, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
-        <% end %>
+        <h1 class="text-2xl font-bold brand-text">Posts</h1>
+        <div class="flex items-center gap-2">
+          <%= form_with url: search_path, method: :get, local: true, class: 'hidden sm:flex items-center' do %>
+            <input type="hidden" name="scope" value="posts">
+            <input type="text" name="q" placeholder="Search posts" class="px-3 py-2 rounded-l border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
+            <button class="px-3 py-2 rounded-r btn-ghost text-sm">Go</button>
+          <% end %>
+          <%= link_to 'Trending', trending_path, class: 'btn btn-ghost text-sm' %>
+          <% if user_signed_in? %>
+            <%= link_to 'Bookmarks', bookmarks_path, class: 'btn btn-ghost text-sm' %>
+          <% end %>
+          <% if user_signed_in? %>
+            <%= link_to 'New Post', new_post_path, class: 'btn btn-brand text-sm' %>
+          <% end %>
+        </div>
       </div>
 
       <% if user_signed_in? %>
@@ -26,7 +37,7 @@
                 <%= text_field_tag 'post[community_slug]', nil, placeholder: 'community (e.g., dev)', required: true, class: 'px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm' %>
               </div>
               <div>
-                <%= f.submit 'Post', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
+                <%= f.submit 'Post', class: 'btn btn-brand text-sm' %>
               </div>
             </div>
           <% end %>
