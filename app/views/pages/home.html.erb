@@ -1,86 +1,86 @@
 <% content_for :title, '#CommunNity — Front Page' %>
 
-<section class="section news-front">
-  <div class="page">
-    <header class="masthead">
+<section class="py-10">
+  <div class="mx-auto max-w-5xl px-4">
+    <header class="text-center border-b-2 border-slate-900 pb-4 mb-6">
       <% masthead_meta = (defined?(@hp_lead) && @hp_lead.present?) ? (@hp_lead.metadata || {}) : {} %>
       <% masthead_title = masthead_meta['homepage_heading'].presence || masthead_meta['brand'].presence || masthead_meta['masthead'].presence || '#CommunNity' %>
       <% masthead_strap  = masthead_meta['strap'].presence || masthead_meta['tagline'].presence || 'Front Page — The latest from communities you care about' %>
-      <div class="brand"><%= masthead_title %></div>
-      <p class="strap"><%= masthead_strap %></p>
-      <div class="meta-line">
+      <div class="font-serif font-black text-slate-900 tracking-wide text-4xl sm:text-6xl"><%= masthead_title %></div>
+      <p class="font-serif text-slate-500 text-sm mt-1"><%= masthead_strap %></p>
+      <div class="flex justify-center gap-3 text-slate-500 text-xs mt-2">
         <span>Edition: <%= (masthead_meta['edition'].presence || 'Daily') %></span>
         <span><%= Time.current.strftime('%B %e, %Y') %></span>
         <span><%= request.host %></span>
       </div>
     </header>
 
-    <article class="front-article">
+    <article class="max-w-3xl mx-auto">
       <% if defined?(@hp_lead) && @hp_lead.present? %>
         <% meta = @hp_lead.metadata || {} %>
         <% heading = meta['title'] || meta['heading'] || 'Front Page' %>
         <% subhed  = meta['subheading'] || meta['subtitle'] || meta['dek'] %>
         <% pub     = @hp_lead.published_at %>
 
-        <header class="article-header">
-          <h1 class="headline"><%= heading %></h1>
+        <header class="mb-3">
+          <h1 class="font-serif font-black text-slate-900 text-3xl sm:text-5xl leading-tight"><%= heading %></h1>
           <% if subhed.present? %>
-            <p class="subheading"><%= subhed %></p>
+            <p class="font-serif text-slate-700 text-base sm:text-lg mt-1"><%= subhed %></p>
           <% end %>
-          <div class="byline">
+          <div class="text-slate-500 text-sm mt-1">
             <% if meta['author'].present? %>
-              <span><b><%= meta['author'] %></b></span>
+              <span><b class="text-slate-700"><%= meta['author'] %></b></span>
             <% end %>
             <% if pub.present? %>
-              <span>Published: <%= pub.strftime('%Y-%m-%d') %></span>
+              <span class="ml-2">Published: <%= pub.strftime('%Y-%m-%d') %></span>
             <% end %>
           </div>
         </header>
 
         <%# Prefer uploaded hero image; otherwise, use first image in HTML %>
         <% if @hp_lead.hero_image&.attached? %>
-          <figure class="lead-media">
-            <%= image_tag url_for(@hp_lead.hero_image), alt: '', loading: 'lazy' %>
+          <figure class="my-4">
+            <%= image_tag url_for(@hp_lead.hero_image), alt: '', loading: 'lazy', class: 'w-full h-auto rounded' %>
             <% cap = meta['body_sub_heading'].to_s.presence %>
             <% if cap %>
-              <figcaption class="hero-caption"><%= cap %></figcaption>
+              <figcaption class="text-slate-500 italic text-sm mt-1"><%= cap %></figcaption>
             <% end %>
           </figure>
         <% elsif @hp_lead.content_html.to_s =~ /<img[^>]+src=["']([^"']+)["']/i %>
-          <figure class="lead-media">
-            <img src="<%= Regexp.last_match(1) %>" alt="" loading="lazy">
+          <figure class="my-4">
+            <img src="<%= Regexp.last_match(1) %>" alt="" loading="lazy" class="w-full h-auto rounded">
             <% cap = meta['body_sub_heading'].to_s.presence %>
             <% if cap %>
-              <figcaption class="hero-caption"><%= cap %></figcaption>
+              <figcaption class="text-slate-500 italic text-sm mt-1"><%= cap %></figcaption>
             <% end %>
           </figure>
         <% end %>
 
-        <div class="article-body">
+        <div class="prose prose-slate lg:prose-lg max-w-none" style="column-count: 3; column-gap: 28px;">
           <%= @hp_lead.content_html.to_s.html_safe %>
         </div>
       <% elsif @news_top.present? %>
         <% lead = @news_top.first %>
         <% if lead.first_image_url.present? %>
-          <div class="hero-image">
-            <%= image_tag lead.first_image_url, alt: '', loading: 'lazy' %>
+          <div class="my-4 text-center">
+            <%= image_tag lead.first_image_url, alt: '', loading: 'lazy', class: 'w-full max-w-3xl mx-auto h-auto rounded' %>
           </div>
         <% end %>
-        <header class="article-header">
-          <h1 class="headline"><%= lead.title %></h1>
-          <p class="subheading"><%= truncate(strip_tags(lead.body.to_s), length: 200) %></p>
-          <div class="byline">
+        <header class="mb-3">
+          <h1 class="font-serif font-black text-slate-900 text-3xl sm:text-5xl leading-tight"><%= lead.title %></h1>
+          <p class="font-serif text-slate-700 text-base sm:text-lg mt-1"><%= truncate(strip_tags(lead.body.to_s), length: 200) %></p>
+          <div class="text-slate-500 text-sm mt-1">
             <span><%= lead.published_at&.strftime('%Y-%m-%d') %></span>
             <% if lead.source.present? %><span>• <b><%= lead.source %></b></span><% end %>
           </div>
         </header>
-        <div class="article-body">
+        <div class="prose prose-slate lg:prose-lg max-w-none" style="column-count: 3; column-gap: 28px;">
           <%= sanitize(lead.body.to_s, tags: %w[p br strong em b i a img ul ol li blockquote h2 h3], attributes: %w[href src alt title rel target]) %>
         </div>
       <% else %>
-        <header class="article-header">
-          <h1 class="headline">Welcome</h1>
-          <p class="subheading">Add a front page article from the admin profile page to publish your first edition.</p>
+        <header class="mb-3">
+          <h1 class="font-serif font-black text-slate-900 text-3xl sm:text-5xl leading-tight">Welcome</h1>
+          <p class="font-serif text-slate-700 text-base sm:text-lg mt-1">Add a front page article from the admin profile page to publish your first edition.</p>
         </header>
       <% end %>
     </article>

@@ -26,6 +26,14 @@ Rails marketing site for VisionData with static pages rendered via a controller 
 
 If `bin/rails` is missing after `bundle install`, run `bundle binstubs rails` or `bundle exec rails s` directly.
 
+### Tailwind CSS
+- This app uses Tailwind via CDN for quick iteration and dark mode.
+- To switch to compiled Tailwind (recommended for production):
+  1) Add gems: `bundle install` (Gemfile already includes `tailwindcss-rails`).
+  2) Install: `bin/rails tailwindcss:install`.
+  3) Remove the CDN `<script src="https://cdn.tailwindcss.com..."></script>` from `app/views/layouts/application.html.erb` and ensure the generated stylesheet is referenced (installer wires it automatically).
+  4) Add purge/scan content paths to `tailwind.config.js` if needed.
+
 ### Database (dev)
 - Development/test use SQLite. Create/migrate with:
   - `bundle exec rails db:setup`

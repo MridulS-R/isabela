@@ -11,20 +11,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <%= favicon_link_tag 'favicon.svg' %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  <!-- Tailwind is compiled via tailwindcss-rails (see app/assets/tailwind/application.css) -->
 </head>
-<body>
+<body class="bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
   <a class="skip-link" href="#main">Skip to content</a>
   <%= render 'shared/header' %>
-  <main id="main">
+  <main id="main" class="min-h-screen">
     <% if notice.present? %>
-      <div class="container" role="status" style="max-width:1120px; padding-top: 12px;">
-        <p class="success"><%= notice %></p>
+      <div class="mx-auto max-w-5xl px-4 pt-4" role="status">
+        <div class="rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 px-4 py-2 text-sm"><%= notice %></div>
       </div>
     <% end %>
     <% if alert.present? %>
-      <div class="container" role="alert" style="max-width:1120px; padding-top: 12px;">
-        <p class="error"><%= alert %></p>
+      <div class="mx-auto max-w-5xl px-4 pt-4" role="alert">
+        <div class="rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-2 text-sm"><%= alert %></div>
       </div>
     <% end %>
     <%= yield %>

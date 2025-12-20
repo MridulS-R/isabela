@@ -1,0 +1,49 @@
+<% content_for :title, "#CommunNity — ##{@community.slug}" %>
+
+<section class="py-8">
+  <div class="mx-auto max-w-5xl px-4">
+    <header class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">#<%= @community.name %></h1>
+      <p class="mt-1 text-slate-500 dark:text-slate-400">@<%= @community.slug %></p>
+    </header>
+
+    <% if @posts.any? %>
+      <ul class="space-y-4">
+        <% @posts.each do |p| %>
+          <li class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+            <div class="flex items-start gap-3">
+              <div class="shrink-0 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+              <div class="min-w-0 flex-1">
+                <div class="text-sm text-slate-600 dark:text-slate-300">
+                  <span class="font-semibold text-slate-900 dark:text-slate-100"><%= p.user.name.presence || p.user.email %></span>
+                  <span class="ml-2 text-slate-500"><%= time_ago_in_words(p.created_at) %> ago</span>
+                  <% if p.kind != 'original' && p.parent_post_id.present? %>
+                    <span class="ml-2 text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"><%= p.kind.capitalize %></span>
+                  <% end %>
+                </div>
+                <% if p.caption.present? %>
+                  <p class="mt-1 whitespace-pre-wrap"><%= p.caption %></p>
+                <% end %>
+                <% if p.images.attached? %>
+                  <div class="mt-2 grid grid-cols-2 gap-2">
+                    <% p.images.each do |img| %>
+                      <%= image_tag url_for(img), class: 'w-full h-auto rounded' %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="mt-3 flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+                  <%= button_to 'Like', like_post_path(p), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                  <%= link_to 'Comment', post_path(p), class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                  <%= button_to 'Repost', repost_post_path(p), method: :post, class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-slate-500">No posts yet in this community.</p>
+    <% end %>
+  </div>
+</section>
+

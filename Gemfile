@@ -7,6 +7,7 @@ gem 'puma', '>= 5.0'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'bcrypt', '~> 3.1'
+gem 'tailwindcss-rails'
 # RSS/Atom feed parsing for News imports
 gem 'rss'
 

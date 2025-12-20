@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :require_login, only: %i[new create like unlike comment]
-  before_action :set_post, only: %i[show like unlike]
+  before_action :require_login, only: %i[new create like unlike comment repost quote]
+  before_action :set_post, only: %i[show like unlike repost quote]
 
   def index
     per = (params[:per] || 20).to_i.clamp(1, 100)
@@ -66,6 +66,9 @@ class PostsController < ApplicationController
 
   def like
     current_user.likes.find_or_create_by!(post: @post)
+    if @post.user_id != current_user.id
+      Notification.create!(user_id: @post.user_id, actor: current_user, action: 'like', notifiable: @post)
+    end
     redirect_back fallback_location: root_path
   end
 
@@ -77,7 +80,37 @@ class PostsController < ApplicationController
   def comment
     post = Post.find(params[:id])
     post.comments.create!(user: current_user, body: params[:body].to_s)
+    if post.user_id != current_user.id
+      Notification.create!(user_id: post.user_id, actor: current_user, action: 'comment', notifiable: post)
+    end
     redirect_back fallback_location: root_path
+  end
+
+  def repost
+    original = @post
+    rep = Post.new(user: current_user, community: original.community, parent_post: original, kind: :repost)
+    if rep.save
+      if original.user_id != current_user.id
+        Notification.create!(user_id: original.user_id, actor: current_user, action: 'repost', notifiable: original)
+      end
+      redirect_back fallback_location: posts_path, notice: 'Reposted.'
+    else
+      redirect_back fallback_location: posts_path, alert: rep.errors.full_messages.to_sentence
+    end
+  end
+
+  def quote
+    original = @post
+    body = params[:caption].to_s
+    q = Post.new(user: current_user, community: original.community, parent_post: original, kind: :quote, caption: body)
+    if q.save
+      if original.user_id != current_user.id
+        Notification.create!(user_id: original.user_id, actor: current_user, action: 'repost', notifiable: original)
+      end
+      redirect_back fallback_location: posts_path, notice: 'Quoted.'
+    else
+      redirect_back fallback_location: posts_path, alert: q.errors.full_messages.to_sentence
+    end
   end
 
   private

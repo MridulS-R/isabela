@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'pages#home'
   resources :posts, only: %i[index show new create]
+  post '/posts/:id/repost', to: 'posts#repost', as: :repost_post
+  post '/posts/:id/quote', to: 'posts#quote', as: :quote_post
   post '/posts/:id/like', to: 'posts#like', as: :like_post
   delete '/posts/:id/like', to: 'posts#unlike', as: :unlike_post
   post '/posts/:id/comments', to: 'posts#comment', as: :post_comments
@@ -33,6 +35,10 @@ Rails.application.routes.draw do
   post '/profile/sessions/sign_out_all', to: 'profile#sign_out_all', as: :sign_out_all_sessions
   post '/admin/news_crawl', to: 'news_crawl#enqueue'
 
+  # Notifications
+  get '/notifications', to: 'notifications#index', as: :notifications
+  post '/notifications/:id/read', to: 'notifications#read', as: :read_notification
+
   # Auth flows
   get '/password/new', to: 'passwords#new', as: :new_password
   post '/password', to: 'passwords#create', as: :passwords
@@ -42,6 +48,7 @@ Rails.application.routes.draw do
   post '/confirm/resend', to: 'confirmations#resend', as: :resend_confirmation
 
   # Community news
+  get '/c/:slug', to: 'communities#show', as: :community
   get '/c/:slug/news', to: 'communities#news', as: :community_news
   # Feeds removed; crawling uses predefined sources via rake/jobs
 

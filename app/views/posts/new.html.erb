@@ -1,13 +1,13 @@
-<section class="section">
-  <div class="container" style="max-width:740px">
-    <h1>New Post</h1>
-    <p class="subtle">Upload images and add an optional caption with hashtags (e.g., #ruby, #fitness).</p>
+<section class="py-8">
+  <div class="mx-auto max-w-2xl px-4">
+    <h1 class="text-2xl font-bold">New Post</h1>
+    <p class="text-slate-600 dark:text-slate-300">Upload images and add an optional caption with hashtags (e.g., #dev_topic).</p>
 
     <%= form_with model: @post, local: true do |f| %>
       <% if @post.errors.any? %>
-        <div class="error" role="alert">
+        <div class="rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-2 text-sm" role="alert">
           <strong>There were problems with your submission:</strong>
-          <ul>
+          <ul class="list-disc ml-5 mt-1">
             <% @post.errors.full_messages.each do |m| %>
               <li><%= m %></li>
             <% end %>
@@ -15,17 +15,18 @@
         </div>
       <% end %>
 
-      <div>
-        <%= f.label :images, 'Images' %>
-        <%= f.file_field :images, multiple: true, accept: 'image/*' %>
-        <p class="help">You can select multiple images.</p>
+      <div class="mt-4">
+        <%= f.label :images, 'Images', class: 'block text-sm font-medium' %>
+        <%= f.file_field :images, multiple: true, accept: 'image/*', class: 'mt-1 block w-full text-sm' %>
+        <p class="text-xs text-slate-500">You can select multiple images.</p>
       </div>
-      <div>
-        <%= f.label :caption, 'Caption (optional)' %>
-        <%= f.text_area :caption, placeholder: 'Share a story... include #hashtags to organize', rows: 3 %>
+      <div class="mt-4">
+        <%= f.label :caption, 'Caption (optional)', class: 'block text-sm font-medium' %>
+        <%= f.text_area :caption, placeholder: 'Share a story... include #hashtags to organize', rows: 3, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
       </div>
-      <%= f.submit 'Post', class: 'btn' %>
+      <div class="mt-4">
+        <%= f.submit 'Post', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+      </div>
     <% end %>
   </div>
 </section>
-

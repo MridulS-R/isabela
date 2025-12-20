@@ -1,14 +1,14 @@
 <% content_for :title, 'Edit Profile' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Edit Profile</h1>
-    <p class="subtle">Update your account details. Leave password blank to keep current.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-2xl px-4">
+    <h1 class="text-2xl font-bold">Edit Profile</h1>
+    <p class="text-slate-600 dark:text-slate-300">Update your account details. Leave password blank to keep current.</p>
 
     <% if @user.errors.any? %>
-      <div class="card" style="border-color: #fecaca;">
-        <h3>There were problems with your submission:</h3>
-        <ul>
+      <div class="rounded-lg border border-rose-200 bg-rose-50 text-rose-800 px-4 py-2 text-sm" role="alert">
+        <h3 class="font-semibold">There were problems with your submission:</h3>
+        <ul class="list-disc ml-5 mt-1">
           <% @user.errors.full_messages.each do |m| %>
             <li><%= m %></li>
           <% end %>
@@ -17,49 +17,48 @@
     <% end %>
 
     <%= form_with model: @user, url: profile_path, method: :patch, multipart: true do |f| %>
-      <div class="form-row">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <div>
-          <%= f.label :name %>
-          <%= f.text_field :name %>
+          <%= f.label :name, class: 'block text-sm font-medium' %>
+          <%= f.text_field :name, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
         <div>
-          <%= f.label :username %>
-          <%= f.text_field :username, placeholder: 'e.g., johndoe' %>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div>
-          <%= f.label :email %>
-          <%= f.email_field :email %>
-        </div>
-        <div>
-          <%= f.label :avatar %><br>
-          <%= f.file_field :avatar, accept: 'image/*' %>
+          <%= f.label :username, class: 'block text-sm font-medium' %>
+          <%= f.text_field :username, placeholder: 'e.g., johndoe', class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
       </div>
 
-      <div>
-        <%= f.label :bio %>
-        <%= f.text_area :bio, rows: 4, placeholder: 'A short bio' %>
-      </div>
-
-      <div class="form-row">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <div>
-          <%= f.label :password %>
-          <%= f.password_field :password, placeholder: 'Leave blank to keep current' %>
+          <%= f.label :email, class: 'block text-sm font-medium' %>
+          <%= f.email_field :email, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
         <div>
-          <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation %>
+          <%= f.label :avatar, class: 'block text-sm font-medium' %>
+          <%= f.file_field :avatar, accept: 'image/*', class: 'mt-1 block w-full text-sm' %>
         </div>
       </div>
 
-      <div style="margin-top:8px">
-        <%= f.submit 'Save changes', class: 'btn' %>
-        <%= link_to 'Cancel', profile_path, class: 'btn btn-outline' %>
+      <div class="mt-4">
+        <%= f.label :bio, class: 'block text-sm font-medium' %>
+        <%= f.text_area :bio, rows: 4, placeholder: 'A short bio', class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+        <div>
+          <%= f.label :password, class: 'block text-sm font-medium' %>
+          <%= f.password_field :password, placeholder: 'Leave blank to keep current', class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
+        </div>
+        <div>
+          <%= f.label :password_confirmation, class: 'block text-sm font-medium' %>
+          <%= f.password_field :password_confirmation, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
+        </div>
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <%= f.submit 'Save changes', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+        <%= link_to 'Cancel', profile_path, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800' %>
       </div>
     <% end %>
   </div>
 </section>
-

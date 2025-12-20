@@ -85,4 +85,19 @@
       }
     });
   });
+
+  // Theme: dark/light toggle
+  try {
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') root.classList.add('dark');
+    if (saved === 'light') root.classList.remove('dark');
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const isDark = root.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+    }
+  } catch (_) {}
 })();

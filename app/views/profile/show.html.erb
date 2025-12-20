@@ -1,52 +1,56 @@
 <% content_for :title, 'Profile' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Profile</h1>
-    <p class="subtle">Manage your account.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-4xl px-4">
+    <h1 class="text-2xl font-bold">Profile</h1>
+    <p class="text-slate-600 dark:text-slate-300">Manage your account.</p>
     <% if @sessions.present? %>
-      <h2>Active sessions</h2>
-      <table>
-        <thead><tr><th>Device</th><th>IP</th><th>Last seen</th><th></th></tr></thead>
-        <tbody>
-          <% @sessions.each do |s| %>
-            <tr>
-              <td><%= s.user_agent.to_s.truncate(48) %> <% if @current_session_digest == s.token_digest %><span class="subtle">(This device)</span><% end %></td>
-              <td><%= s.ip %></td>
-              <td><%= time_ago_in_words(s.last_seen_at || s.updated_at) %> ago</td>
-              <td></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div style="display:flex; gap:8px; margin-top:8px">
-        <%= button_to 'Sign out other sessions', sign_out_other_sessions_path, method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Sign out everywhere else?' } } %>
-        <%= button_to 'Sign out all sessions', sign_out_all_sessions_path, method: :post, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Sign out from all devices (including this one)?' } } %>
+      <h2 class="text-xl font-semibold mt-4">Active sessions</h2>
+      <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300">
+            <tr><th class="text-left p-2">Device</th><th class="text-left p-2">IP</th><th class="text-left p-2">Last seen</th><th class="p-2"></th></tr>
+          </thead>
+          <tbody>
+            <% @sessions.each do |s| %>
+              <tr class="border-t border-slate-200 dark:border-slate-800">
+                <td class="p-2"><%= s.user_agent.to_s.truncate(48) %> <% if @current_session_digest == s.token_digest %><span class="text-slate-500">(This device)</span><% end %></td>
+                <td class="p-2"><%= s.ip %></td>
+                <td class="p-2"><%= time_ago_in_words(s.last_seen_at || s.updated_at) %> ago</td>
+                <td class="p-2"></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <%= button_to 'Sign out other sessions', sign_out_other_sessions_path, method: :post, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm', form: { data: { turbo_confirm: 'Sign out everywhere else?' } } %>
+        <%= button_to 'Sign out all sessions', sign_out_all_sessions_path, method: :post, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm', form: { data: { turbo_confirm: 'Sign out from all devices (including this one)?' } } %>
       </div>
     <% end %>
 
     <p><%= link_to 'Edit profile', edit_profile_path, class: 'link' %></p>
 
     <% if @is_admin %>
-      <div class="cards-grid" style="margin-top:12px">
-        <article class="card">
-          <h3>Admin — Front Page</h3>
-          <p class="subtle">Create and publish the front page article by uploading Markdown with front matter.</p>
-          <%= link_to 'Manage Front Page', admin_homepage_articles_path, class: 'btn btn-small' %>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+        <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+          <h3 class="font-semibold">Admin — Front Page</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">Create and publish the front page article by uploading Markdown with front matter.</p>
+          <%= link_to 'Manage Front Page', admin_homepage_articles_path, class: 'inline-block mt-2 px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
         </article>
-        <article class="card">
-          <h3>Admin — Import</h3>
-          <p class="subtle">Import Reddit posts, Instagram users, and News (select a community).</p>
-          <%= link_to 'Open Import', new_import_path, class: 'btn btn-small' %>
+        <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+          <h3 class="font-semibold">Admin — Import</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">Import Reddit posts, Instagram users, and News (select a community).</p>
+          <%= link_to 'Open Import', new_import_path, class: 'inline-block mt-2 px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
         </article>
-        <article class="card">
-          <h3>Admin — Crawl News</h3>
-          <p class="subtle">Crawl predefined news sources and ingest Articles for communities.</p>
-          <form action="<%= url_for(controller: :news_crawl, action: :enqueue) %>" method="post" style="display:inline">
+        <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
+          <h3 class="font-semibold">Admin — Crawl News</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">Crawl predefined news sources and ingest Articles for communities.</p>
+          <form action="<%= url_for(controller: :news_crawl, action: :enqueue) %>" method="post" class="inline">
             <%= csrf_meta_tags %>
-            <button class="btn btn-small" type="submit">Crawl all sources</button>
+            <button class="mt-2 px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm" type="submit">Crawl all sources</button>
           </form>
-          <p class="subtle" style="margin-top:8px"><%= link_to 'Manage sources', admin_news_sources_path, class: 'link' %></p>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-2"><%= link_to 'Manage sources', admin_news_sources_path, class: 'text-sky-600 hover:underline' %></p>
         </article>
       </div>
     <% end %>

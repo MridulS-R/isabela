@@ -1,19 +1,19 @@
-<section class="section">
-  <div class="container" style="display:grid; grid-template-columns: 1fr 320px; gap: 16px; align-items:start;">
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4 items-start">
     <div>
-      <div class="header-inner" style="margin-bottom:12px">
-        <h1>Thread</h1>
-        <%= link_to 'Back to Posts', posts_path, class: 'link' %>
+      <div class="flex items-center justify-between mb-3">
+        <h1 class="text-2xl font-bold">Thread</h1>
+        <%= link_to 'Back to Posts', posts_path, class: 'text-sky-600 hover:underline' %>
       </div>
 
       <div class="timeline">
         <!-- Main post -->
-        <div class="tweet fade-in">
+        <div class="tweet fade-in rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
           <div>
             <% if @post.user&.avatar&.attached? %>
               <%= image_tag url_for(@post.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
             <% else %>
-              <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+              <span class="avatar inline-block bg-slate-200 dark:bg-slate-700 w-10 h-10 rounded-full">&nbsp;</span>
             <% end %>
           </div>
           <div>
@@ -33,7 +33,7 @@
                 <% end %>
               </div>
             <% end %>
-            <div class="tweet-actions">
+            <div class="tweet-actions mt-2 flex items-center gap-2 text-sm">
               <% if user_signed_in? %>
                 <%= button_to like_post_path(@post), method: :post, class: 'icon-btn', form: { style: 'display:inline' } do %>
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -50,7 +50,7 @@
 
         <!-- Reply form -->
         <% if user_signed_in? %>
-          <div class="tweet fade-in">
+          <div class="tweet fade-in rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
             <div>
               <% if current_user&.avatar&.attached? %>
                 <%= image_tag url_for(current_user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
@@ -60,7 +60,7 @@
             </div>
             <div>
               <%= form_with url: post_comments_path(@post), method: :post, local: true do |f| %>
-                <input type="text" name="body" placeholder="Reply to this post" style="width: 100%">
+                <input type="text" name="body" placeholder="Reply to this post" class="w-full px-2 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
               <% end %>
             </div>
           </div>
@@ -68,12 +68,12 @@
 
         <!-- Replies -->
         <% @comments.each do |c| %>
-          <div class="tweet fade-in">
+          <div class="tweet fade-in rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3">
             <div>
               <% if c.user&.avatar&.attached? %>
                 <%= image_tag url_for(c.user.avatar), alt: '', class: 'avatar', loading: 'lazy' %>
               <% else %>
-                <span class="avatar" style="display:inline-block; background:#e5e7eb;">&nbsp;</span>
+                <span class="avatar inline-block bg-slate-200 dark:bg-slate-700 w-10 h-10 rounded-full">&nbsp;</span>
               <% end %>
             </div>
             <div>
@@ -82,7 +82,7 @@
                 <span class="tweet-handle">@<%= c.user.username.presence || c.user.email.to_s.split('@').first %></span>
                 <span class="tweet-time">· <%= time_ago_in_words(c.created_at) %> ago</span>
               </div>
-              <div class="tweet-body"><%= sanitize c.body, tags: %w[b strong i em a], attributes: %w[href title] %></div>
+              <div class="tweet-body mt-1"><%= sanitize c.body, tags: %w[b strong i em a], attributes: %w[href title] %></div>
             </div>
           </div>
         <% end %>

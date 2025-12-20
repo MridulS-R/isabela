@@ -12,16 +12,23 @@ class Post < ApplicationRecord
   has_many :topics, through: :post_topics
   has_many :replies, class_name: 'Post', foreign_key: :parent_post_id
 
+  enum kind: { original: 0, repost: 1, quote: 2 }
+  enum visibility: { public: 0, followers: 1, community: 2 }
+
   validates :caption, length: { maximum: 1000 }
-  validate :at_least_one_image
+  validate :content_presence
   validate :validate_topic_prefix_matches_community
 
   before_validation :extract_and_assign_topics
 
   scope :recent, -> { order(created_at: :desc) }
 
-  def at_least_one_image
-    errors.add(:images, 'must include at least one image') unless images.attached?
+  def content_presence
+    # Reposts can be empty; originals/quotes must have either caption or images
+    return if kind == 'repost'
+    if caption.to_s.strip.empty? && !images.attached?
+      errors.add(:base, 'Post must include text or an image')
+    end
   end
 
   def extract_topic_pairs

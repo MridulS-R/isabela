@@ -34,3 +34,6 @@ public/.sprockets-manifest*
 # Credentials (if added later)
 config/master.key
 
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

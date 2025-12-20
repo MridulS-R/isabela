@@ -1,32 +1,32 @@
-<footer class="site-footer">
-  <div class="container footer-grid">
+<footer class="mt-16 border-t border-slate-200 bg-white">
+  <div class="mx-auto max-w-6xl px-4 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
     <div>
-      <%= link_to raw('<span class="logo" aria-hidden="true">▦</span> #CommunNity'), root_path, class: 'brand' %>
-      <p class="subtle">A friendly place to connect.</p>
-      <p class="subtle">© <span id="year"></span> #CommunNity. All rights reserved.</p>
+      <%= link_to raw('<span class="inline-block w-6 h-6 mr-2" aria-hidden="true">▦</span> <span class="font-bold">#CommunNity</span>'), root_path, class: 'text-slate-900 no-underline hover:opacity-80 text-base' %>
+      <p class="mt-2 text-sm text-slate-500">A friendly place to connect.</p>
+      <p class="mt-1 text-sm text-slate-500">© <span id="year"></span> #CommunNity. All rights reserved.</p>
     </div>
     <div>
-      <h3 class="footer-title">Company</h3>
-      <ul>
-        <li><%= link_to 'About', about_path %></li>
-        <li><%= link_to 'Updates', blog_path %></li>
-        <li><%= link_to 'Contact', contact_path %></li>
+      <h3 class="text-sm font-semibold text-slate-900">Company</h3>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><%= link_to 'About', about_path, class: 'text-slate-600 hover:text-slate-900' %></li>
+        <li><%= link_to 'Updates', blog_path, class: 'text-slate-600 hover:text-slate-900' %></li>
+        <li><%= link_to 'Contact', contact_path, class: 'text-slate-600 hover:text-slate-900' %></li>
       </ul>
     </div>
     <div>
-      <h3 class="footer-title">Solutions</h3>
-      <ul>
-        <li><%= link_to 'Groups', solutions_path(anchor: 'groups') %></li>
-        <li><%= link_to 'Events', solutions_path(anchor: 'events') %></li>
-        <li><%= link_to 'Creators', solutions_path(anchor: 'creators') %></li>
+      <h3 class="text-sm font-semibold text-slate-900">Solutions</h3>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><%= link_to 'Groups', solutions_path(anchor: 'groups'), class: 'text-slate-600 hover:text-slate-900' %></li>
+        <li><%= link_to 'Events', solutions_path(anchor: 'events'), class: 'text-slate-600 hover:text-slate-900' %></li>
+        <li><%= link_to 'Creators', solutions_path(anchor: 'creators'), class: 'text-slate-600 hover:text-slate-900' %></li>
       </ul>
     </div>
     <div>
-      <h3 class="footer-title">Legal</h3>
-      <ul>
-        <li><a href="#" aria-disabled="true">Privacy Policy</a></li>
-        <li><a href="#" aria-disabled="true">Terms</a></li>
-        <li><a href="#" aria-disabled="true">GDPR & India IT Act</a></li>
+      <h3 class="text-sm font-semibold text-slate-900">Legal</h3>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><a href="#" aria-disabled="true" class="text-slate-600 hover:text-slate-900">Privacy Policy</a></li>
+        <li><a href="#" aria-disabled="true" class="text-slate-600 hover:text-slate-900">Terms</a></li>
+        <li><a href="#" aria-disabled="true" class="text-slate-600 hover:text-slate-900">GDPR &amp; India IT Act</a></li>
       </ul>
     </div>
   </div>
