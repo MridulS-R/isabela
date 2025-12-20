@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   # Notifications
   get '/notifications', to: 'notifications#index', as: :notifications
   post '/notifications/:id/read', to: 'notifications#read', as: :read_notification
+  get '/notifications/count', to: 'notifications#count', defaults: { format: :json }
 
   # Auth flows
   get '/password/new', to: 'passwords#new', as: :new_password

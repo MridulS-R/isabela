@@ -100,4 +100,31 @@
       });
     }
   } catch (_) {}
+
+  // Notifications badge polling (fallback if no websockets)
+  try {
+    const badge = document.getElementById('notif-badge');
+    async function refreshNotifCount() {
+      if (!badge) return;
+      try {
+        const res = await fetch('/notifications/count.json', { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const n = Number(data.count || 0);
+        if (n > 0) {
+          badge.textContent = String(n);
+          badge.classList.remove('hidden');
+        } else {
+          badge.textContent = '0';
+          badge.classList.add('hidden');
+        }
+      } catch (e) {}
+    }
+    refreshNotifCount();
+    let notifTimer = setInterval(refreshNotifCount, 30000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) return;
+      refreshNotifCount();
+    });
+  } catch (_) {}
 })();

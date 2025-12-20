@@ -14,5 +14,9 @@ class NotificationsController < ApplicationController
       redirect_to notifications_path
     end
   end
-end
 
+  def count
+    c = Notification.where(user_id: current_user.id, read_at: nil).count
+    render json: { count: c }
+  end
+end
