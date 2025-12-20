@@ -22,6 +22,8 @@ class Post < ApplicationRecord
   before_validation :extract_and_assign_topics
   after_commit :enqueue_auto_tag, on: :create
   after_commit :broadcast_to_community, on: :create
+  after_commit -> { ModerationScoreJob.perform_later(kind: 'post', id: id) }, on: :create
+  after_commit -> { RecomputeHotScoreJob.perform_later(id) }
 
   scope :recent, -> { order(created_at: :desc) }
 

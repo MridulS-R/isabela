@@ -5,6 +5,10 @@
     <div>
       <div class="flex items-center justify-between mb-3">
         <h1 class="text-2xl font-bold">Your Feed</h1>
+        <div class="text-sm">
+          <%= link_to 'Latest', home_path(sort: nil), class: "px-2 py-1 rounded #{params[:sort].blank? ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
+          <%= link_to 'Top', home_path(sort: 'ranked'), class: "px-2 py-1 rounded #{params[:sort] == 'ranked' ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
+        </div>
       </div>
 
       <div class="composer rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">

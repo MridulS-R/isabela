@@ -23,7 +23,12 @@ class TimelinesController < ApplicationController
         vis_followers, following_ids + [current_user.id],
         vis_community, community_ids, current_user.id
       ]
-    ).order(created_at: :desc)
+    )
+    if ENV['FEED_RANKING'].to_s.downcase == 'on' || params[:sort] == 'ranked'
+      scope = scope.order(hot_score: :desc, created_at: :desc)
+    else
+      scope = scope.order(created_at: :desc)
+    end
 
     @total_posts = scope.count
     @posts = scope.offset((page - 1) * per).limit(per)

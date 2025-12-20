@@ -18,7 +18,11 @@ class CommunitiesController < ApplicationController
         vis_community, member, (user_signed_in? ? current_user.id : 0)
       ]
     )
-    @posts = scope.order(created_at: :desc).limit(50)
+    if ENV['FEED_RANKING'].to_s.downcase == 'on' || params[:sort] == 'ranked'
+      @posts = scope.order(hot_score: :desc, created_at: :desc).limit(50)
+    else
+      @posts = scope.order(created_at: :desc).limit(50)
+    end
   end
 
   def news

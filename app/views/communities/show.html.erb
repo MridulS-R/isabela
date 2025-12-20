@@ -2,7 +2,7 @@
 
 <section class="py-8">
   <div class="mx-auto max-w-5xl px-4">
-    <header class="mb-6 flex items-center justify-between">
+    <header class="mb-3 flex items-center justify-between">
       <div>
         <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">#<%= @community.name %></h1>
         <p class="mt-1 text-slate-500 dark:text-slate-400">@<%= @community.slug %></p>
@@ -16,6 +16,10 @@
         <% end %>
       <% end %>
     </header>
+    <div class="mb-4 text-sm">
+      <%= link_to 'Latest', community_path(@community.slug, sort: nil), class: "px-2 py-1 rounded #{params[:sort].blank? ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
+      <%= link_to 'Top', community_path(@community.slug, sort: 'ranked'), class: "px-2 py-1 rounded #{params[:sort] == 'ranked' ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
+    </div>
 
     <div id="community-feed" data-community-slug="<%= @community.slug %>"></div>
     <% if @posts.any? %>
