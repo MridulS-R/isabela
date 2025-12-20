@@ -35,6 +35,26 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#about'
   get '/blog', to: 'pages#blog'
   get '/contact', to: 'pages#contact'
+  get '/offline', to: 'pages#offline'
+  # API v1
+  namespace :api do
+    namespace :v1 do
+      post '/session', to: 'sessions#create'
+      get '/feed', to: 'feeds#home'
+      resources :posts, only: %i[create] do
+        post :like, on: :member
+        delete :like, on: :member, action: :unlike
+        post :comment, on: :member
+      end
+      post '/follows/users/:id', to: 'follows#follow_user'
+      delete '/follows/users/:id', to: 'follows#unfollow_user'
+      post '/follows/communities/:slug', to: 'follows#follow_community'
+      delete '/follows/communities/:slug', to: 'follows#unfollow_community'
+      resources :notifications, only: %i[index] do
+        post :read, on: :member
+      end
+    end
+  end
   get '/ad/:id', to: 'promotions#click', as: :promotion_click
   resources :reports, only: %i[new create]
   get '/search', to: 'search#index', as: :search

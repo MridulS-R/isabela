@@ -60,4 +60,11 @@ class User < ApplicationRecord
   def confirmed?
     confirmed_at.present?
   end
+
+  def ensure_api_token!
+    return api_token if api_token.present?
+    self.api_token = SecureRandom.hex(20)
+    save!(validate: false)
+    api_token
+  end
 end

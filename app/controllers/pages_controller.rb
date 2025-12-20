@@ -32,4 +32,5 @@ class PagesController < ApplicationController
     @articles = Article.published
   end
   def contact; end
+  def offline; end
 end
