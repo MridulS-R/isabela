@@ -7,6 +7,11 @@
     --brand-3: #4B70F5; /* accent */
     --brand-4: #3DC2EC; /* highlight */
   }
+  body {
+    background-color: var(--brand-1);
+    color: #ffffff;
+    font-family: 'Poppins', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+  }
 }
 
 @layer utilities {
@@ -18,7 +23,8 @@
   .link-brand:hover { text-decoration: underline; }
   .badge-brand { background-color: var(--brand-3); color: #fff; }
   .brand-text { color: var(--brand-1); }
-  .nav-link { color: #374151; }
-  .nav-link:hover { background-color: rgba(76,59,207,0.08); color: #111827; }
-  .nav-active { background-color: rgba(76,59,207,0.12); color: #111827; }
+  .nav-link { color: rgba(255,255,255,0.9); }
+  .nav-link:hover { background-color: rgba(76,59,207,0.22); color: #ffffff; }
+  .nav-active { background-color: rgba(76,59,207,0.35); color: #ffffff; }
+  .brand-shadow { box-shadow: 0 10px 25px rgba(76,59,207,0.35), 0 2px 8px rgba(61,194,236,0.15); }
 }
