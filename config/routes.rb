@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   delete '/posts/:id/like', to: 'posts#unlike', as: :unlike_post
   post '/posts/:id/comments', to: 'posts#comment', as: :post_comments
   get '/t/:name', to: 'tags#show', as: :tag
+  get '/trending', to: 'trending#index', as: :trending
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
   get '/login', to: 'sessions#new'
@@ -65,6 +66,11 @@ Rails.application.routes.draw do
   # Community news
   get '/c/:slug', to: 'communities#show', as: :community
   get '/c/:slug/news', to: 'communities#news', as: :community_news
+  get '/c/:slug/trending', to: 'trending#community', as: :community_trending
+  get '/c/:slug/t/:name', to: 'tags#community', as: :community_tag
+  get '/topics', to: 'topics#index', as: :topics
+  get '/c/:slug/topics', to: 'topics#community', as: :community_topics
+  get '/c/:slug/topics/:topic_slug', to: 'topics#show', as: :community_topic
 
   # Public user profile
   get '/u/:id', to: 'users_public#show', as: :user_public

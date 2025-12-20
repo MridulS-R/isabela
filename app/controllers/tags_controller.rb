@@ -3,5 +3,12 @@ class TagsController < ApplicationController
     @tag = Tag.find_by!(name: params[:name].downcase)
     @posts = @tag.posts.includes(:user, images_attachments: :blob).recent.limit(50)
   end
-end
 
+  def community
+    @community = Community.find_by!(slug: params[:slug])
+    @tag = Tag.find_by!(name: params[:name].downcase)
+    @posts = @tag.posts.where(community_id: @community.id)
+                 .includes(:user, images_attachments: :blob)
+                 .recent.limit(50)
+  end
+end
