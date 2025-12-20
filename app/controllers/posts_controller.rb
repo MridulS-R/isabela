@@ -165,20 +165,6 @@ class PostsController < ApplicationController
     params.require(:post).permit(:caption, :latitude, :longitude, :location, images: [])
   end
 
-  def can_view_post?(post)
-    return true if post.visibility_public?
-    return true if user_signed_in? && post.user_id == current_user.id
-    if post.visibility_followers?
-      return false unless user_signed_in?
-      return current_user.following.exists?(id: post.user_id)
-    end
-    if post.visibility_community?
-      return false unless user_signed_in? && post.community_id.present?
-      return current_user.followed_communities.exists?(id: post.community_id)
-    end
-    false
-  end
-
   def require_owner!
     redirect_to root_path, alert: 'Not authorized' unless @post.user_id == current_user.id
   end

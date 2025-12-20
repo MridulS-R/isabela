@@ -28,9 +28,6 @@ class PagesController < ApplicationController
   def data_coverage; end
   def how_it_works; end
   def about; end
-  def blog
-    @articles = Article.published
-  end
   def contact; end
   def offline; end
 end
