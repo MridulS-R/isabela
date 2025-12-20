@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :user_signed_in?
   helper_method :admin_user?
+  helper_method :unread_notifications_count
 
   private
   def current_user
@@ -55,5 +56,12 @@ class ApplicationController < ActionController::Base
       format.html { redirect_to login_path, alert: 'Not authorized' }
       format.json { render json: { error: 'unauthorized' }, status: :unauthorized }
     end
+  end
+
+  def unread_notifications_count
+    return 0 unless user_signed_in?
+    Notification.where(user_id: current_user.id, read_at: nil).count
+  rescue
+    0
   end
 end

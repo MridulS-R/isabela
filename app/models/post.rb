@@ -20,6 +20,7 @@ class Post < ApplicationRecord
   validate :validate_topic_prefix_matches_community
 
   before_validation :extract_and_assign_topics
+  after_commit :enqueue_auto_tag, on: :create
 
   scope :recent, -> { order(created_at: :desc) }
 
@@ -57,5 +58,9 @@ class Post < ApplicationRecord
     if mismatches.any?
       errors.add(:caption, "tags must start with ##{community.slug}_")
     end
+  end
+
+  def enqueue_auto_tag
+    AutoTagPostJob.perform_later(id)
   end
 end

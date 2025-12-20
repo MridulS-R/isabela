@@ -1,84 +1,81 @@
 <% content_for :title, 'Admin Dashboard' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Admin Dashboard</h1>
-    <p class="subtle">Overview of community activity and content.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+    <p class="text-slate-600 dark:text-slate-300">Overview of community activity and content.</p>
 
-    <div class="cards-grid" style="margin-top:12px">
-      <article class="card"><h3>Users</h3><p class="num"><%= @counts[:users] %></p></article>
-      <article class="card"><h3>Posts</h3><p class="num"><%= @counts[:posts] %></p></article>
-      <article class="card"><h3>Likes</h3><p class="num"><%= @counts[:likes] %></p></article>
-      <article class="card"><h3>Comments</h3><p class="num"><%= @counts[:comments] %></p></article>
-      <article class="card"><h3>Tags</h3><p class="num"><%= @counts[:tags] %></p></article>
-      <article class="card"><h3>Follows</h3><p class="num"><%= @counts[:follows] %></p></article>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-3">
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Users</h3><p class="text-2xl font-bold"><%= @counts[:users] %></p></article>
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Posts</h3><p class="text-2xl font-bold"><%= @counts[:posts] %></p></article>
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Likes</h3><p class="text-2xl font-bold"><%= @counts[:likes] %></p></article>
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Comments</h3><p class="text-2xl font-bold"><%= @counts[:comments] %></p></article>
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Tags</h3><p class="text-2xl font-bold"><%= @counts[:tags] %></p></article>
+      <article class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-center"><h3 class="text-sm font-semibold">Follows</h3><p class="text-2xl font-bold"><%= @counts[:follows] %></p></article>
     </div>
   </div>
 </section>
 
-<section class="section alt">
-  <div class="container">
-    <h2>Posts per day (last 14)</h2>
-    <table>
-      <thead><tr><th>Date</th><th>Posts</th></tr></thead>
-      <tbody>
-        <% @series_posts_per_day.each do |d, n| %>
-          <tr><td><%= d.strftime('%Y-%m-%d') %></td><td><%= n %></td></tr>
-        <% end %>
-      </tbody>
-    </table>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-xl font-semibold">Posts per day (last 14)</h2>
+    <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><tr><th class="text-left p-2">Date</th><th class="text-left p-2">Posts</th></tr></thead>
+        <tbody>
+          <% @series_posts_per_day.each do |d, n| %>
+            <tr class="border-t border-slate-200 dark:border-slate-800"><td class="p-2"><%= d.strftime('%Y-%m-%d') %></td><td class="p-2"><%= n %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <h2>Top tags</h2>
-    <table>
-      <thead><tr><th>Tag</th><th>Posts</th></tr></thead>
-      <tbody>
-        <% @top_tags.each do |t| %>
-          <tr>
-            <td>#<%= t.name %></td>
-            <td><%= t.taggings.count %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-xl font-semibold">Top tags</h2>
+    <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><tr><th class="text-left p-2">Tag</th><th class="text-left p-2">Posts</th></tr></thead>
+        <tbody>
+          <% @top_tags.each do |t| %>
+            <tr class="border-t border-slate-200 dark:border-slate-800"><td class="p-2">#<%= t.name %></td><td class="p-2"><%= t.taggings.count %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
-<section class="section alt">
-  <div class="container">
-    <h2>Top users by posts</h2>
-    <table>
-      <thead><tr><th>User</th><th>Posts</th></tr></thead>
-      <tbody>
-        <% @top_users_by_posts.each do |u| %>
-          <tr>
-            <td><%= u.name.presence || u.email %></td>
-            <td><%= u.posts.size %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-xl font-semibold">Top users by posts</h2>
+    <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><tr><th class="text-left p-2">User</th><th class="text-left p-2">Posts</th></tr></thead>
+        <tbody>
+          <% @top_users_by_posts.each do |u| %>
+            <tr class="border-t border-slate-200 dark:border-slate-800"><td class="p-2"><%= u.name.presence || u.email %></td><td class="p-2"><%= u.posts.size %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <h2>Top posts</h2>
-    <table>
-      <thead><tr><th>Caption</th><th>Likes</th><th>Created</th></tr></thead>
-      <tbody>
-        <% @top_posts.each do |p| %>
-          <tr>
-            <td><%= truncate(p.caption.to_s, length: 80) %></td>
-            <td><%= p.likes_count %></td>
-            <td><%= p.created_at.strftime('%Y-%m-%d') %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-xl font-semibold">Top posts</h2>
+    <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><tr><th class="text-left p-2">Caption</th><th class="text-left p-2">Likes</th><th class="text-left p-2">Created</th></tr></thead>
+        <tbody>
+          <% @top_posts.each do |p| %>
+            <tr class="border-t border-slate-200 dark:border-slate-800"><td class="p-2"><%= truncate(p.caption.to_s, length: 80) %></td><td class="p-2"><%= p.likes_count %></td><td class="p-2"><%= p.created_at.strftime('%Y-%m-%d') %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
-

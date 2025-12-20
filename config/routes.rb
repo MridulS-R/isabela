@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  get '/home', to: 'timelines#home', as: :home
   get '/solutions', to: 'pages#solutions'
   get '/data-coverage', to: 'pages#data_coverage'
   get '/how-it-works', to: 'pages#how_it_works'

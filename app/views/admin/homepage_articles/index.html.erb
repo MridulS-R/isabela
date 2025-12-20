@@ -1,91 +1,93 @@
 <% content_for :title, 'Front Page Articles' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Front Page Articles</h1>
-    <p class="subtle">Upload a Markdown file with front matter to create a community-linked front page article. <%= link_to 'Download example template', '/templates/front_page_template.md', class: 'link' %> · <%= link_to 'Download sample front page', '/templates/sample_front_page.md', class: 'link' %></p>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h1 class="text-2xl font-bold">Front Page Articles</h1>
+    <p class="text-slate-600 dark:text-slate-300">Upload a Markdown file with front matter to create a community-linked front page article. <%= link_to 'Download example template', '/templates/front_page_template.md', class: 'text-sky-600 hover:underline' %> · <%= link_to 'Download sample front page', '/templates/sample_front_page.md', class: 'text-sky-600 hover:underline' %></p>
 
     <%= form_with model: @record, url: admin_homepage_articles_path, method: :post, multipart: true do |f| %>
-      <div class="form-row">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
         <div>
-          <%= f.label :community_id, 'Community' %>
-          <%= f.collection_select :community_id, Community.order(:name), :id, :name, { prompt: 'Select community' } %>
-          <label style="display:block; margin-top:6px;">
-            <%= check_box_tag :use_default, '1', false %> Use default “General” (auto‑create if missing)
+          <%= f.label :community_id, 'Community', class: 'block text-sm font-medium' %>
+          <%= f.collection_select :community_id, Community.order(:name), :id, :name, { prompt: 'Select community' }, { class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' } %>
+          <label class="block mt-2 text-sm">
+            <%= check_box_tag :use_default, '1', false, class: 'mr-1' %> Use default “General” (auto‑create if missing)
           </label>
-          <p class="help">Don’t see your community? Create it below.</p>
+          <p class="text-xs text-slate-500">Don’t see your community? Create it below.</p>
         </div>
         <div>
-          <%= f.label :slot %>
-          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, { selected: :lead }, required: true %>
-          <p class="help">Homepage shows the most recent <strong>lead</strong> article. If no lead is published, it will show the most recent published article.</p>
+          <%= f.label :slot, class: 'block text-sm font-medium' %>
+          <%= f.select :slot, HomepageArticle.slots.keys.map { |k| [k, k] }, { selected: :lead }, { required: true, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' } %>
+          <p class="text-xs text-slate-500">Homepage shows the most recent <strong>lead</strong> article.</p>
         </div>
         <div>
-          <%= f.label :position %>
-          <%= f.number_field :position, value: 0, min: 0 %>
+          <%= f.label :position, class: 'block text-sm font-medium' %>
+          <%= f.number_field :position, value: 0, min: 0, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
       </div>
-      <div>
-        <%= f.label :md_file, 'Markdown file' %><br>
-        <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown', required: true %>
+      <div class="mt-3">
+        <%= f.label :md_file, 'Markdown file', class: 'block text-sm font-medium' %>
+        <%= f.file_field :md_file, accept: '.md,.markdown,text/markdown', required: true, class: 'mt-1 block w-full text-sm' %>
       </div>
-      <div>
-        <%= f.label :hero_image, 'Hero image (optional)' %><br>
-        <%= f.file_field :hero_image, accept: 'image/*' %>
+      <div class="mt-3">
+        <%= f.label :hero_image, 'Hero image (optional)', class: 'block text-sm font-medium' %>
+        <%= f.file_field :hero_image, accept: 'image/*', class: 'mt-1 block w-full text-sm' %>
       </div>
-      <div style="margin-top:8px">
-        <label style="display:inline-block; margin-right:12px;">
+      <div class="mt-3">
+        <label class="inline-flex items-center gap-2 mr-3 text-sm">
           <%= check_box_tag :publish_now, '1', true %> Publish now
         </label>
-        <%= f.submit 'Create', class: 'btn' %>
+        <%= f.submit 'Create', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
       </div>
     <% end %>
   </div>
 </section>
 
-<section class="section alt">
-  <div class="container">
-    <h2>Create Community</h2>
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4">
+    <h2 class="text-xl font-semibold">Create Community</h2>
     <%= form_with url: admin_communities_path, method: :post do |fc| %>
-      <div class="form-row">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
         <div>
-          <%= fc.label :name, 'Name' %>
-          <%= fc.text_field :name, required: true %>
+          <%= fc.label :name, 'Name', class: 'block text-sm font-medium' %>
+          <%= fc.text_field :name, required: true, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
         <div>
-          <%= fc.label :slug, 'Slug' %>
-          <%= fc.text_field :slug, placeholder: 'e.g., general', required: true %>
+          <%= fc.label :slug, 'Slug', class: 'block text-sm font-medium' %>
+          <%= fc.text_field :slug, placeholder: 'e.g., general', required: true, class: 'mt-1 w-full px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900' %>
         </div>
       </div>
-      <%= fc.submit 'Create', class: 'btn btn-small' %>
+      <%= fc.submit 'Create', class: 'mt-3 px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm' %>
     <% end %>
 
-    <h2>Existing</h2>
-    <table>
-      <thead><tr><th>Community</th><th>Slot</th><th>Pos</th><th>Status</th><th>Published</th><th>Updated</th><th></th></tr></thead>
+    <h2 class="text-xl font-semibold mt-6">Existing</h2>
+    <div class="overflow-x-auto mt-2 rounded-lg border border-slate-200 dark:border-slate-800">
+    <table class="min-w-full text-sm">
+      <thead><tr class="bg-slate-50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300"><th class="text-left p-2">Community</th><th class="text-left p-2">Slot</th><th class="text-left p-2">Pos</th><th class="text-left p-2">Status</th><th class="text-left p-2">Published</th><th class="text-left p-2">Updated</th><th class="p-2"></th></tr></thead>
       <tbody>
         <% @records.each do |r| %>
-          <tr>
-            <td><%= r.community.name %></td>
-            <td><%= r.slot %></td>
-            <td><%= r.position %></td>
-            <td><%= r.status %></td>
-            <td><%= r.published_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
-            <td><%= r.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
-            <td>
-              <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'btn btn-small btn-outline' %>
-              <%= link_to 'Preview', admin_homepage_article_path(r), class: 'btn btn-small btn-outline' %>
+          <tr class="border-t border-slate-200 dark:border-slate-800">
+            <td class="p-2"><%= r.community.name %></td>
+            <td class="p-2"><%= r.slot %></td>
+            <td class="p-2"><%= r.position %></td>
+            <td class="p-2"><%= r.status %></td>
+            <td class="p-2"><%= r.published_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
+            <td class="p-2"><%= r.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
+            <td class="p-2 space-x-1">
+              <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
+              <%= link_to 'Preview', admin_homepage_article_path(r), class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
               <% if r.published? %>
-                <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'btn btn-small', form: { data: { turbo_confirm: 'Retire this item?' } } %>
+                <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 text-sm', form: { data: { turbo_confirm: 'Retire this item?' } } %>
               <% else %>
-                <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'btn btn-small' %>
+                <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm' %>
               <% end %>
-              <%= button_to 'Re-parse', reparse_admin_homepage_article_path(r), method: :post, class: 'btn btn-small btn-outline' %>
-              <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'btn btn-small btn-outline', form: { data: { turbo_confirm: 'Remove?' } } %>
+              <%= button_to 'Re-parse', reparse_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
+              <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm', form: { data: { turbo_confirm: 'Remove?' } } %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+    </div>
   </div>
 </section>
