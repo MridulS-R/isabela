@@ -13,7 +13,7 @@ class Post < ApplicationRecord
   has_many :replies, class_name: 'Post', foreign_key: :parent_post_id
 
   enum kind: { original: 0, repost: 1, quote: 2 }
-  enum visibility: { public: 0, followers: 1, community: 2 }
+  enum visibility: { public: 0, followers: 1, community: 2 }, _prefix: :visibility
 
   validates :caption, length: { maximum: 1000 }
   validate :content_presence
