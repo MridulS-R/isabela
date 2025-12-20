@@ -21,6 +21,7 @@ class Post < ApplicationRecord
 
   before_validation :extract_and_assign_topics
   after_commit :enqueue_auto_tag, on: :create
+  after_commit :broadcast_to_community, on: :create
 
   scope :recent, -> { order(created_at: :desc) }
 
@@ -62,5 +63,19 @@ class Post < ApplicationRecord
 
   def enqueue_auto_tag
     AutoTagPostJob.perform_later(id)
+  end
+
+  def broadcast_to_community
+    return unless community_id.present?
+    payload = {
+      type: 'new_post',
+      id: id,
+      user_name: (user&.name.presence || user&.email),
+      caption: caption.to_s,
+      created_at: created_at.iso8601
+    }
+    ActionCable.server.broadcast("community:#{community_id}", payload)
+  rescue => e
+    Rails.logger.debug("community broadcast failed: #{e.class}: #{e.message}")
   end
 end

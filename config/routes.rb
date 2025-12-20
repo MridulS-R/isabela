@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # Action Cable
+  mount ActionCable.server => '/cable'
   root 'pages#home'
   resources :posts, only: %i[index show new create edit update destroy]
   post '/posts/:id/repost', to: 'posts#repost', as: :repost_post

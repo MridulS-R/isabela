@@ -17,6 +17,7 @@
       <% end %>
     </header>
 
+    <div id="community-feed" data-community-slug="<%= @community.slug %>"></div>
     <% if @posts.any? %>
       <ul class="space-y-4">
         <% @posts.each do |p| %>
