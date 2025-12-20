@@ -59,6 +59,7 @@
                     Save
                   <% end %>
                 <% end %>
+                <%= link_to 'Report', new_report_path(type: 'post', id: @post.id), class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
               <% else %>
                 <span class="count">❤️ <%= @post.likes_count %></span>
               <% end %>

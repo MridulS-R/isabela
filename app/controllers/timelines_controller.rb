@@ -9,7 +9,7 @@ class TimelinesController < ApplicationController
     user_ids = ([current_user.id] + following_ids).uniq
     community_ids = current_user.respond_to?(:followed_communities) ? current_user.followed_communities.pluck(:id) : []
 
-    base = Post.includes(:user, images_attachments: :blob)
+    base = Post.where(hidden: false).includes(:user, images_attachments: :blob)
                .where('posts.user_id IN (?) OR posts.community_id IN (?)', user_ids, community_ids)
 
     vis_public = Post.visibilities[:public]

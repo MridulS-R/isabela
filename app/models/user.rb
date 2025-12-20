@@ -13,6 +13,10 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_posts, through: :bookmarks, source: :post
   belongs_to :pinned_post, class_name: 'Post', optional: true
+  has_many :blocks_initiated, class_name: 'Block', foreign_key: 'blocker_id', dependent: :destroy
+  has_many :blocked_users, through: :blocks_initiated, source: :blocked
+  has_many :blocks_received, class_name: 'Block', foreign_key: 'blocked_id', dependent: :destroy
+  has_many :blocked_by_users, through: :blocks_received, source: :blocker
   has_secure_password
   has_one_attached :avatar
 
@@ -27,6 +31,9 @@ class User < ApplicationRecord
 
   # Token helpers (confirmation / password reset)
   public
+  def blocked?(other_user_id)
+    blocked_users.exists?(id: other_user_id)
+  end
   def generate_token!(field_prefix)
     raw = SecureRandom.urlsafe_base64(24)
     digest = Digest::SHA256.hexdigest(raw)

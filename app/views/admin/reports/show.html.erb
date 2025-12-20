@@ -1,0 +1,26 @@
+<% content_for :title, "Report ##{@report.id}" %>
+
+<section class="py-8">
+  <div class="mx-auto max-w-3xl px-4">
+    <h1 class="text-2xl font-bold">Report #<%= @report.id %></h1>
+    <dl class="mt-3 grid grid-cols-2 gap-2 text-sm">
+      <dt class="text-slate-500">Status</dt><dd><%= @report.status %></dd>
+      <dt class="text-slate-500">Reason</dt><dd><%= @report.reason %></dd>
+      <dt class="text-slate-500">Type</dt><dd><%= @report.reportable_type %></dd>
+      <dt class="text-slate-500">Target</dt><dd><%= @report.reportable_id %></dd>
+      <dt class="text-slate-500">Reporter</dt><dd><%= @report.user.email %></dd>
+      <dt class="text-slate-500">Created</dt><dd><%= @report.created_at.strftime('%Y-%m-%d %H:%M') %></dd>
+    </dl>
+
+    <div class="mt-4 flex flex-wrap gap-2">
+      <%= button_to 'Resolve', resolve_admin_report_path(@report), method: :post, class: 'px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm' %>
+      <%= button_to 'Reject', reject_admin_report_path(@report), method: :post, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm' %>
+      <% if @report.reportable_type == 'Post' %>
+        <%= button_to 'Hide Post', hide_post_admin_report_path(@report), method: :post, class: 'px-3 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 text-sm' %>
+        <%= button_to 'Delete Post', delete_post_admin_report_path(@report), method: :delete, class: 'px-3 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700 text-sm', form: { data: { turbo_confirm: 'Delete this post?' } } %>
+      <% end %>
+      <%= button_to 'Ban User', ban_user_admin_report_path(@report), method: :post, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm', form: { data: { turbo_confirm: 'Ban this user?' } } %>
+    </div>
+  </div>
+</section>
+

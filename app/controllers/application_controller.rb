@@ -67,6 +67,8 @@ class ApplicationController < ActionController::Base
   end
 
   def can_view_post?(post)
+    return true if admin_user?
+    return false if post.respond_to?(:hidden) && post.hidden? && !(user_signed_in? && post.user_id == current_user.id)
     return true if post.respond_to?(:visibility_public?) && post.visibility_public?
     return true if user_signed_in? && post.user_id == current_user.id
     if post.respond_to?(:visibility_followers?) && post.visibility_followers?

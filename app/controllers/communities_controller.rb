@@ -9,7 +9,7 @@ class CommunitiesController < ApplicationController
     following_ids = user_signed_in? && current_user.respond_to?(:following) ? current_user.following.pluck(:id) : []
     member = user_signed_in? && current_user.respond_to?(:followed_communities) && current_user.followed_communities.exists?(id: @community.id)
 
-    scope = Post.where(community_id: @community.id).includes(:user, images_attachments: :blob)
+    scope = Post.where(community_id: @community.id, hidden: false).includes(:user, images_attachments: :blob)
     scope = scope.where(
       [
         'posts.visibility = ? OR (posts.visibility = ? AND posts.user_id IN (?)) OR (posts.visibility = ? AND (? OR posts.user_id = ?))',

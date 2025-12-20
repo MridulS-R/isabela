@@ -47,6 +47,11 @@ class PostsController < ApplicationController
   end
 
   def create
+    if !Services::RateLimiter.allow?("post:create:#{current_user.id}", limit: 10, period: 300)
+      @post = current_user.posts.build
+      @post.errors.add(:base, 'Rate limit exceeded. Please try again later.')
+      return render :new, status: :too_many_requests
+    end
     @post = current_user.posts.build(post_params)
     slug = params.dig(:post, :community_slug).to_s.downcase.strip
     if slug.present?
@@ -85,6 +90,9 @@ class PostsController < ApplicationController
   end
 
   def like
+    unless Services::RateLimiter.allow?("post:like:#{current_user.id}", limit: 60, period: 300)
+      return redirect_back fallback_location: root_path, alert: 'Rate limit exceeded.'
+    end
     current_user.likes.find_or_create_by!(post: @post)
     if @post.user_id != current_user.id
       Notification.create!(user_id: @post.user_id, actor: current_user, action: 'like', notifiable: @post)
@@ -98,6 +106,9 @@ class PostsController < ApplicationController
   end
 
   def comment
+    unless Services::RateLimiter.allow?("post:comment:#{current_user.id}", limit: 30, period: 300)
+      return redirect_back fallback_location: root_path, alert: 'Rate limit exceeded.'
+    end
     post = Post.find(params[:id])
     post.comments.create!(user: current_user, body: params[:body].to_s)
     if post.user_id != current_user.id
