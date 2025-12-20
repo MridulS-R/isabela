@@ -1,6 +1,6 @@
 class NotificationsChannel < ApplicationCable::Channel
   def subscribed
-    reject unless current_user
+    return reject unless current_user
     stream_from stream_name
   end
 
@@ -9,4 +9,3 @@ class NotificationsChannel < ApplicationCable::Channel
     "notifications:#{current_user.id}"
   end
 end
-
