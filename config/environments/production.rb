@@ -5,6 +5,10 @@ Rails.application.configure do
   config.eager_load = true
   config.consider_all_requests_local = false
   config.assets.js_compressor = :uglifier if defined?(Uglifier)
+  # Disable Sass CSS compression to avoid SassC parsing modern CSS syntax
+  # emitted by Tailwind v4 (e.g., range media queries like `(width >= 40rem)`).
+  # Sprockets will still serve the prebuilt CSS from app/assets/builds.
+  config.assets.css_compressor = nil
   config.assets.compile = false
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info').to_sym
