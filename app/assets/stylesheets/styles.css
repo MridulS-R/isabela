@@ -19,10 +19,10 @@
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  color: var(--text);
-  background: var(--bg);
   line-height: 1.6;
+  background: transparent; /* theme controls body bg */
+  color: inherit; /* theme controls text color */
+  font-family: inherit; /* theme controls font */
 }
 
 .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
