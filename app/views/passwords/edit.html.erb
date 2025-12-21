@@ -1,8 +1,9 @@
 <% content_for :title, 'Reset Password' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Reset your password</h1>
+<section class="py-8">
+  <div class="mx-auto max-w-xl px-4 surface p-4 sm:p-6">
+    <h1 class="text-2xl font-bold brand-text">Reset your password</h1>
+    <div class="brand-divider my-3"></div>
     <%= form_with url: update_password_path(id: @user.id, token: @token), method: :patch do %>
       <div class="form-row">
         <div>
@@ -14,8 +15,7 @@
           <%= password_field_tag :password_confirmation, nil, required: true %>
         </div>
       </div>
-      <%= submit_tag 'Update password', class: 'btn' %>
+      <%= submit_tag 'Update password', class: 'btn btn-brand' %>
     <% end %>
   </div>
 </section>
-

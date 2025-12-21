@@ -1,7 +1,8 @@
-<section class="section">
-  <div class="container" style="max-width:560px">
-    <h1>Create your account</h1>
-    <p class="subtle">Join #CommunNity and start your group.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-xl px-4 surface p-4 sm:p-6">
+    <h1 class="text-2xl font-bold brand-text">Create your account</h1>
+    <p class="text-slate-600">Join #CommunNity and start your group.</p>
+    <div class="brand-divider my-3"></div>
 
     <%= form_with model: @user, url: signup_path, local: true do |f| %>
       <% if @user.errors.any? %>
@@ -36,8 +37,8 @@
         </div>
       </div>
 
-      <%= f.submit 'Create account', class: 'btn' %>
-      <p class="help">Already have an account? <%= link_to 'Log in', login_path %></p>
+      <%= f.submit 'Create account', class: 'btn btn-brand' %>
+      <p class="text-sm mt-2">Already have an account? <%= link_to 'Log in', login_path, class: 'link-brand' %></p>
     <% end %>
   </div>
 </section>

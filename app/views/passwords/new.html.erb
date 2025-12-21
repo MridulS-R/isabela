@@ -1,16 +1,16 @@
 <% content_for :title, 'Forgot Password' %>
 
-<section class="section">
-  <div class="container">
-    <h1>Forgot your password?</h1>
-    <p class="subtle">Enter your email address to receive a reset link.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-xl px-4 surface p-4 sm:p-6">
+    <h1 class="text-2xl font-bold brand-text">Forgot your password?</h1>
+    <p class="text-slate-600">Enter your email address to receive a reset link.</p>
+    <div class="brand-divider my-3"></div>
     <%= form_with url: passwords_path, method: :post do %>
       <div>
         <label for="email">Email</label>
         <%= email_field_tag :email, nil, required: true %>
       </div>
-      <%= submit_tag 'Send reset link', class: 'btn' %>
+      <%= submit_tag 'Send reset link', class: 'btn btn-brand' %>
     <% end %>
   </div>
 </section>
-
