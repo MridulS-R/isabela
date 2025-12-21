@@ -37,7 +37,7 @@
         <label class="inline-flex items-center gap-2 mr-3 text-sm">
           <%= check_box_tag :publish_now, '1', true %> Publish now
         </label>
-        <%= f.submit 'Create', class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black' %>
+        <%= f.submit 'Create', class: 'btn btn-brand' %>
       </div>
     <% end %>
   </div>
@@ -74,15 +74,15 @@
             <td class="p-2"><%= r.published_at&.strftime('%Y-%m-%d %H:%M') || '—' %></td>
             <td class="p-2"><%= r.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
             <td class="p-2 space-x-1">
-              <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
-              <%= link_to 'Preview', admin_homepage_article_path(r), class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
+              <%= link_to 'Edit', edit_admin_homepage_article_path(r), class: 'btn btn-ghost text-sm' %>
+              <%= link_to 'Preview', admin_homepage_article_path(r), class: 'btn btn-ghost text-sm' %>
               <% if r.published? %>
-                <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 text-sm', form: { data: { turbo_confirm: 'Retire this item?' } } %>
+                <%= button_to 'Retire', retire_admin_homepage_article_path(r), method: :post, class: 'btn btn-brand text-sm', form: { data: { turbo_confirm: 'Retire this item?' } } %>
               <% else %>
-                <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm' %>
+                <%= button_to 'Publish', publish_admin_homepage_article_path(r), method: :post, class: 'btn btn-brand text-sm' %>
               <% end %>
-              <%= button_to 'Re-parse', reparse_admin_homepage_article_path(r), method: :post, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm' %>
-              <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm', form: { data: { turbo_confirm: 'Remove?' } } %>
+              <%= button_to 'Re-parse', reparse_admin_homepage_article_path(r), method: :post, class: 'btn btn-ghost text-sm' %>
+              <%= button_to 'Remove', admin_homepage_article_path(r), method: :delete, class: 'btn btn-ghost text-sm', form: { data: { turbo_confirm: 'Remove?' } } %>
             </td>
           </tr>
         <% end %>
