@@ -45,6 +45,19 @@ If `bin/rails` is missing after `bundle install`, run `bundle binstubs rails` or
 - Mobile‑ready: responsive layout with flex/grid and a collapsible menu.
 - The contact form is front‑end only; wire to a backend or email service for submissions.
 
+### Design tokens (brand)
+- Colors (CSS variables in `app/assets/tailwind/application.css`):
+  - `--brand-1` `#402E7A` (background violet)
+  - `--brand-2` `#4C3BCF` (primary)
+  - `--brand-3` `#4B70F5` (accent)
+  - `--brand-4` `#3DC2EC` (highlight)
+- Utilities:
+  - Buttons: `btn btn-brand` (primary), `btn btn-ghost` (secondary)
+  - Links: brand defaults via base layer; explicit `link-brand` where needed
+  - Containers: `surface`, `card` for white panels over brand background
+  - Header: gradient class `header-bar`, nav items use `nav-link`/`nav-active`
+  - Divider: `brand-divider` for section separators
+
 ## Deploy to Render
 
 Option A — Blueprint (recommended)
