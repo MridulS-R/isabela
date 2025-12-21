@@ -43,7 +43,7 @@
             <% end %>
             <div class="tweet-actions mt-2 flex items-center gap-2 text-sm">
               <% if user_signed_in? %>
-                <%= button_to like_post_path(@post), method: :post, class: 'icon-btn', form: { style: 'display:inline' } do %>
+                <%= button_to like_post_path(@post), method: :post, class: 'btn btn-ghost text-sm', form: { style: 'display:inline' } do %>
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z" />
                   </svg>
@@ -51,16 +51,16 @@
                 <% end %>
                 <% saved = current_user&.bookmarked_posts&.exists?(id: @post.id) rescue false %>
                 <% if saved %>
-                  <%= button_to unbookmark_post_path(@post), method: :delete, class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' do %>
+                  <%= button_to unbookmark_post_path(@post), method: :delete, class: 'btn btn-ghost text-sm' do %>
                     Unsave
                   <% end %>
                 <% else %>
-                  <%= button_to bookmark_post_path(@post), method: :post, class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' do %>
+                  <%= button_to bookmark_post_path(@post), method: :post, class: 'btn btn-ghost text-sm' do %>
                     Save
                   <% end %>
                 <% end %>
                 <% if ENV['TIPS_URL'].present? %>
-                  <%= link_to 'Tip', "#{ENV['TIPS_URL']}?user=#{@post.user_id}&post=#{@post.id}", class: 'inline-flex items-center gap-1 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800' %>
+                  <%= link_to 'Tip', "#{ENV['TIPS_URL']}?user=#{@post.user_id}&post=#{@post.id}", class: 'btn btn-ghost text-sm' %>
                 <% end %>
                 <%= link_to 'Report', new_report_path(type: 'post', id: @post.id), class: 'px-2 py-1 rounded border border-slate-200 dark:border-slate-700' %>
               <% else %>
