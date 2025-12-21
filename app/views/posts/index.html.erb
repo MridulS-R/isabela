@@ -2,20 +2,20 @@
   <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-[1fr_320px] gap-4 items-start">
     <div class="surface p-4 sm:p-6">
       <div class="flex items-center justify-between mb-3">
-        <h1 class="text-2xl font-bold brand-text">Posts</h1>
-        <div class="flex items-center gap-2">
-          <%= form_with url: search_path, method: :get, local: true, class: 'hidden sm:flex items-center' do %>
+        <div class="flex items-center gap-2 w-full justify-between">
+          <%= form_with url: search_path, method: :get, local: true, class: 'flex items-center w-full max-w-2xl' do %>
             <input type="hidden" name="scope" value="posts">
-            <input type="text" name="q" placeholder="Search posts" class="px-3 py-2 rounded-l border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
-            <button class="px-3 py-2 rounded-r btn-ghost text-sm">Go</button>
+            <div class="flex items-center w-full rounded-full bg-white shadow px-3 py-2">
+              <input type="text" name="q" placeholder="Search posts" class="flex-1 bg-transparent outline-none text-slate-900" />
+              <button class="btn text-sm">Search</button>
+            </div>
           <% end %>
-          <%= link_to 'Trending', trending_path, class: 'btn btn-ghost text-sm' %>
-          <% if user_signed_in? %>
-            <%= link_to 'Bookmarks', bookmarks_path, class: 'btn btn-ghost text-sm' %>
-          <% end %>
-          <% if user_signed_in? %>
-            <%= link_to 'New Post', new_post_path, class: 'btn btn-brand text-sm' %>
-          <% end %>
+          <div class="hidden sm:flex items-center gap-2 ml-3">
+            <%= link_to 'Trending', trending_path, class: 'btn text-sm' %>
+            <% if user_signed_in? %>
+              <%= link_to 'Bookmarks', bookmarks_path, class: 'btn text-sm' %>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="brand-divider mb-4"></div>

@@ -27,7 +27,7 @@
               <% end %>
             </li>
             <li>
-              <%= button_to 'Log out', logout_path, method: :delete, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black', form: { class: 'inline' } %>
+              <%= button_to 'Log out', logout_path, method: :delete, class: 'btn', form: { class: 'inline' } %>
             </li>
           <% else %>
             <li><%= link_to 'Login', login_path, class: 'px-3 py-2 rounded-lg nav-link' %></li>
