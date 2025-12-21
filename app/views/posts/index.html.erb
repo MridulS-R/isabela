@@ -132,12 +132,12 @@
         <% end %>
       </div>
 
-      <div style="display:flex; gap:8px; justify-content:center; margin-top:12px">
+      <div class="flex gap-2 justify-center mt-3">
         <% if @page.to_i > 1 %>
-          <%= link_to 'Previous', posts_path(page: @page - 1, per: @per, sort: params[:sort]), class: 'btn btn-small' %>
+          <%= link_to 'Previous', posts_path(page: @page - 1, per: @per, sort: params[:sort]), class: 'btn btn-ghost text-sm' %>
         <% end %>
         <% if @has_more %>
-          <%= link_to 'Load more', posts_path(page: @page + 1, per: @per, sort: params[:sort]), class: 'btn btn-small' %>
+          <%= link_to 'Load more', posts_path(page: @page + 1, per: @per, sort: params[:sort]), class: 'btn btn-brand text-sm' %>
         <% end %>
       </div>
     </div>
