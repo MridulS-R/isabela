@@ -1,9 +1,10 @@
 <% content_for :title, 'Import Reddit Data' %>
 
-<div class="section">
-  <div class="container">
-    <h1>Import Reddit data</h1>
-    <p class="subtle">Upload a CSV/JSON file or paste a public URL. Choose what to import below.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-3xl px-4 surface p-4 sm:p-6">
+    <h1 class="text-2xl font-bold brand-text">Import Reddit data</h1>
+    <p class="text-slate-600">Upload a CSV/JSON file or paste a public URL. Choose what to import below.</p>
+    <div class="brand-divider my-3"></div>
 
     <%= form_with url: imports_path, method: :post, multipart: true do |f| %>
       <div>
@@ -29,8 +30,8 @@
         <%= label_tag :data_file, 'Upload CSV/JSON' %>
         <%= file_field_tag :data_file, accept: '.csv,.json' %>
       </div>
-      <p class="help">Provide a URL or upload a file (one is required). Owner email applies only to Reddit post imports.</p>
-      <%= submit_tag 'Start Import', class: 'btn' %>
+      <p class="text-sm text-slate-600">Provide a URL or upload a file (one is required). Owner email applies only to Reddit post imports.</p>
+      <%= submit_tag 'Start Import', class: 'btn btn-brand' %>
     <% end %>
   </div>
-  </div>
+</section>

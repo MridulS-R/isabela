@@ -1,7 +1,8 @@
-<section class="section">
-  <div class="container" style="max-width:560px">
-    <h1>Log in</h1>
-    <p class="subtle">Welcome back to #CommunNity.</p>
+<section class="py-8">
+  <div class="mx-auto max-w-xl px-4 surface p-4 sm:p-6">
+    <h1 class="text-2xl font-bold brand-text">Log in</h1>
+    <p class="text-slate-600">Welcome back to #CommunNity.</p>
+    <div class="brand-divider my-3"></div>
 
     <%= form_with url: login_path, method: :post, local: true do |f| %>
       <div>
@@ -17,8 +18,8 @@
           <input type="checkbox" name="remember_me" value="1"> Remember me
         </label>
       </div>
-      <button class="btn" type="submit">Log in</button>
-      <p class="help">No account? <%= link_to 'Sign up', signup_path %></p>
+      <button class="btn btn-brand" type="submit">Log in</button>
+      <p class="text-sm mt-2">No account? <%= link_to 'Sign up', signup_path, class: 'link-brand' %></p>
     <% end %>
   </div>
   
