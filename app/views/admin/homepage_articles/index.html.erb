@@ -1,7 +1,7 @@
 <% content_for :title, 'Front Page Articles' %>
 
 <section class="py-8">
-  <div class="mx-auto max-w-6xl px-4">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <h1 class="text-2xl font-bold">Front Page Articles</h1>
     <p class="text-slate-600 dark:text-slate-300">Upload a Markdown file with front matter to create a community-linked front page article. <%= link_to 'Download example template', '/templates/front_page_template.md', class: 'text-sky-600 hover:underline' %> · <%= link_to 'Download sample front page', '/templates/sample_front_page.md', class: 'text-sky-600 hover:underline' %></p>
 
@@ -44,7 +44,7 @@
 </section>
 
 <section class="py-8">
-  <div class="mx-auto max-w-6xl px-4">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <h2 class="text-xl font-semibold">Create Community</h2>
     <%= form_with url: admin_communities_path, method: :post do |fc| %>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">

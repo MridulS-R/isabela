@@ -1,7 +1,7 @@
 <% content_for :title, 'Front Page Preview' %>
 
-<section class="section">
-  <div class="container">
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <p class="subtle"><%= link_to '← Back', admin_homepage_articles_path, class: 'link' %></p>
     <% meta = @record.metadata || {} %>
     <h1><%= meta['title'].presence || 'Untitled' %></h1>
@@ -12,8 +12,8 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
+<section class="py-8">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <div class="front-article">
       <% if @record.hero_image.attached? %>
         <figure class="hero-image hero-centered">

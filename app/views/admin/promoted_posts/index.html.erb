@@ -1,7 +1,7 @@
 <% content_for :title, 'Promoted Posts' %>
 
 <section class="py-8">
-  <div class="mx-auto max-w-5xl px-4">
+  <div class="mx-auto max-w-5xl px-4 surface p-4 sm:p-6">
     <h1 class="text-2xl font-bold">Promoted Posts</h1>
     <%= form_with url: admin_promoted_posts_path, method: :post, local: true, class: 'mt-4 flex items-end gap-2' do %>
       <div>
@@ -44,4 +44,3 @@
     </div>
   </div>
 </section>
-

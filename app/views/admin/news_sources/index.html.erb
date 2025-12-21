@@ -1,7 +1,7 @@
 <% content_for :title, 'News Sources' %>
 
 <section class="py-8">
-  <div class="mx-auto max-w-6xl px-4">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <h1 class="text-2xl font-bold">News Sources</h1>
     <p class="text-slate-600 dark:text-slate-300">Manage predefined sites to crawl for community news.</p>
 
@@ -48,7 +48,7 @@
 </section>
 
 <section class="py-8">
-  <div class="mx-auto max-w-6xl px-4">
+  <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-semibold">Existing sources</h2>
       <%= button_to 'Crawl all', admin_news_sources_path.merge(action: nil), method: :post, form: { action: admin_news_sources_path }, class: 'px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-black dark:bg-slate-800 dark:hover:bg-black text-sm', formmethod: 'post', formaction: admin_news_sources_path %>
