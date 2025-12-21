@@ -10,6 +10,7 @@
           <%= link_to 'Top', home_path(sort: 'ranked'), class: "px-2 py-1 rounded #{params[:sort] == 'ranked' ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
         </div>
       </div>
+      <div class="brand-divider mb-4"></div>
 
       <div class="composer rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <%= form_with model: Post.new, url: posts_path, method: :post, multipart: true do |f| %>

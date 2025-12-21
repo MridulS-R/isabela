@@ -4,6 +4,7 @@
   <div class="mx-auto max-w-6xl px-4 surface p-4 sm:p-6">
     <p class="subtle"><%= link_to '← Back', admin_homepage_articles_path, class: 'link' %></p>
     <h1>Edit Front Page Article</h1>
+    <div class="brand-divider my-3"></div>
     <%= form_with model: @record, url: admin_homepage_article_path(@record), method: :patch, multipart: true do |f| %>
       <div class="form-row">
         <div>

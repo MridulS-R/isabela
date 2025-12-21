@@ -5,6 +5,7 @@
     <p class="subtle"><%= link_to '← Back', admin_homepage_articles_path, class: 'link' %></p>
     <% meta = @record.metadata || {} %>
     <h1><%= meta['title'].presence || 'Untitled' %></h1>
+    <div class="brand-divider my-3"></div>
     <% if meta['subheading'].present? %>
       <p class="subtle"><%= meta['subheading'] %></p>
     <% end %>

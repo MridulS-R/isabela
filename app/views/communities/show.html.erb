@@ -20,6 +20,7 @@
       <%= link_to 'Latest', community_path(@community.slug, sort: nil), class: "px-2 py-1 rounded #{params[:sort].blank? ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
       <%= link_to 'Top', community_path(@community.slug, sort: 'ranked'), class: "px-2 py-1 rounded #{params[:sort] == 'ranked' ? 'bg-slate-100 dark:bg-slate-800' : ''}" %>
     </div>
+    <div class="brand-divider mb-4"></div>
 
     <div id="community-feed" data-community-slug="<%= @community.slug %>"></div>
     <% if @posts.any? %>
